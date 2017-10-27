@@ -10,7 +10,6 @@
 | 5 | en tant qu'utilisateur je veux pouvoir télécharger les builds | 1 | |TODO|
 | 6 | en tant qu'utilisateur je souhaite voir l'avancement des issues | 1 | |TODO|
 | 7 | en tant qu'utilisateur je souhaite accéder au code d'un projet | 1 | |TODO|
-| 7 | en tant qu'utilisateur je souhaite lister les différents sprints faits et planifiés | 1 | |TODO|
 | 8 | En tant que scrum master je veux pouvoir gérer les droits de mon équipe pour réorganiser le projet | 5 | |TODO|
 | 9 | en tant que scrum master je souhaite créer une équipe  | 2 | |TODO|
 | 10 | en tant que scrum master je souhaite ajouter un membre dans l'équipe | 2 | |TODO|
@@ -27,3 +26,4 @@
 | 21 | en tant que développeur je veux pouvoir valider une tâche | 2 | |TODO|
 | 22 | en tant que développeur je veux pouvoir créer un build pour rendre le travail visible au product owner | 2 | |TODO|
 | 23 | en tant qu'observateur je veux pouvoir accéder aux projet que je suis. | 3 | |TODO|
+| 24 | en tant qu'utilisateur je souhaite lister les différents sprints faits et planifiés | 1 | |TODO|
