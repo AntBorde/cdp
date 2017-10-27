@@ -27,3 +27,5 @@
 | 22 | en tant que développeur je veux pouvoir créer un build pour rendre le travail visible au product owner | 2 | |TODO|
 | 23 | en tant qu'observateur je veux pouvoir accéder aux projet que je suis. | 3 | |TODO|
 | 24 | en tant qu'utilisateur je souhaite lister les différents sprints faits et planifiés | 1 | |TODO|
+| 25 | en tant qu'utilisateur lorsqu'une tâche est validée je veux voir dans le kanban que la tâche est faite | 3 | |TODO|
+| 26 | en tant qu'utilisateur lorsqu'une issue est validée je veux voir dans le backlog que l'issue est faite | 2 | |TODO|
