@@ -1,8 +1,8 @@
 # User stories
 
-| ID | Stories | Difficulté | Priorité | État |
+| ID us | Stories | Difficulté | Priorité | État |
 |----|:--------|:-----------|:---------|:-----|
-| 0 | en tant qu'utilisateur je souhaite créer/modifier un compte (ID utilisateur, nom, mdp) |5 | |TODO|
+| 0 | en tant qu'utilisateur je souhaite créer un compte (ID utilisateur, nom, mdp) |5 | |TODO|
 | 1 | en tant qu'utilisateur je souhaite pourvoir me connecter à mon espace pour pouvoir participer au projet | 2 | |TODO|
 | 2 | en tant qu'utilisateur créer/modifier projet (nom, Description/cahier des charges, membre, dépot git) | 1 | |TODO|
 | 3 | en tant qu'utilisateur je souhaite pouvoir accéder au cahier des charges pour connaitre l'intention du product owner | 1 | |TODO|
