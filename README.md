@@ -13,7 +13,7 @@
 | 8 | En tant que scrum master je veux pouvoir gérer les droits de mon équipe pour réorganiser le projet | 5 | |TODO|
 | 9 | en tant que scrum master je souhaite créer une équipe  | 2 | |TODO|
 | 10 | en tant que scrum master je souhaite ajouter un membre dans l'équipe | 2 | |TODO|
-| 11 | en tant que scrum master je souhaite pouvoir affecter une tâche à une équipe | 2 | |TODO|
+| 11 | en tant que scrum master je souhaite pouvoir affecter une tâche à un membre de l'équipe | 2 | |TODO|
 | 12 | En tant que scrum master je souhaite pouvoir ajouter/modifier des issues pour affiner le projet | 3 | |TODO|
 | 13 | En tant que scrum master je souhaite pouvoir ajouter/modifier des tâches pour dispatcher le travail | 3 | |TODO|
 | 14 | en tant que scrum master je souhaite créer des tâches, définir une difficulté, et dépendances entre les tâches | 3 | |TODO|
