@@ -3,7 +3,7 @@
 0,1,2,3,7,27,28,29
 
 | ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | Coût j/h |
-|----|:--------|:-----------|:---------|:-----|:--------|
+|----|:--------|:-----------|:---------|:-----|:--------|:------|
 | 0 | 1 | Réaliser la view de la page d'acceuil | html | / | 18 | 0.2 |
 | 1 | 24 | Réaliser la view de la page des sprints | html | / | 18 | 0.2 |
 | 2 | 25 | Réaliser la view de la page des tâches | html | / | 18 | 0.2 |
