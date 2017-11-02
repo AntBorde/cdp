@@ -8,7 +8,7 @@
 | 3 | en tant qu'utilisateur je souhaite pouvoir accéder au cahier des charges pour connaitre l'intention du product owner | 1 | |TODO|
 | 4 | en tant qu'utilisateur je souhaite voir l'avancement des tâches (A faire, En cours, Terminé) | 1 | |TODO|
 | 5 | en tant qu'utilisateur je veux pouvoir télécharger les builds | 1 | |TODO|
-| 6 | en tant qu'utilisateur je souhaite voir l'avancement des issues | 1 | |TODO|
+| 6 | En tant qu'utilisateur lorsqu'une issue change d'état je veux le voir dans le backlog | 2 | |TODO|
 | 7 | en tant qu'utilisateur je souhaite avoir un lien vers le dépôt | 1 | |TODO|
 | 8 | En tant que scrum master je veux pouvoir gérer les droits de mon équipe pour réorganiser le projet (PO, Dev, Scrum Master, Observateur) | 5 | |TODO|
 | 9 | en tant que scrum master je souhaite créer une équipe  | 2 | |TODO|
@@ -27,7 +27,6 @@
 | 23 | en tant qu'observateur je veux pouvoir accéder aux projet que je suis. | 3 | |TODO|
 | 24 | en tant qu'utilisateur je souhaite lister les différents sprints faits et planifiés | 1 | |TODO|
 | 25 | en tant qu'utilisateur lorsqu'une tâche est validée je veux voir dans le kanban que la tâche est faite | 3 | |TODO|
-| 26 | en tant qu'utilisateur lorsqu'une issue est validée je veux voir dans le backlog que l'issue est faite | 2 | |TODO|
 | 27 | En tant que utilisateur je souhaite avoir accès à une liste de tous les projets afin de sélectionner le projet que je souhaite visualiser | 2 | | TODO |
 | 28 | En tant que utilisateur je souhaite avoir accès à la description d'un projet | 2 | | TODO |
 | 29 | En tant que utilisateur je souhaite avoir accès aux listes des US, Tâches, Sprints, Builds, et Tests d'un projet | 3 | | TODO |

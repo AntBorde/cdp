@@ -1,13 +1,13 @@
 #Sprint 1
 
-0,1,2,3,7,27,28,29
+0,1,2,3,6,7,27,28,29
 
 | ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | Coût j/h |
 |----|:--------|:-----------|:---------|:-----|:--------|:------|
 | 0 | 1 | Réaliser la view de la page d'acceuil | html | / | 18 | 0.2 |
 | 1 | 24 | Réaliser la view de la page des sprints | html | / | 18 | 0.2 |
 | 2 | 25 | Réaliser la view de la page des tâches | html | / | 18 | 0.2 |
-| 3 | 26 | Réaliser la view de la page du backlogs | html | / | 18 | 0.2 |
+| 3 | 6 | Réaliser la view de la page du backlogs | html | / | 18 | 0.2 |
 | 4 | 27 | Réaliser la view de la page qui liste les projets | html | / | 18 | 0.2 |
 | 5 | 28 | Réaliser la view de la page de description d'un projet| html | / | 18 | 0.2 |
 | 6 | 29 | Gérer la navigation dans la view | html | / | 13 | 0.2 |
