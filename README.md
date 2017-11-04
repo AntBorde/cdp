@@ -16,6 +16,7 @@
 | u10  | je souhaite avoir accès à une liste de tous les projets afin de sélectionner le projet que je souhaite visualiser | 2 | | TODO |
 | u11  | je souhaite avoir accès à la description d'un projet | 2 | | TODO |
 | u12  | je souhaite avoir accès aux listes des US, Tâches, Sprints, Builds, et Tests d'un projet | 3 | | TODO |
+| u13  | sauf si je suis observateur, je souhaite pouvoir intervenir sur les issues entre les sprints pour m'adapter à l'avancement du projet. | 2 | |TODO|
 |      | **En tant que scrum master**            |
 | sm0  | je veux pouvoir gérer les droits de mon équipe pour réorganiser le projet (PO, Dev, Scrum Master, Observateur) | 5 | |TODO|
 | sm1  | je souhaite créer une équipe  | 2 | |TODO|
@@ -26,9 +27,7 @@
 | sm6  | je souhaite définir un sprint avec les US qui vont être réalisé pendant ce sprint (début, fin, issue, tâche) | 5 | |TODO|
 | sm7  | je voudrais valider les US qui ont été faite pendant le sprint | 2 | |TODO|
 |      | **En tant que product owner**           |
-| po0  | je souhaite pourvoir définir/modifier des priorité sur les issues | 2 | |TODO|
-| po1  | je souhaite pouvoir intervenir sur les issues à la fin d'un sprint pour m'adapter à l'avancement du projet. | 2 | |TODO|
-| po2  | je souhaite pouvoir inviter des observateurs. | 3 | |TODO|
+| po0  | je souhaite pourvoir définir/modifier des priorités sur les issues en dehors des périodes de sprints | 2 | |TODO|
 |      | **En tant que développeur**             |
 | dev0 | je peux choisir une tâche | 2 | |TODO|
 | dev1 | je veux pouvoir valider une tâche | 2 | |TODO|
