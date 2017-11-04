@@ -9,7 +9,7 @@ u0,u1,u2,u3,u6,u7,u8,u9,u10,u11,u12
 | 2 | u9 | Réaliser la view de la page des tâches | html | / | 18 | 0.2 |
 | 3 | u6 | Réaliser la view de la page du backlogs | html | / | 18 | 0.2 |
 | 4 | u10 | Réaliser la view de la page qui liste les projets | html | / | 18 | 0.2 |
-| 5 | u11 | Réaliser la view de la page de description d'un projet| html | / | 18 | 0.2 |
+| 5 | u10 | Réaliser la view de la page de description d'un projet| html | / | 18 | 0.2 |
 | 6 | u12 | Gérer la navigation dans la view | html | / | 13 | 0.2 |
 | 7 | u2  | Définir la table des projets | SQL | / | 13 | 0.2 |
 | 8 | u2  | Définir la table des Issues | SQL | / | 13 | 0.2 |
