@@ -17,9 +17,6 @@
 | u5   | je veux pouvoir télécharger les builds | 1 | |TODO|
 | u13  | sauf si je suis observateur, je souhaite pouvoir intervenir sur les issues entre les sprints pour m'adapter à l'avancement du projet. | 2 | |TODO|
 |      | **En tant que scrum master**            |
-| sm0  | je veux pouvoir gérer les droits de mon équipe pour réorganiser le projet (PO, Dev, Scrum Master, Observateur) | 5 | |TODO|
-| sm1  | je souhaite créer une équipe  | 2 | |TODO|
-| sm2  | je souhaite ajouter un membre dans l'équipe | 2 | |TODO|
 | sm3  | je souhaite pouvoir ajouter/modifier des issues pour affiner le projet | 3 | |TODO|
 | sm4  | je souhaite pouvoir ajouter/modifier des tâches pour dispatcher le travail | 3 | |TODO|
 | sm5  | je souhaite créer des tâches (ID, Issue, objectif, artefacts, dev, dépendance, coût j/h) | 3 | |TODO|
