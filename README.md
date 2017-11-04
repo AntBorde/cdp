@@ -13,7 +13,6 @@
 | u8   | je souhaite lister les différents sprints faits et planifiés | 1 | |TODO|
 | u6   | lorsqu'une issue change d'état je veux le voir dans le backlog | 2 | |TODO|
 | u4   | je souhaite voir l'avancement des tâches (A faire, En cours, Terminé) | 1 | |TODO|
-| u9   | lorsqu'une tâche est validée je veux voir dans le kanban que la tâche est faite | 3 | |TODO|
 | u7   | je souhaite avoir un lien vers le dépôt | 1 | |TODO|
 | u5   | je veux pouvoir télécharger les builds | 1 | |TODO|
 | u13  | sauf si je suis observateur, je souhaite pouvoir intervenir sur les issues entre les sprints pour m'adapter à l'avancement du projet. | 2 | |TODO|
@@ -30,7 +29,7 @@
 | po0  | je souhaite pourvoir définir/modifier des priorités sur les issues en dehors des périodes de sprints | 2 | |TODO|
 |      | **En tant que développeur**             |
 | dev0 | je peux choisir une tâche | 2 | |TODO|
-| dev1 | je veux pouvoir valider une tâche | 2 | |TODO|
+| dev1 | je veux pouvoir valider une tâche et que cela mette à jour le Kanban | 3 | |TODO|
 | dev2 | je veux pouvoir créer un build pour rendre le travail visible au product owner | 2 | |TODO|
 |      | **En tant qu'observateur**              |
 | obs0 | je veux pouvoir accéder aux projet que je suis. | 3 | |TODO|

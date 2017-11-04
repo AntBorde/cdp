@@ -1,12 +1,12 @@
 # Sprint 1
 
-u0,u1,u2,u3,u6,u7,u8,u9,u10,u11,u12
+u0,u1,u2,u3,u6,u7,u8,u10,u11,u12
 
 | ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | Coût j/h |
 |----|:--------|:-----------|:---------|:-----|:--------|:------|
 | 0 | u1 | Réaliser la view de la page d'acceuil | html | / | 18 | 0.2 |
 | 1 | u8 | Réaliser la view de la page des sprints | html | / | 18 | 0.2 |
-| 2 | u9 | Réaliser la view de la page des tâches | html | / | 18 | 0.2 |
+| 2 | u12 | Réaliser la view de la page des tâches | html | / | 18 | 0.2 |
 | 3 | u6 | Réaliser la view de la page du backlogs | html | / | 18 | 0.2 |
 | 4 | u10 | Réaliser la view de la page qui liste les projets | html | / | 18 | 0.2 |
 | 5 | u10 | Réaliser la view de la page de description d'un projet| html | / | 18 | 0.2 |
