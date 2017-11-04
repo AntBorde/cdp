@@ -6,6 +6,7 @@
 | u0   | je souhaite créer un compte (ID utilisateur, nom, mdp) |5 | |TODO|
 | u1   | je souhaite pourvoir me connecter à mon espace pour pouvoir participer au projet | 2 | |TODO|
 | u2   | je souhaite créer/modifier un projet (nom, Description/cahier des charges, membre, dépot git) | 1 | |TODO|
+| u14  | je souhaite rejoindre un projet en choisissant un rôle (dev, scrum master, po, obs) | 1 | | TODO|
 | u3   | je souhaite pouvoir accéder au cahier des charges pour connaitre l'intention du product owner | 1 | |TODO|
 | u4   | je souhaite voir l'avancement des tâches (A faire, En cours, Terminé) | 1 | |TODO|
 | u5   | je veux pouvoir télécharger les builds | 1 | |TODO|
