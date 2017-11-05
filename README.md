@@ -6,12 +6,10 @@
 | u0   | je souhaite créer un compte (ID utilisateur, nom, mdp) |5 | 1 |TODO|
 |      | **En tant que développeur**             |
 | u1   | je souhaite pourvoir me connecter à mon espace pour pouvoir participer au projet | 2 | 4|TODO|
-| u2   | je souhaite créer/modifier un projet (nom, Description/cahier des charges, membre, dépot git) | 1 | 1 |TODO|
+| u2   | je souhaite créer/modifier un projet (nom, description, URL du dépot Git et du cahier des charges) | 1 | 1 |TODO|
 | u10  | je souhaite avoir accès à une liste de tous les projets afin de choisir les projets auquel je veux participer | 3 | 4 | TODO |
 | u14  | je souhaite pouvoir rejoindre un projet en choisissant un rôle (dev, po) | 1 | 4 | TODO|
-| u3   | je souhaite pouvoir accéder au cahier des charges pour connaitre l'intention du product owner | 1 | 4 |TODO|
 | u12  | je souhaite avoir accès aux listes des US, Sprints, Builds, et Tests d'un projet | 3 | 4 | TODO |
-| u7   | je souhaite avoir un lien vers le dépôt | 1 | 4 |TODO|
 | u5   | je veux pouvoir télécharger les builds | 1 | 4 |TODO|
 | u13  | je souhaite pouvoir ajouter/modifier des issues (en dehors des périodes de sprints) pour m'adapter à l'avancement du projet. | 3 | 2 |TODO|
 | u6   | lorsqu'une issue change d'état je veux le voir dans le backlog | 2 | 4 |TODO|
