@@ -13,7 +13,7 @@
 | u5   | je veux pouvoir accéder à la liste des URLs de builds | 1 | 4 |TODO|
 | u13  | je souhaite pouvoir ajouter/modifier des issues (en dehors des périodes de sprints) pour m'adapter à l'avancement du projet. | 3 | 2 |TODO|
 | sm6  | je souhaite planifier un sprint (début, fin) avec les US qui vont être réalisées pendant ce sprint | 5 | 3 |TODO|
-| u8   | je souhaite lister les différents sprints pour visualiser leur avancement | 1 | 4 |TODO|
+| u8   | je souhaite lister les différents sprints pour voir lesquels sont passés, en cours et à venir | 1 | 4 |TODO|
 | sm4  | je souhaite pouvoir ajouter/modifier des tâches (ID, Issue associés, objectif, artefacts, dépendance, coût j/h) à un sprint | 3 | 4 |TODO|
 | u4   | je souhaite voir l'avancement des tâches d'un sprint au moyen d'un Kanban | 3 | 4 |TODO|
 | dev0 | je peux pouvoir m'assigner à une tâche | 2 | 4 |TODO|
