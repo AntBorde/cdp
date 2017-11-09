@@ -1,0 +1,87 @@
+# Routes
+
+/login =>
+  GET:  authentifie l'utilisateur
+/logout =>
+  GET: fermer la session
+
+/users =>
+  GET: renvoie la liste des utilisateurs
+  POST: crée un utilisateur
+/users/id
+  GET: renvoie les informations d'un utilisateur
+  PUT: Modifie utilisateur
+  DELETE: Supprime utilisateur
+
+/projects =>
+  GET: liste des projets
+/projects/:nom =>
+  GET: infos concernant un projet
+/projects/:nom/issues =>
+  GET: renvoie le backlog complet d'un projet
+  POST: crée une issue
+/projects/:nom/issues/:id =>
+  GET: renvoie une issue
+  PUT: modifie
+/projects/:nom/sprints =>
+  GET: renvoie la listes des sprints
+  POST: crée un sprint
+/projects/:nom/sprints/:id =>
+  GET: renvoie la listes des tâches associées à un sprint
+  POST: Ajout d'une tâche
+  DELETE: Suppression d'une tâche
+/projects/:nom/sprints/:id/:tid
+  PUT: Modifie le statut de la tâche
+  DELETE: Supprime la tâche
+/projects/:nom/builds =>
+  GET: renvoie la liste des builds
+  POST: crée un build
+
+# Models
+
+User {
+  id: integer
+  name: string
+  projects: [
+    {id: integer, role: string},
+    ...
+  ]
+}
+
+Project {
+  id: integer
+  name: string
+  description: string
+  git: string
+  users: [
+    {id: integer, role: string},
+    ...
+  ]
+  backlog: listes d'Issues
+  sprints: listes de Sprints
+  builds: listes d'URL
+}
+
+Issue {
+  id: integer
+  description: string
+  status: string
+}
+
+Sprint {
+  id: integer
+  start: string (date)
+  end: string (date)
+  tasks: listes de Tasks
+  build: URL du build
+}
+
+Task {
+  id: integer
+  description: string
+  dependencies: listes d'id de tasks
+  issues: listes d'id des issues associées
+  dev: id User
+  status: string
+  cost: number (en j/h)
+}
