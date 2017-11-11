@@ -1,8 +1,12 @@
 version: "2.3"
 
-#Database currently missing, to add later
-
 services:
+  db:
+    build: bd
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
   backend:
     build: ./back-src
     volumes:
