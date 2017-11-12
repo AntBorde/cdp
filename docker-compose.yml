@@ -1,0 +1,28 @@
+version: "2.3"
+
+#Database currently missing, to add later
+
+services:
+  backend:
+    build: ./back-src
+    volumes:
+      - ./back-src:/home/node/app
+      - /home/node/app/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    init: true
+  frontend:
+    build: ./front-src
+    volumes:
+      - ./front-src:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - "4200:4200"
+    init: true
+    links:
+      - backend
+
+
+
