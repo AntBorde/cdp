@@ -14,7 +14,7 @@ create table if not exists User
     pseudo        varchar(50)     not null,
     name          varchar(50)     not null,
     first_name    varchar(50)     not null,
-    birth_date    date            not null,
+    birth_date    date,
     primary key(user_id)
   );
 
@@ -72,3 +72,37 @@ create table if not exists Issue
   -- =================================================================
   --      table : Build
   -- =================================================================
+
+
+
+  -- =================================================================
+  -- =================================================================
+  --      Ajout de données
+  -- =================================================================
+  -- =================================================================
+insert into User (pseudo,name,first_name)
+  values
+  ('shervin','sarain','shervin'),
+  ('mthl','lirzin','mathieu'),
+  ('younes','gadi','younes'),
+  ('capsy','borde','antoine');
+
+insert into Project (name,describle)
+  values
+  ('web','projet de web ou nous devons faire notre projet blablabla'),
+  ('cdp','projet de cdp ou nous devons correctement gérer le dévellopement d\'un projet de maniere pro');
+
+
+insert into Project_team (project_id,user_id,status)
+  values
+  (1,1,'d'),
+  (1,2,'d'),
+  (2,3,'d'),
+  (2,4,'d');
+
+insert into Issue (storie,difficulty,priority,state,project_id)
+  values
+  ('je veux voir le backlog',2,2,'TODO',1),
+  ('je veux voir les taches',2,2,'TODO',1),
+  ('je veux une belle view',2,2,'TODO',2),
+  ('je veux la présence d\'une bd',2,2,'TODO',2);
