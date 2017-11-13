@@ -8,13 +8,14 @@
 /users =>
   GET: renvoie la liste des utilisateurs
   POST: crée un utilisateur
-/users/id
+/users/:id
   GET: renvoie les informations d'un utilisateur
   PUT: Modifie utilisateur
   DELETE: Supprime utilisateur
 
 /projects =>
   GET: liste des projets
+  POST: crée un projet
 /projects/:nom =>
   GET: infos concernant un projet
 /projects/:nom/issues =>
