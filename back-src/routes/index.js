@@ -15,4 +15,15 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/users' , function(req, res, next) {
+  db.query('SELECT * from User',function (error, results, fields) {
+    if (error){
+      throw error;
+    }
+    else {
+      res.send(JSON.stringify(results));
+    }
+  });
+});
+
 module.exports = router;
