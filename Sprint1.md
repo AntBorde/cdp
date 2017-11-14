@@ -27,7 +27,7 @@
 | 12 | u1  | Définir la table des Users | SQL | antoine | 13 | 0.2 |DONE |
 | 13 | /  | Définir l'interface entre BD et Backend | txt | antoine | / | 0.5 |DONE |
 | 14 | u0 | Mettre en place le systeme de création de compte | Node | / | 18 13 | 5 |TODO |
-| 15 | u1 | Mettre en place le systeme de connexion | Node | / | 18 13 | 2 |TODO |
+| 15 | u1 | Mettre en place le systeme de connexion | Node | younes | 18 13 | 2 |DONE |
 | 16 | u2 | Mettre en place le systeme de création de projet | Node | / |  18 13 | 2 |TODO |
 | 17 | u2 | Mettre en place le systeme de création d'issue | Node | / |  18 13 | 2 |TODO |
 | 18 | u0, u1, u2, u12, u10, u12, u13 | Définir interface entre frontend et backend | Fichier Txt décrivant routes et modèles JSON | Mathieu | / | 0.5 |DONE |
