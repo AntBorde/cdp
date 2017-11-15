@@ -50,10 +50,10 @@ create table if not exists Project_team
 create table if not exists Issue
   (
     issue_id      integer         not null        auto_increment,
-    storie        text            not null,
-    difficulty    smallint        not null,
-    priority      smallint        not null,
-    state         varchar(10)     not null,
+    storie        text
+    difficulty    smallint
+    priority      smallint
+    state         varchar(10)
     project_id    integer         not null,
     primary key (issue_id)
   );
