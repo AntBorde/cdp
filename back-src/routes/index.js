@@ -132,7 +132,7 @@ router.get('/project/:id/issues/:issue' , function(req, res, next) {
   });
 });
 
-/* POST Issue to project */
+/* POST Issue to project */    /*Petit soucis de valeur non nul a régler sur les diff et les prio  */
 router.post('/project/:id/issues/' , function(req, res, next) {
   console.log(req.body.storie);
   db.query('INSERT INTO Issue (storie,project_id,difficulty,priority,state) VALUES (?,?,?,?,?) ',[req.body.storie.user,req.params.id,req.body.difficulty,req.body.priority,req.body.state], function (error, results, fields) {
@@ -146,8 +146,9 @@ router.post('/project/:id/issues/' , function(req, res, next) {
 });
 
 /* PUT Change Issue */
-/*router.put('/project/:id/:user/:role' , function(req, res, next) {
-  db.query('INSERT INTO Project_team (project_id,user_id,status) VALUES (?,?,?) ',[req.params.id,req.params.user,req.params.role], function (error, results, fields) {
+router.put('/project/:id/issues/:issue' , function(req, res, next) {
+  console.log(req.params.issue);
+  db.query('UPDATE Issue SET storie = ? , difficulty = ? , priority = ? , state = ? WHERE Issue_id = ? ',[req.body.storie,req.body.difficulty,req.body.priority,req.body.state,req.params.issue], function (error, results, fields) {
     if (error){
       throw error;
     }
@@ -155,6 +156,6 @@ router.post('/project/:id/issues/' , function(req, res, next) {
       res.send(JSON.stringify(results));
     }
   });
-});*/
+});
 
 module.exports = router;

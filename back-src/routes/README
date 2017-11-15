@@ -16,25 +16,28 @@
 /projects =>
   GET: liste des projets
   POST: crée un projet
-/projects/:nom =>
+/projects/:name =>
   GET: infos concernant un projet
-/projects/:nom/issues =>
+/project/:id/users =>
+  GET : renvoi les utilisateurs associé au projet
+  POST : ajoute un utilisateur au projet
+/projects/:name/issues =>
   GET: renvoie le backlog complet d'un projet
   POST: crée une issue
-/projects/:nom/issues/:id =>
+/projects/:name/issues/:id =>
   GET: renvoie une issue
   PUT: modifie
-/projects/:nom/sprints =>
+/projects/:name/sprints =>
   GET: renvoie la listes des sprints
   POST: crée un sprint
-/projects/:nom/sprints/:id =>
+/projects/:name/sprints/:id =>
   GET: renvoie la listes des tâches associées à un sprint
   POST: Ajout d'une tâche
   DELETE: Suppression d'une tâche
-/projects/:nom/sprints/:id/:tid
+/projects/:name/sprints/:id/:tid
   PUT: Modifie le statut de la tâche
   DELETE: Supprime la tâche
-/projects/:nom/builds =>
+/projects/:name/builds =>
   GET: renvoie la liste des builds
   POST: crée un build
 
