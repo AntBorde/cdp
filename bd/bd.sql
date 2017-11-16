@@ -39,7 +39,9 @@ create table if not exists Project_team
     project_id    varchar(125)    not null,
     user_id       integer         not null,
     status        char(1)         not null         default 'd',
-    primary key (project_id,user_id)
+    primary key (project_id,user_id),
+    foreign key (project_id) references Project(name),
+    foreign key (user_id) references User(user_id)
   );
 
 
@@ -54,7 +56,8 @@ create table if not exists Issue
     priority      smallint,
     state         varchar(10),
     project_id    varchar(125)    not null,
-    primary key (issue_id)
+    primary key (issue_id),
+    foreign key (project_id) references Project(name)
   );
 
 
