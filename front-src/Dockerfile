@@ -2,17 +2,15 @@ FROM node:9
 
 USER node
 
-RUN mkdir /home/node/app
-
 WORKDIR /home/node/app
 
-COPY ./package.json /home/node/app
+COPY ./package.json .
 
-COPY ./package-lock.json /home/node/app
+COPY ./package-lock.json .
 
-RUN cd /home/node/app && npm install
+RUN npm install
 
-COPY . /home/node/app
+COPY . .
 
 EXPOSE 4200
 

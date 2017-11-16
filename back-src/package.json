@@ -1,5 +1,5 @@
 {
-  "name": "cdp",
+  "name": "ddf-back",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,16 +7,14 @@
     "docker-dev": "pm2-dev start ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
     "express": "~4.15.5",
-     "passport": "^0.4.0",
-    "hbs": "~4.0.1",
+    "passport": "^0.4.0",
     "morgan": "~1.9.0",
     "pm2": "^2.7.2",
-    "mysql": "^2.15.0",
-    "serve-favicon": "~2.4.5"
+    "mysql": "^2.15.0"
   }
 }

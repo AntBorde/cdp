@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -22,7 +22,9 @@ import { HomeComponent } from './home/home.component';
     NgbModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    Title
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
