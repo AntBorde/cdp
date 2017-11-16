@@ -60,7 +60,7 @@ router.get('/users/:id' , function(req, res, next) {
 
 
 /*Connexion*/
-router.post('/connexion', (req, res, next) => {
+router.post('/login', (req, res, next) => {
   var username = req.body.pseudo;
   var password = req.body.password;
 
