@@ -18,7 +18,7 @@
   POST: crée un projet
 /projects/:name =>
   GET: infos concernant un projet
-/project/:id/users =>
+/projects/:id/users =>
   GET : renvoi les utilisateurs associé au projet
   POST : ajoute un utilisateur au projet
 /projects/:name/issues =>
