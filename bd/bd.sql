@@ -24,11 +24,10 @@ create table if not exists User
   -- =================================================================
 create table if not exists Project
   (
-    project_id    integer         not null        auto_increment,
     name          varchar(125)    not null,
     describle     Text,
     git           varchar(250),
-    primary key(project_id)
+    primary key(name)
   );
 
 
@@ -37,7 +36,7 @@ create table if not exists Project
   -- =================================================================
 create table if not exists Project_team
   (
-    project_id    integer         not null,
+    project_id    varchar(125)    not null,
     user_id       integer         not null,
     status        char(1)         not null         default 'd',
     primary key (project_id,user_id)
@@ -54,7 +53,7 @@ create table if not exists Issue
     difficulty    smallint,
     priority      smallint,
     state         varchar(10),
-    project_id    integer         not null,
+    project_id    varchar(125)    not null,
     primary key (issue_id)
   );
 
@@ -95,14 +94,14 @@ insert into Project (name,describle)
 
 insert into Project_team (project_id,user_id,status)
   values
-  (1,1,'d'),
-  (1,2,'d'),
-  (2,3,'d'),
-  (2,4,'d');
+  ('web',1,'d'),
+  ('web',2,'d'),
+  ('cdp',3,'d'),
+  ('cdp',4,'d');
 
 insert into Issue (storie,difficulty,priority,state,project_id)
   values
-  ('je veux voir le backlog',2,2,'TODO',1),
-  ('je veux voir les taches',2,2,'TODO',1),
-  ('je veux une belle view',2,2,'TODO',2),
-  ('je veux la présence d\'une bd',2,2,'TODO',2);
+  ('je veux voir le backlog',2,2,'TODO','web'),
+  ('je veux voir les taches',2,2,'TODO','web'),
+  ('je veux une belle view',2,2,'TODO','cdp'),
+  ('je veux la présence d\'une bd',2,2,'TODO','cdp');
