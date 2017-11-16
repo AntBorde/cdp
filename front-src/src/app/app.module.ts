@@ -8,6 +8,7 @@ import { LoginFieldComponent } from './login-field/login-field.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { AccountCreationComponent } from './account-creation/account-creation.component';
 import { HomeComponent } from './home/home.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HomeComponent } from './home/home.component';
     NavbarComponent,
     LoginFieldComponent,
     AccountCreationComponent,
-    HomeComponent
+    HomeComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,

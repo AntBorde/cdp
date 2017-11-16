@@ -1,3 +1,25 @@
-<p>
-  account-creation works!
-</p>
+<div class="container">
+
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <input type="text" [(ngModel)]="newList.title" name="title" required>
+    </div>
+
+    <div>
+      <select [(ngModel)]="newList.category" name = "category" >
+
+        <option value="High">High Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="Low">Low Prioirty</option>
+
+      </select>
+    </div>
+
+    <div>
+      <input type="text" [(ngModel)]="newList.description" name="description" required>
+    </div>
+
+    <button type="submit">Submit</button>
+
+  </form>
+</div>
