@@ -26,10 +26,11 @@
 | 8 | u2  | Définir la table des Issues | SQL | antoine | 13 | 0.2 |DONE |
 | 12 | u1  | Définir la table des Users | SQL | antoine | 13 | 0.2 |DONE |
 | 13 | /  | Définir l'interface entre BD et Backend | txt | antoine | / | 0.5 |DONE |
-| 14 | u0 | Mettre en place le systeme de création de compte | Node | / | 18 13 | 5 |TODO |
+| 14 | u0 | Mettre en place le systeme de création de compte | Node | younes | 18 13 | 5 |DONE |
 | 15 | u1 | Mettre en place le systeme de connexion | Node | younes | 18 13 | 2 |DONE |
-| 16 | u2 | Mettre en place le systeme de création de projet | Node | / |  18 13 | 2 |TODO |
+| 16 | u2 | Mettre en place le systeme de création de projet | Node | younes |  18 13 | 2 |DONE |
 | 17 | u2 | Mettre en place le systeme de création d'issue | Node | / |  18 13 | 2 |TODO |
 | 18 | u0, u1, u2, u12, u10, u12, u13 | Définir interface entre frontend et backend | Fichier Txt décrivant routes et modèles JSON | Mathieu | / | 0.5 |DONE |
 | 19 | / | Implementer les routes avec les requetes vers la base de données | nodejs | / | 13 | 1 | TODO|
 | 20 | u2 | Configurer docker pour avec les requetes vers la base de données | docker-compose.yml | mathieu | / | 1 | DONE|
+

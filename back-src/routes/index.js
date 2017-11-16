@@ -24,16 +24,27 @@ router.get('/users', function(req, res, next) {
   });
 });
 
-/*router.post('/users' , function(req, res, next) {
-  db.query('SELECT * from User', function (error, results, fields) {
-    if (error){
+//create user account
+router.post('/users', function(req, res, next) {
+  db.query('SELECT * from User where pseudo = ?',[req.body.pseudo], function(error, results, fields) {
+    if (error) {
       throw error;
-    }
-    else {
-      res.send(JSON.stringify(results));
+    } else if (results.length != 0) {
+      console.log("user already exist");
+    } else {
+      db.query('INSERT INTO User(pseudo,name,first_name,birth_date,password) VALUES (?,?,?,?,?)',
+	       [req.body.pseudo, req.body.name, req.body.first_name, req.body.birth_day, req.body.password],
+	       function(error, results, fields) {
+                 if (error) {
+                   throw error;
+                 } else {
+                   res.send(JSON.stringify(results));
+                 }
+               });
     }
   });
-});*/
+});
+
 
 /* GET User by id */
 router.get('/users/:id' , function(req, res, next) {
@@ -60,16 +71,25 @@ router.get('/project' , function(req, res, next) {
 });
 
 /* POST project */
-router.post('/project' , function(req, res, next) {
-  var user_post = req.body.user_post;
-  db.query('INSERT INTO Project(name,describle,git) VALUES (?,?,?)',[req.body.name,req.body.describle,req.body.git], function (error, results, fields) {
-    if (error){
-      throw error;
-    }
-    else {
-      res.send(JSON.stringify(results));
-    }
-  });
+router.post('/project', function(req, res, next) {
+  db.query('SELECT * from Project WHERE name = ?', [req.body.name],
+	   function(error, results, fields) {
+	     if (error) {
+	       throw error;
+	     } else if (results.length != 0) {
+	       console.log("project already exist");
+	     } else {
+	       db.query('INSERT INTO Project(name,describle,git) VALUES (?,?,?)',
+			[req.body.name, req.body.describle, req.body.git],
+			function(error, results, fields) {
+			  if (error) {
+			    throw error;
+			  } else {
+			    res.send(JSON.stringify(results));
+			  }
+			});
+	     }
+	   });
 });
 
 /* GET Project by name */
