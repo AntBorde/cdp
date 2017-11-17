@@ -1,25 +1,18 @@
-<div class="container">
-
-  <form (ngSubmit)="onSubmit()">
-    <div>
-      <input type="text" [(ngModel)]="newList.title" name="title" required>
+<title>DDF - Nouveau compte</title>
+<div class="container mt-5">
+  <form>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Adresse email</label>
+      <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Email">
     </div>
-
-    <div>
-      <select [(ngModel)]="newList.category" name = "category" >
-
-        <option value="High">High Priority</option>
-        <option value="Medium">Medium Priority</option>
-        <option value="Low">Low Prioirty</option>
-
-      </select>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Adresse email</label>
+      <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Email">
     </div>
-
-    <div>
-      <input type="text" [(ngModel)]="newList.description" name="description" required>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Mot de passe</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
     </div>
-
-    <button type="submit">Submit</button>
-
+    <button type="submit" class="btn btn-primary">Créer un compte</button>
   </form>
 </div>

@@ -11,9 +11,9 @@ use cdp;
 create table if not exists User
   (
     user_id       integer         not null        auto_increment,
-    pseudo        varchar(50)     not null,
-    name          varchar(50)     not null,
-    first_name    varchar(50)     not null,
+    email         varchar(255)     not null,
+    name          varchar(100)     not null,
+    password      CHAR(60) BINARY not null,
     birth_date    date,
     primary key(user_id)
   );

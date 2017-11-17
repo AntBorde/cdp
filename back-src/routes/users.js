@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-//create user account
+//Create user account
 router.post('/', function(req, res, next) {
   db.query('SELECT * from User where pseudo = ?', [req.body.pseudo], function(error, results, fields) {
     if (error) {
@@ -22,8 +22,8 @@ router.post('/', function(req, res, next) {
     } else if (results.length != 0) {
       console.log("user already exist");
     } else {
-      db.query('INSERT INTO User(pseudo,name,first_name,birth_date,password) VALUES (?,?,?,?,?)',
-	       [req.body.pseudo, req.body.name, req.body.first_name, req.body.birth_day, req.body.password],
+      db.query('INSERT INTO User(email,name,birth_date,password) VALUES (?,?,?,?)',
+	       [req.body.email, req.body.name, req.body.first_name, req.body.birth_day, req.body.password],
 	       function(error, results, fields) {
                  if (error) {
                    throw error;
