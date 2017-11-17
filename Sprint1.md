@@ -17,11 +17,12 @@
 
 | ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | Coût j/h |État |
 |----|:--------|:-----------|:---------|:-----|:--------|:------| :------|
-| 0 | u1 | Réaliser la view de la page d'acceuil | html | / | 18 | 0.2 |TODO |
-| 3 | u12 | Réaliser la view de la page du backlog | html | / | 18 | 0.2 |TODO |
-| 4 | u10 | Réaliser la view de la page qui liste les projets | html | / | 18 | 0.2 |TODO |
-| 5 | u10 | Réaliser la view de la page de description d'un projet| html | / | 18 | 0.2 |TODO |
-| 6 | u12 | Gérer la navigation dans la view | html | / | 13 | 0.2 |TODO |
+| 0 | u1 | Réaliser la view de la page d'acceuil | html | shervin | 18 | 0.2 |TODO |
+| 1 | u0 | Réaliser la view de la connexion | html | shervin | 18 | 1 |TODO |
+| 3 | u12, u13 | Réaliser la view de la page du backlog | html | shervin | 18 | 0.2 |TODO |
+| 4 | u10, u2 | Réaliser la view de la page qui liste les projets | html | shervin | 18 | 0.2 |TODO |
+| 5 | u10 | Réaliser la view de la page de description d'un projet| html | shervin | 18 | 0.2 |TODO |
+| 6 | u12 | Gérer la navigation dans la view | html | shervin | 13 | 0.2 |TODO |
 | 7 | u2  | Définir la table des projets | SQL | antoine | 13 | 0.2 |DONE |
 | 8 | u2  | Définir la table des Issues | SQL | antoine | 13 | 0.2 |DONE |
 | 12 | u1  | Définir la table des Users | SQL | antoine | 13 | 0.2 |DONE |
@@ -33,4 +34,3 @@
 | 18 | u0, u1, u2, u12, u10, u12, u13 | Définir interface entre frontend et backend | Fichier Txt décrivant routes et modèles JSON | Mathieu | / | 0.5 |DONE |
 | 19 | / | Implementer les routes avec les requetes vers la base de données | nodejs | antoine | 13 | 1 | DONE|
 | 20 | u2 | Configurer docker pour avec les requetes vers la base de données | docker-compose.yml | mathieu | / | 1 | DONE|
-
