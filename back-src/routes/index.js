@@ -1,6 +1,5 @@
 let express = require('express');
 let db = require('../db');
-let passport = require('passport');
 let router = express.Router();
 let cors = require('cors');
 
@@ -53,9 +52,6 @@ router.get('/logout', (req, res, next) => {
   req.session.destroy();
   res.redirect('/');
 });
-
-passport.serializeUser((username, done) => done(null, username));
-passport.deserializeUser((username, done) => done(null, username));
 
 //Protéger les routes
 function authentificationMiddleware(req, res, next) {
