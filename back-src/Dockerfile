@@ -2,6 +2,7 @@ FROM node:9
 
 USER node
 
+RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
 COPY package.json .
