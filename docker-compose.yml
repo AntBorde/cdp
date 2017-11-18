@@ -3,8 +3,6 @@ version: "2.3"
 services:
   db:
     build: ./bd
-    volumes:
-      - /bd/bd-files:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:
