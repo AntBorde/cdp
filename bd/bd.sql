@@ -12,8 +12,9 @@ create table if not exists User
   (
     user_id       integer         not null        auto_increment,
     email         varchar(255)     not null,
-    name          varchar(100)     not null,
-    password      CHAR(60) BINARY not null,
+    firstname     varchar(50)     not null,
+    lastname      varchar(50)     not null,
+    password      CHAR(60) BINARY,
     birth_date    date,
     primary key(user_id)
   );
@@ -82,12 +83,12 @@ create table if not exists Issue
   --      Ajout de données
   -- =================================================================
   -- =================================================================
-insert into User (pseudo,name,first_name)
+insert into User (name,email)
   values
-  ('shervin','sarain','shervin'),
-  ('mthl','lirzin','mathieu'),
-  ('younes','gadi','younes'),
-  ('capsy','borde','antoine');
+  ('shervin','foo@bar.baz'),
+  ('mthl','foo@bar.baz'),
+  ('younes','foo@bar.baz'),
+  ('capsy','foo@bar.baz');
 
 insert into Project (name,describle)
   values
