@@ -15,14 +15,24 @@
 
 ## Tâches
 
-| ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | Coût j/h |État |
-|----|:--------|:-----------|:---------|:-----|:--------|:------| :------|
-| 0 | u1 | Réaliser la composant angular de la page d'accueil | ts | / | / | 1 | TODO |
-| 1 | u0 | Réaliser le composant angular de la connexion | ts | / | / | 1 | TODO |
-| 2 | u0, u1 | Modéliser le mécanisme d'authentification avec token | txt | / | / | 2 | TODO |
-| 3 | u12, u13 | Réaliser le template de la page du backlog | html | / | / | 1 | TODO |
-| 4 | u10, u2 | Réaliser le template de la page qui liste les projets | html | / | / | 1 | TODO |
-| 5 | u10 | Réaliser le template de la page de description d'un projet| html | / | / | 1 | TODO |
-| 6 | u12 | Gérer la navigation dans la view | html | / | 13 | 0.2 | TODO |
-| 7 | u12 | Transition de la base de données vers ORM (Sequelize) | js | antoine/younes | / | 5 | TODO |
+| ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | État |
+|----|:--------|:-----------|:---------|:-----|:--------|:------|
+| 1 | u12 | Transition de la base de données vers ORM (Sequelize) | js | antoine/younes | / | TODO |
+| 1.1 | u12 | Définition des tables de la base de données avec sequelize | js | antoine/younes | / | TODO |
+| 1.2 | u12 | Modification des routes existantes vers sequelize | js | antoine/younes | 1.1 | TODO |
+| 2 | u0 | Réaliser le composant (formulaire) angular de la création de compte | ts | / | / | TODO |
+| 3 | u0 | Réaliser la route d'inscription - stokage des données utilisateur dans la base & hachage du mot de passe avec bcrypt | ts | / | 1 | TODO |
+| 4 | u0 | Réaliser le composant (formulaire) angular de connexion | ts | / | / | TODO |
+| 5 | u0 | Réaliser la route de connexion - vérification du mot de passe avec bcrypt et génération d'un token avec express-jwt | js | / | 1 | TODO |
+| 6 | u0 | Réaliser la route de rafraîchissement du token (soumission d'un nouveau token au client) | js | / | 5 | TODO |
+| 7 | u0 | Réaliser la service de authentification angular - stockage du token dans localstorage & vérification de la validité du token | ts | / | 5, 6 | TODO |
+| 8 | u1 | Réaliser la composant angular de la page d'accueil | ts | / | / | TODO |
+| 9 | u12, u13 | Réaliser le composant de la page du backlog | ts | / | / | TODO |
+| 10 | u10, u2 | Réaliser le composant de la liste les projets | ts | / | / | TODO |
+| 11 | u10 | Réaliser le composant de la page de description d'un projet| ts | / | / | TODO |
+| 12 | u12 | Réaliser la barre de navigation sur le site pour naviguer entre les différents composantrs | ts | / | 8, 9, 10, 11  | TODO |
+| 13 | u10 | Réaliser le gardes des routes angular pour éviter les accès non authorisés aux composants | ts | / | 9, 10, 11 | TODO |
+| 14 | u10 | Ajouter les vérifications du token aux routes pour rejeter les requêtes non conformes | ts | / | 6  | TODO |
+
+
 
