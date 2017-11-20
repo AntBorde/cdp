@@ -8,25 +8,25 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=cdp
+    volumes:
+      - ./bd/bdfiles:/var/lib/mysql
   backend:
     build: ./back-src
     volumes:
       - ./back-src:/home/node/app
-      - /home/node/app/node_modules
     environment:
       - NODE_ENV=development
     ports:
       - "3000:3000"
     init: true
-    links:
+    depends_on:
       - db
   frontend:
     build: ./front-src
     volumes:
       - ./front-src:/home/node/app
-      - /home/node/app/node_modules
     ports:
       - "4200:4200"
     init: true
-    links:
+    depends_on:
       - backend

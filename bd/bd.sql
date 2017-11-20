@@ -12,7 +12,8 @@ create table if not exists User
   (
     user_id       integer         not null        auto_increment,
     email         varchar(255)     not null,
-    name          varchar(100)     not null,
+    firstname     varchar(50)     not null,
+    lastname      varchar(50)     not null,
     password      CHAR(60) BINARY,
     birth_date    date,
     primary key(user_id)
