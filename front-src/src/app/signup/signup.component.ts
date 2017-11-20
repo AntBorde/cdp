@@ -12,13 +12,13 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(@Inject(FormBuilder) fb: FormBuilder){
-    let password = new FormControl('', Validators.required);
-    let password2 = new FormControl('', CustomValidators.equalTo(password));
+    let password = new FormControl(null, [Validators.required, Validators.minLength(8)]);
+    let password2 = new FormControl(null, CustomValidators.equalTo(password));
 
     this.signupForm = fb.group({
-      email : [null, Validators.required, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      lastName : [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      firstName : [null,  Validators.compose([Validators.required, Validators.maxLength(50)])],
+      email : [null, [Validators.required, Validators.maxLength(255), CustomValidators.email]],
+      lastName : [null, [Validators.required, Validators.maxLength(50)]],
+      firstName : [null,  [Validators.required, Validators.maxLength(50)]],
       password: password,
       password2: password2,
     })
@@ -27,8 +27,9 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitForm(value: any){
-    console.log(value);
+  submitForm(){
+    console.log(this.signupForm.value);
+    this.signupForm.reset();
   }
 
 }

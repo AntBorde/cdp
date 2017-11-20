@@ -1,29 +1,58 @@
 <title>DDF - Nouveau compte</title>
 <div class="container mt-5">
-  <form [formGroup]="signupForm" (ngSubmit)="submitForm(complexForm.value)" novalidate>
+  <form [formGroup]="signupForm" (ngSubmit)="submitForm()">
+
     <div class="form-group">
       <label for="inputEmail">Adresse email</label>
-      <input formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+      <input [ngClass]="{'is-invalid': (signupForm.controls['email'].invalid && signupForm.controls['email'].touched)}"
+             formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
       <div *ngIf="signupForm.controls['email'].hasError('required') && signupForm.controls['email'].touched" class="invalid-feedback">
-        Veuillez renseigner votre adresse email.
-      </div>
+        Veuillez renseigner votre adresse email.</div>
+      <div *ngIf="signupForm.controls['email'].hasError('maxLength') && signupForm.controls['email'].touched" class="invalid-feedback">
+        Votre adresse email est trop longue.</div>
+      <div *ngIf="signupForm.controls['email'].hasError('email') && signupForm.controls['email'].touched" class="invalid-feedback">
+        Veuillez renseigner une adresse email valide.</div>
     </div>
+
     <div class="form-group">
       <label for="inputLastName">Nom</label>
-      <input formControlName="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nom">
+      <input [ngClass]="{'is-invalid': (signupForm.controls['lastName'].invalid && signupForm.controls['lastName'].touched)}"
+        formControlName="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nom">
+      <div *ngIf="signupForm.controls['lastName'].hasError('required') && signupForm.controls['lastName'].touched" class="invalid-feedback">
+        Veuillez renseigner votre nom.</div>
+      <div *ngIf="signupForm.controls['lastName'].hasError('maxLength') && signupForm.controls['lastName'].touched" class="invalid-feedback">
+        Votre nom est trop long.</div>
     </div>
+
     <div class="form-group">
       <label for="inputFirstName">Prénom</label>
-      <input formControlName="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Prénom">
+      <input [ngClass]="{'is-invalid': (signupForm.controls['firstName'].invalid && signupForm.controls['firstName'].touched)}"
+        formControlName="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Prénom">
+      <div *ngIf="signupForm.controls['firstName'].hasError('required') && signupForm.controls['firstName'].touched" class="invalid-feedback">
+        Veuillez renseigner votre prénom.</div>
+      <div *ngIf="signupForm.controls['firstName'].hasError('maxLength') && signupForm.controls['firstName'].touched" class="invalid-feedback">
+        Votre prénom est trop long.</div>
     </div>
+
     <div class="form-group">
       <label for="inputPassword">Mot de passe</label>
-      <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+      <input [ngClass]="{'is-invalid': (signupForm.controls['password'].invalid && signupForm.controls['password'].touched)}"
+        formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+      <div *ngIf="signupForm.controls['password'].hasError('required') && signupForm.controls['password'].touched" class="invalid-feedback">
+        Veuillez renseigner votre mot de passe.</div>
+      <div *ngIf="signupForm.controls['password'].hasError('minLength') && signupForm.controls['password'].touched" class="invalid-feedback">
+        Votre mot de passe est trop court (minimum 8 caractères).</div>
     </div>
+
     <div class="form-group">
       <label for="inputPassword2">Confirmer le mot de passe</label>
-      <input formControlName="password2" type="password" class="form-control" id="inputPassword2" placeholder="Mot de passe">
+      <input [ngClass]="{'is-invalid': (signupForm.controls['password2'].invalid && signupForm.controls['password2'].touched)}"
+        formControlName="password2" type="password" class="form-control" id="inputPassword2" placeholder="Mot de passe">
+      <div *ngIf="signupForm.controls['password2'].hasError('equalTo') && signupForm.controls['password2'].touched" class="invalid-feedback">
+        Les mots de passe doivent être identiques.</div>
     </div>
-    <button type="submit" class="btn btn-primary">Créer un compte</button>
+
+    <button [disabled]="signupForm.invalid" type="submit" class="btn btn-primary">Créer un compte</button>
   </form>
 </div>
+

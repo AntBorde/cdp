@@ -5,7 +5,7 @@
 | ID us | Stories | Difficulté | Priorité | État |
 |-------|:--------|:-----------|:---------|:-----|
 |      | **En tant qu'utilisateur**              |
-| u0   | je souhaite créer un compte (ID utilisateur, nom, mdp) | 5 | 1 | TODO |
+| u0   | je souhaite créer un compte (ID utilisateur, nom, mdp) | 5 | 1 | DONE |
 |      | **En tant que développeur**             |
 | u1   | je souhaite pourvoir me connecter à mon espace pour pouvoir participer au projet | 2 | 4 | TODO |
 | u2   | je souhaite créer/modifier un projet (nom, description, URL du dépot Git et du cahier des charges) | 1 | 1 | TODO |
@@ -27,13 +27,13 @@
 | 1.4 | u5 | Définir la table des Builds dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.5 | sm4 | Définir la table des taches dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.6 | / | mettre en place l'intégration de sequelize dans le docker | docker | antoine/younes | / | DONE |
-| 2 | u0 | Réaliser le composant (formulaire) angular de la création de compte | ts | / | / | TODO |
-| 3 | u0 | Réaliser la route d'inscription - stokage des données utilisateur dans la base & hachage du mot de passe avec bcrypt | ts | / | 1 | TODO |
+| 2 | u0 | Réaliser le composant (formulaire) angular de la création de compte | ts | / | / | DONE |
+| 3 | u0 | Réaliser la route d'inscription - stokage des données utilisateur dans la base & hachage du mot de passe avec bcrypt | ts | / | 1 | DONE |
 | 4 | u0 | Réaliser le composant (formulaire) angular de connexion | ts | / | / | TODO |
-| 5 | u0 | Réaliser la route de connexion - vérification du mot de passe avec bcrypt et génération d'un token avec express-jwt | js | / | 1 | TODO |
-| 6 | u0 | Réaliser la route de rafraîchissement du token (soumission d'un nouveau token au client) | js | / | 5 | TODO |
-| 7 | u0 | Réaliser la service de authentification angular - stockage du token dans localstorage & vérification de la validité du token | ts | / | 5, 6 | TODO |
-| 8 | u1 | Réaliser la composant angular de la page d'accueil | ts | / | / | TODO |
+| 5 | u0 | Réaliser la route de connexion - vérification du mot de passe avec bcrypt et génération d'un token avec express-jwt | js | / | 1 | DONE |
+| 6 | u0 | Réaliser la route de rafraîchissement du token (soumission d'un nouveau token au client) | js | / | 5 | WON'T DO |
+| 7 | u0 | Réaliser la service de authentification angular - stockage du token dans localstorage & vérification de la validité du token | ts | / | 5, 6 | DONE |
+| 8 | u1 | Réaliser la composant angular de la page d'accueil | ts | / | / | DONE |
 | 9 | u12, u13 | Réaliser le composant de la page du backlog | ts | / | / | TODO |
 | 10 | u10, u2 | Réaliser le composant de la liste les projets | ts | / | / | TODO |
 | 11 | u10 | Réaliser le composant de la page de description d'un projet| ts | / | / | TODO |
