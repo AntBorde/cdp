@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CustomValidators } from 'ng2-validation';
 
 @Component({
-  selector: 'signup',
+  selector: 'app-signup',
   templateUrl: './signup.component.html',
   encapsulation: ViewEncapsulation.None
 })
@@ -11,23 +11,23 @@ export class SignupComponent implements OnInit {
 
   signupForm: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder){
-    let password = new FormControl(null, [Validators.required, Validators.minLength(8)]);
-    let password2 = new FormControl(null, CustomValidators.equalTo(password));
+  constructor(@Inject(FormBuilder) fb: FormBuilder) {
+    const password = new FormControl(null, [Validators.required, Validators.minLength(8)]);
+    const password2 = new FormControl(null, CustomValidators.equalTo(password));
 
     this.signupForm = fb.group({
-      email : [null, [Validators.required, Validators.maxLength(255), CustomValidators.email]],
-      lastName : [null, [Validators.required, Validators.maxLength(50)]],
-      firstName : [null,  [Validators.required, Validators.maxLength(50)]],
+      email : [null, [Validators.required, CustomValidators.email]],
+      lastName : [null, Validators.required],
+      firstName : [null,  Validators.required],
       password: password,
       password2: password2,
-    })
+    });
   }
 
   ngOnInit() {
   }
 
-  submitForm(){
+  submitForm() {
     console.log(this.signupForm.value);
     this.signupForm.reset();
   }
