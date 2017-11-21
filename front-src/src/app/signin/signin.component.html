@@ -1,1 +1,28 @@
-<title>login</title>
+<title>DDF - Connexion</title>
+<div class="container mt-5">
+  <h1>Connectez-vous</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="inputEmail">Adresse email</label>
+      <input [ngClass]="{'is-invalid': (loginForm.controls['email'].invalid && loginForm.controls['email'].touched)}"
+             formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="loginForm.controls['email'].hasError('required')">Veuillez renseigner l'adresse email associée à votre compte.</ng-container>
+        <ng-container *ngIf="loginForm.controls['email'].hasError('email')">Veuillez renseigner une adresse email valide.</ng-container>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword">Mot de passe</label>
+      <input [ngClass]="{'is-invalid': (loginForm.controls['password'].invalid && loginForm.controls['password'].touched)}"
+             formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="loginForm.controls['password'].hasError('required')">Veuillez renseigner le mot de passe associé à votre compte.</ng-container>
+        <ng-container *ngIf="loginForm.controls['password'].hasError('minlength')">Votre mot de passe est trop court (minimum 8 caractères).</ng-container>
+      </div>
+    </div>
+
+    <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary">Se connecter</button>
+  </form>
+</div>
+

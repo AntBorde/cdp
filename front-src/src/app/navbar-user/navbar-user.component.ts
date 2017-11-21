@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'navbar-user',
+  selector: 'app-navbar-user',
   templateUrl: './navbar-user.component.html',
   encapsulation: ViewEncapsulation.None
 })
