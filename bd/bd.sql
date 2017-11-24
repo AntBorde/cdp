@@ -23,13 +23,13 @@ create table if not exists User
   -- =================================================================
   --      table : Project
   -- =================================================================
-create table if not exists Project
-  (
-    name          varchar(125)    not null,
-    describle     Text,
-    git           varchar(250),
-    primary key(name)
-  );
+  create table if not exists Project
+    (
+      name          varchar(125)    not null,
+      describle     Text,
+      git           varchar(250),
+      primary key(name)
+    );
 
 
   -- =================================================================
@@ -37,12 +37,16 @@ create table if not exists Project
   -- =================================================================
 create table if not exists Project_team
   (
-    project_id    varchar(125)    not null,
+    name          varchar(125)    not null,
     user_id       integer         not null,
     status        char(1)         not null         default 'd',
-    primary key (project_id,user_id),
-    foreign key (project_id) references Project(name),
-    foreign key (user_id) references User(user_id)
+    primary key (name,user_id),
+    constraint project_member
+          foreign key (name)
+          references Project(name),
+    constraint member
+          foreign key (user_id)
+          references User(user_id)
   );
 
 
@@ -52,60 +56,137 @@ create table if not exists Project_team
 create table if not exists Issue
   (
     issue_id      integer         not null        auto_increment,
-    storie        text,
-    difficulty    smallint,
-    priority      smallint,
-    state         varchar(10),
-    project_id    varchar(125)    not null,
+    storie        text            not null,
+    difficulty    smallint        not null,
+    priority      smallint        not null,
+    state         varchar(10)     not null,
+    name          varchar(125)    not null,
     primary key (issue_id),
-    foreign key (project_id) references Project(name)
+    constraint project_issue
+          foreign key (name)
+          references Project(name)
   );
 
 
   -- =================================================================
   --      table : Tache
   -- =================================================================
-
+create table if not exists Task
+  (
+    task_id       integer        not null       auto_increment,
+    describle     Text           not null,
+    user_id       integer,
+    state         varchar(10)    not null,
+    cost          integer,
+    name          varchar(125)    not null,
+    primary key (task_id),
+    constraint project_task
+          foreign key (name)
+          references Project(name),
+    constraint user_task
+          foreign key (user_id)
+          references User(user_id)
+  );
 
   -- =================================================================
   --      table : Sprint
   -- =================================================================
+  create table if not exists Sprint
+    (
+      sprint_id     integer        not null       auto_increment,
+      describle     Text,
+      dateBegin     Date,
+      dateEnd       Date,
+      name          varchar(125)    not null,
+      primary key (sprint_id),
+      constraint project_sprint
+            foreign key (name)
+            references Project(name)
+    );
 
+  -- =================================================================
+  --      table : Sprint_Task
+  -- =================================================================
+  create table if not exists SprintTask
+    (
+      sprintTask_id   integer      not null     auto_increment,
+      sprint_id       integer      not null,
+      task_id         integer      not null,
+      primary key (sprintTask_id),
+      constraint task_sprint
+            foreign key (task_id)
+            references Task(task_id),
+      constraint sprint
+            foreign key (sprint_id)
+            references Sprint(sprint_id)
+    );
 
   -- =================================================================
   --      table : Build
   -- =================================================================
+  create table if not exists Build
+    (
+      build_id     integer        not null       auto_increment,
+      describle    Text,
+      name         varchar(125)   not null,
+      primary key (build_id),
+      constraint project_build
+            foreign key (name)
+            references Project(name)
+    );
 
 
 
-  -- =================================================================
-  -- =================================================================
-  --      Ajout de données
-  -- =================================================================
-  -- =================================================================
-insert into User (name,email)
-  values
-  ('shervin','foo@bar.baz'),
-  ('mthl','foo@bar.baz'),
-  ('younes','foo@bar.baz'),
-  ('capsy','foo@bar.baz');
-
-insert into Project (name,describle)
-  values
-  ('web','projet de web ou nous devons faire notre projet blablabla'),
-  ('cdp','projet de cdp ou nous devons correctement gérer le dévellopement d\'un projet de maniere pro');
 
 
-insert into Project_team (project_id,user_id,status)
-  values
-  ('web',1,'d'),
-  ('web',2,'d'),
-  ('cdp',3,'d'),
-  ('cdp',4,'d');
 
-insert into Issue (storie,difficulty,priority,state,project_id)
-  values
-  ('je veux voir le backlog',2,2,'TODO','web'),
-  ('je veux voir les taches',2,2,'TODO','web'),
-  ('je veux une belle view',2,2,'TODO','cdp'),
-  ('je veux la présence d\'une bd',2,2,'TODO','cdp');
+    -- =================================================================
+    -- =================================================================
+    --      Ajout de données
+    -- =================================================================
+    -- =================================================================
+  insert into User (firstname,lastname,email)
+    values
+    ('shervin','shervin','foo@bar.baz'),
+    ('mthl','mthl','foo@bar.baz'),
+    ('younes','younes','foo@bar.baz'),
+    ('capsy','capsy','foo@bar.baz');
+
+  insert into Project (name,describle)
+    values
+    ('web','projet de web ou nous devons faire notre projet blablabla'),
+    ('cdp','projet de cdp ou nous devons correctement gérer le dévellopement d\'un projet de maniere pro');
+
+
+  insert into Project_team (name,user_id,status)
+    values
+    ('web',1,'d'),
+    ('web',2,'d'),
+    ('cdp',3,'d'),
+    ('cdp',4,'d');
+
+  insert into Issue (storie,difficulty,priority,state,name)
+    values
+    ('je veux voir le backlog',2,2,'TODO','web'),
+    ('je veux voir les taches',2,2,'TODO','web'),
+    ('je veux une belle view',2,2,'TODO','cdp'),
+    ('je veux la présence d\'une bd',2,2,'TODO','cdp');
+
+  insert into Task (describle,user_id,state,name)
+    values
+    ('faire un truc',1,'TODO','web'),
+    ('faire un autre truc',2,'TODO','web'),
+    ('faire la doc',3,'TODO','cdp'),
+    ('faire les builds',4,'TODO','cdp');
+
+  insert into Sprint (describle,name)
+    values
+    ('arrivé a faire tout ça','web'),
+    ('arrivé a faire tout ça','cdp');
+
+  insert into SprintTask (sprint_id,task_id)
+    values
+    (1,1),
+    (1,2),
+    (2,3),
+    (2,4);
