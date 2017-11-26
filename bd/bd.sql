@@ -44,9 +44,11 @@ create table if not exists Project_team
     constraint project_member
           foreign key (name)
           references Project(name),
+          ON DELETE CASCADE
     constraint member
           foreign key (user_id)
           references User(user_id)
+          ON DELETE CASCADE
   );
 
 
@@ -65,6 +67,7 @@ create table if not exists Issue
     constraint project_issue
           foreign key (name)
           references Project(name)
+          ON DELETE CASCADE
   );
 
 
@@ -82,7 +85,8 @@ create table if not exists Task
     primary key (task_id),
     constraint project_task
           foreign key (name)
-          references Project(name),
+          references Project(name) 
+           ON DELETE CASCADE,
     constraint user_task
           foreign key (user_id)
           references User(user_id)
@@ -101,7 +105,7 @@ create table if not exists Task
       primary key (sprint_id),
       constraint project_sprint
             foreign key (name)
-            references Project(name)
+            references Project(name) ON DELETE CASCADE
     );
 
   -- =================================================================
@@ -115,10 +119,10 @@ create table if not exists Task
       primary key (sprintTask_id),
       constraint task_sprint
             foreign key (task_id)
-            references Task(task_id),
+            references Task(task_id) ON DELETE CASCADE,
       constraint sprint
             foreign key (sprint_id)
-            references Sprint(sprint_id)
+            references Sprint(sprint_id)ON DELETE CASCADE
     );
 
   -- =================================================================
@@ -132,7 +136,7 @@ create table if not exists Task
       primary key (build_id),
       constraint project_build
             foreign key (name)
-            references Project(name)
+            references Project(name) ON DELETE CASCADE
     );
 
 
