@@ -1,0 +1,10 @@
+{
+    "production": {
+      "username": "root",
+      "password": "password",
+      "database": "cdp",
+      "host": "db",
+      "dialect": "mysql"
+    }
+  }
+
