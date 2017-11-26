@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let cors = require('cors');
-
+var models  = require('../models');
 var session;
 
 router.use(cors());
@@ -9,47 +9,40 @@ router.use(cors());
 router.get('/', (req, res, next) => {
   res.send('Server live');
 });
-
 /*Connexion*/
 router.post('/login', (req, res, next) => {
-  var username = req.body.pseudo;
-  var password = req.body.password;
 
-  function handle_query(error, results, fields) {
-    if (error) {
-      console.log("err connexion");
-      return;
-    }
-    //pseudo n'existe pas dans la bd
-    if (results.length == 0) {
-      console.log("pseudo n'existe pas dans la bd");
-    } else if (results[0].password != password) {
-      console.log("mot de passe incorrecte");
-    } else {
+  models.users.findOne( {where: { email:req.body.email}}).
+  then(user=>{
+  if(user==null)
+  res.send("user not found");
+  else
+  {
+    if(user.password!=req.body.password)
+    res.send("incorrect password");
+   else
+  {
       //Authentification
-      req.login(username, (err) => {
-	if (err) {
-	  console.log("err");
-	  return;
-	}
-	//sauvegarder la session
-	session = req.session;
-	session.username = username;
-	//rediriger vers sa page de profil
-	res.redirect('/profile');
-      });
-    }
+      req.login(user.firstname, (err) => {
+        if (err) {
+          console.log("err");
+          return;
+        }
+        //sauvegarder la session
+        session = req.session;
+        session.username = user.firstname;
+        res.send('succesLogin'); 
+     })
+   }
   }
-
-  db.query("select * from User where pseudo = ?", [username], handle_query);
+  }).catch(err=> {res.send(err)})
 });
-
 //Déconnexion
 router.get('/logout', (req, res, next) => {
   //Détruire la session
   req.logout();
   req.session.destroy();
-  res.redirect('/');
+  res.send('succesLogout'); 
 });
 
 //Protéger les routes
@@ -57,12 +50,13 @@ function authentificationMiddleware(req, res, next) {
   if (req.isAuthenticated())
     next();
   else
-    res.redirect('/');
+    res.send('notAuthenticated');
 }
 
 //Accéder au profil de l'utilisateur en utilisant authentificationMiddleware
 router.get('/profile', authentificationMiddleware, (req, res, next) => {
-  res.render('profile');
+  res.send('succesAuthenticatedProfile');
 });
 
+//Redirect a faire dans la partie front
 module.exports = router;
