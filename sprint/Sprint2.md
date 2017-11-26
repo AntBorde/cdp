@@ -20,8 +20,8 @@
 
 | ID tâche | Issue ID | Objectif | Artefacts | Dev | Dépendance | État |
 |----|:--------|:-----------|:---------|:-----|:--------|:------|
-| 1 | u12 | Transition de la base de données vers ORM (Sequelize) | js | antoine/younes | / | TODO |
-| 1.1 | u12 | Définition des tables de la base de données avec sequelize | js | antoine/younes | / | TODO |
+| 1 | u12 | Transition de la base de données vers ORM (Sequelize) | js | antoine/younes | / | DONE |
+| 1.1 | u12 | Définition des tables de la base de données avec sequelize | js | antoine/younes | / | DONE |
 | 1.2 | u12 | Modification des routes existantes vers sequelize | js | antoine/younes | 1.1 | TODO |
 | 1.3 | u15 | Définir la table des sprints dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.4 | u5 | Définir la table des Builds dans la base de donnée | sql | antoine/younes | / | DONE |
@@ -40,3 +40,4 @@
 | 12 | u12 | Réaliser la barre de navigation sur le site pour naviguer entre les différents composantrs | ts | / | 8, 9, 10, 11  | TODO |
 | 13 | u10 | Réaliser le gardes des routes angular pour éviter les accès non authorisés aux composants | ts | / | 9, 10, 11 | TODO |
 | 14 | u10 | Ajouter les vérifications du token aux routes pour rejeter les requêtes non conformes | ts | / | 6  | TODO |
+
