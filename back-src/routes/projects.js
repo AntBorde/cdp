@@ -322,7 +322,7 @@ router.get('/:id/builds/' , function(req, res, next) {
   res.send("project not exist");
   else
   {
-    models.builds.create({describle:'azaz',name:req.params.id}).
+    models.builds.create({describle:req.body.describle,name:req.params.id}).
     then(ress=>{
       res.send("build created");
     }).catch(error=>{res.send(error)})
