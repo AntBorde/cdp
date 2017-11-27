@@ -28,7 +28,6 @@ module.exports = function(sequelize, DataTypes) {
       projects.hasMany(models.project_team, {foreignKey :'name',onDelete: 'CASCADE'});
       projects.hasMany(models.builds, {foreignKey :'name',onDelete: 'CASCADE'});
       projects.hasMany(models.sprints, {foreignKey :'name',onDelete: 'CASCADE'});
-      projects.hasMany(models.tasks, {foreignKey :'name',onDelete: 'CASCADE'});
     }
  
   
