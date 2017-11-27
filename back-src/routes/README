@@ -40,6 +40,18 @@
   GET: renvoie la liste des builds
   POST: crée un build
 
+# Authentification
+
+L'authentification se fait avec des JSON Web Token (JWT)
+
+la route /login retourne un token si les identifiants sont valides
+
+Il est à la charge du client de passer dans le champs header "authorization" le token ainsi récupérer pour accéder aux routes protéger.
+
+```
+curl -H "authorization: Bearer {TOKEN}" localhost:3000/users
+```
+
 # Models
 
 User {

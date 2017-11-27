@@ -3,6 +3,7 @@ let path = require('path');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
+let expressJwt = require('express-jwt');
 
 let index = require('./routes/index');
 let projects = require('./routes/projects');
@@ -17,6 +18,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+
+// Protected routes
+app.use(expressJwt({ secret: "toto" }));
 app.use('/projects', projects);
 app.use('/users', users);
 
