@@ -37,7 +37,8 @@ module.exports = function(sequelize, DataTypes) {
   );
   sprints.associate = function(models) {
     sprints.belongsTo(models.projects, {foreignKey : 'name'});
-    sprints.hasMany(models.sprintTasks, {foreignKey :'sprint_id',onDelete: 'CASCADE'});
+    sprints.hasMany(models.tasks, {foreignKey: 'task_id'});
+    
   }
    
     
