@@ -31,9 +31,8 @@
   GET: renvoie la listes des sprints
   POST: crée un sprint
 /projects/:name/sprints/:id =>
-  GET: renvoie la listes des tâches associées à un sprint
+ GET: renvoie la listes des tâches associées à un sprint
   POST: Ajout d'une tâche
-  DELETE: Suppression d'une tâche
 /projects/:name/sprints/:id/:tid
   PUT: Modifie le statut de la tâche
   DELETE: Supprime la tâche
