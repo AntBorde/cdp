@@ -22,7 +22,7 @@
 |----|:--------|:-----------|:---------|:-----|:--------|:------|
 | 1 | u12 | Transition de la base de données vers ORM (Sequelize) | js | antoine/younes | / | DONE |
 | 1.1 | u12 | Définition des tables de la base de données avec sequelize | js | antoine/younes | / | DONE |
-| 1.2 | u12 | Modification des routes existantes vers sequelize | js | antoine/younes | 1.1 | TODO |
+| 1.2 | u12 | Modification des routes existantes vers sequelize | js | antoine/younes | 1.1 | DONE |
 | 1.3 | u15 | Définir la table des sprints dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.4 | u5 | Définir la table des Builds dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.5 | sm4 | Définir la table des taches dans la base de donnée | sql | antoine/younes | / | DONE |
