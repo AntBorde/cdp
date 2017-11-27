@@ -32,6 +32,11 @@ module.exports = function(sequelize, DataTypes) {
   {
   type: DataTypes.STRING(125),
   allowNull: false   
+  },
+  sprint_id:
+  {
+  type: DataTypes.INTEGER,
+  allowNull: false
   }
 }, {
         timestamps: false,
@@ -42,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
   tasks.associate = function(models) {
     tasks.belongsTo(models.projects, {foreignKey : 'name'});
     tasks.belongsTo(models.users,{foreignKey : 'user_id'});
+    tasks.belongsTo(models.sprints,{foreignKey : 'sprint_id'});
   }
    
     
