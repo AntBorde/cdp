@@ -24,24 +24,6 @@ router.get('/:id' , function(req, res, next) {
   }).catch(err=> {res.send(err)})
 });
 
-
-/*Create user account*/
-router.post('/', function(req, res, next) {
- models.users.findOne({where: {email:req.body.email}}).
- then(user=>{
- if(user!=null)
- res.send("user already exist with the same email");
- else
- {
-   models.users.create({email:req.body.email,firstname:req.body.firstname,lastname:req.body.lastname,password:req.body.password,birth_date:req.body.birth_date}).
-   then(ress=>{
-     res.send("user created");
-   }).catch(err=> {res.send(err)})
- }
- }).catch(err=> {res.send(err)})
-});
-
-
 /** PUT Modifie utilisateur*/
 router.put('/:id' , function(req, res, next) {
 models.users.findById(req.params.id).

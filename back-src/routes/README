@@ -1,5 +1,7 @@
 # Routes
 
+/register =>
+  POST: Créer un utilisateur
 /login =>
   GET:  authentifie l'utilisateur
 /logout =>
@@ -7,7 +9,6 @@
 
 /users =>
   GET: renvoie la liste des utilisateurs
-  POST: crée un utilisateur
 /users/:id
   GET: renvoie les informations d'un utilisateur
   PUT: Modifie utilisateur

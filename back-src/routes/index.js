@@ -10,7 +10,27 @@ router.get('/', (req, res, next) => {
   res.send('Server live');
 });
 
-/*Connexion*/
+/*Create user account*/
+router.post('/register', function(req, res) {
+  models.users.findOne({ where: { email: req.body.email } })
+    .then(user => {
+      if (user != null) {
+	res.send("user already exist with the same email");
+      } else {
+	models.users.create({
+	  email: req.body.email,
+	  firstname: req.body.firstname,
+	  lastname: req.body.lastname,
+	  password: req.body.password,
+	  birth_date: req.body.birth_date
+	});
+      }
+    })
+    .then(res => res.send("user created"))
+    .catch(err => res.send(err));
+});
+
+/* Connexion */
 router.post('/login', (req, res) => {
   models.users.findOne({ where: { email: req.body.email } })
     .then(user => {
