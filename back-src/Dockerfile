@@ -12,4 +12,4 @@ RUN npm install
 
 EXPOSE 3000
 
-CMD ["npm", "run", "docker-dev"]
+#CMD ["npm", "run", "docker-dev"]

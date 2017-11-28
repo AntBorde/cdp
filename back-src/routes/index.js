@@ -1,14 +1,15 @@
-let express = require('express');
-let router = express.Router();
-let cors = require('cors');
-var models  = require('../models');
-var session;
+const express = require('express');
+const router = express.Router();
+const cors = require('cors');
+const models  = require('../models');
+let session;
 
 router.use(cors());
 
 router.get('/', (req, res, next) => {
   res.send('Server live');
 });
+
 /*Connexion*/
 router.post('/login', (req, res, next) => {
 
@@ -37,6 +38,7 @@ router.post('/login', (req, res, next) => {
   }
   }).catch(err=> {res.send(err)})
 });
+
 //Déconnexion
 router.get('/logout', (req, res, next) => {
   //Détruire la session
