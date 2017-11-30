@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 /* GET Users */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     models.users.findAll().
     then(users=>{
         if(users==null)
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 });
 
 /*GET User by id*/
-router.get('/:id' , function(req, res, next) {
+router.get('/:id' , function(req, res) {
     models.users.findById(req.params.id).
     then(user=>{
         if(user==null)
@@ -31,7 +31,7 @@ router.get('/:id' , function(req, res, next) {
 });
 
 /*Sign in and get a token*/
-router.post('/signin', cors(), (req, res, next) => {
+router.post('/signin', cors(), (req, res) => {
     models.users.findOne( {where: { email: req.body.email}}).
     then(user=>{
         if(user === null) {
@@ -50,14 +50,18 @@ router.post('/signin', cors(), (req, res, next) => {
                     firstname: user.firstname,
                     lastname: user.lastname
                 }, secret, { expiresIn: 60 * 60 });
-                res.status(200).jsonp({token: newToken});
+                res.status(200).jsonp({
+                    token: newToken,
+                    firstName: user.firstname,
+                    lastName: user.lastname,
+                });
             }
         }
     }).catch(err=> {res.send(err)})
 });
 
 /*Create user account*/
-router.post('/singup', cors(), function(req, res, next) {
+router.post('/singup', cors(), function(req, res) {
     models.users.findOne({where: {email:req.body.email}}).
     then(user=>{
         if(user !== null){
@@ -76,7 +80,7 @@ router.post('/singup', cors(), function(req, res, next) {
                 res.status(400).send('Le nom est trop long');
             }
 
-            if (!validator.isLength(req.body.password, { min:8})){
+            if (!validator.isLength(req.body.password, { min:8 })){
                 res.status(400).send('Le mot de passe est trop court');
             }
 
@@ -90,7 +94,7 @@ router.post('/singup', cors(), function(req, res, next) {
                 password: hashPassword
             }).
             then(newUser=>{
-                let message = "L'utilisateur " + newUser.password + " a été crée"
+                let message = "L'utilisateur " + newUser.firstname + " a été crée";
                 res.status(201).jsonp({
                     message: message,
                 });
@@ -101,7 +105,7 @@ router.post('/singup', cors(), function(req, res, next) {
 
 
 /** PUT Modifie utilisateur*/
-router.put('/:id' , function(req, res, next) {
+router.put('/:id' , function(req, res) {
     models.users.findById(req.params.id).
     then(user=>{
         if(user==null)
@@ -118,7 +122,7 @@ router.put('/:id' , function(req, res, next) {
     }).catch(err=> {res.send(err)})
 });
 /* Delete utilisateur*/
-router.delete('/:id' , function(req, res, next) {
+router.delete('/:id' , function(req, res) {
     models.users.findById(req.params.id).
     then(user=>{
         if(user==null)
