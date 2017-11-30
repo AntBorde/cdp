@@ -28,3 +28,11 @@ services:
     init: true
     depends_on:
       - backend
+  proxy:
+    image: nginx
+    ports:
+      - '3200:80'
+    volumes:
+      - ./reverse-proxy-src/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    links:
+      - frontend
