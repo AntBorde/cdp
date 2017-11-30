@@ -1,0 +1,56 @@
+{
+	"variables": [],
+	"info": {
+		"name": "cdp",
+		"_postman_id": "b492be6a-1c1c-6b51-86e7-bb5bdb3b3524",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://capsy.ovh:3000/projects",
+			"request": {
+				"url": "http://capsy.ovh:3000/projects",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "test",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "describle",
+							"value": "test du fonctionnement de POST project",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "git",
+							"value": "",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "user_post",
+							"value": "4",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
