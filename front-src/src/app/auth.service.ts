@@ -4,17 +4,14 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class AuthService {
 
-  private loggedIn: boolean;
-  private token: string;
-  private firstName: string;
-  private lastName: string;
+  public loggedIn: boolean = false;
+  private token: string = null;
+  private firstName: string = null;
+  private lastName: string = null;
 
   constructor( ) {
     this.token = localStorage.getItem('cdp-token');
-    if (this.token === null){
-      this.loggedIn = false;
-    }
-    else {
+    if (this.token != null){
       this.loggedIn = true;
     }
   }
@@ -30,7 +27,7 @@ export class AuthService {
     localStorage.setItem('cdp-token', token);
   }
 
-  destroyToken(){
+  logout(){
     this.loggedIn = false;
     this.token = null;
     localStorage.removeItem('cdp-token');

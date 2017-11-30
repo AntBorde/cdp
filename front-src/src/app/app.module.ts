@@ -3,6 +3,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from "./auth.service";
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -11,6 +12,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { SigninComponent } from './signin/signin.component';
+import { ProjectsComponent } from './projects/projects.component';
 
 
 
@@ -21,7 +23,8 @@ import { SigninComponent } from './signin/signin.component';
     NavbarUserComponent,
     SignupComponent,
     HomeComponent,
-    SigninComponent
+    SigninComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { SigninComponent } from './signin/signin.component';
     NgbModule.forRoot()
   ],
   providers: [
-    Title
+    Title,
+    AuthService
   ],
   bootstrap: [ AppComponent ]
 })
