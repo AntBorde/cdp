@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "http://capsy.ovh:3000/project",
+			"name": "http://capsy.ovh:3000/projects",
 			"request": {
 				"url": "http://capsy.ovh:3000/projects",
 				"method": "GET",
