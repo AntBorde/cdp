@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
                 },
             password:
                 {
-                    type: DataTypes.CHAR.BINARY(60),
+                    type: DataTypes.CHAR(60),
                     allowNull: false
                 }}, {
             timestamps: false,
