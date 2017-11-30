@@ -3,7 +3,9 @@ let router = express.Router();
 let cors = require('cors');
 var models  = require('../models');
 var jwt = require('jsonwebtoken');
-
+router.use('/projects', require('./projects.js'));
+router.use('/users', require('./users.js'));
+//app.use('/users',users);
 router.use(cors());
 
 router.get('/', (req, res, next) => {
