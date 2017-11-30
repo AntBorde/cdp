@@ -4,7 +4,7 @@ version: "2.3"
 
 services:
   db:
-    image: mariadb
+    build: ./bd
     ports:
       - "3306:3306"
     environment:
@@ -14,10 +14,11 @@ services:
     build: ./back-src
     volumes:
       - ./back-src:/home/node
-      - home/node/node_modules
+      - /home/node/node_modules
     command: npm run docker-dev
     environment:
       - NODE_ENV=development
+      - AUTH_SECRET=46399AD6FCB4BCCC172E395E759B82B532AB8422FD7C737FE440D68479C6C8CF
     ports:
       - "3000:3000"
     init: true
@@ -27,7 +28,7 @@ services:
     build: ./front-src
     volumes:
       - ./front-src:/home/node
-      - home/node/node_modules
+      - /home/node/node_modules
     command: npm start
     ports:
       - "4200:4200"

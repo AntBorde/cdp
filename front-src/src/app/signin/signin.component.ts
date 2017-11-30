@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-signin',
@@ -13,7 +13,7 @@ export class SigninComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder, private httpClient: HttpClient) {
+  constructor(@Inject(FormBuilder) fb: FormBuilder, private http: HttpClient) {
     this.loginForm = fb.group({
       email : [null, [Validators.required, CustomValidators.email]],
       password : [null, [Validators.required, Validators.minLength(8)]],
@@ -23,18 +23,31 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(): void {
-    this
-      .httpClient
-      .post<Response>('/auth', {})
-      .toPromise()
-      .then(res => {
-      })
-      .catch(err => this.messageErreur = 'ERROR');
-  }
+  submitForm() {
+    const body = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password,
+    }
 
+    this.http
+      .post<TokenResponse>('http://localhost:3000/api/users/signin', body)
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log('An error occurred:', err.error.message);
+            this.loginForm.reset();
+          } else {
+            console.log(err.error);
+            this.loginForm.reset();
+          }
+        }
+      );
+  }
 }
 
-interface Response {
-  message: string;
+interface TokenResponse {
+  token: string;
 }

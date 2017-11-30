@@ -1,4 +1,4 @@
-import { require } from "../../front-src/src/test";
+//import { require } from "../../front-src/src/test";
 
 const express = require('express');
 const router = express.Router();
@@ -6,6 +6,7 @@ const cors = require('cors');
 const models  = require('../models');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 /* GET Users */
 router.get('/', function(req, res, next) {
@@ -29,30 +30,27 @@ router.get('/:id' , function(req, res, next) {
     }).catch(err=> {res.send(err)})
 });
 
-/*Connexion*/
-router.post('/signin', (req, res, next) => {
-
-    models.users.findOne( {where: { email:req.body.email}}).
+/*Sign in and get a token*/
+router.post('/signin', cors(), (req, res, next) => {
+    models.users.findOne( {where: { email: req.body.email}}).
     then(user=>{
-        if(user === null)
-            res.status(400).send();
+        if(user === null) {
+            res.status(400).send('Identifiants invalides');
+        }
         else
         {
-            if(user.password !== req.body.password)
-                res.send("incorrect password");
-            else
-            {
-                //Authentification
-                req.login(user.firstname, (err) => {
-                    if (err) {
-                        console.log("err");
-                        return;
-                    }
-                    //sauvegarder la session
-                    session = req.session;
-                    session.username = user.firstname;
-                    res.send('succesLogin');
-                })
+            if(!bcrypt.compareSync(req.body.password, user.password)){
+                res.status(400).send('Identifiants invalides ' + req.body.password);
+            }
+            else {
+                const secret = process.env.AUTH_SECRET;
+                const newToken = jwt.sign({
+                    userId: user.user_id,
+                    email: user.email,
+                    firstname: user.firstname,
+                    lastname: user.lastname
+                }, secret, { expiresIn: 60 * 60 });
+                res.status(200).jsonp({token: newToken});
             }
         }
     }).catch(err=> {res.send(err)})
@@ -62,37 +60,28 @@ router.post('/signin', (req, res, next) => {
 router.post('/singup', cors(), function(req, res, next) {
     models.users.findOne({where: {email:req.body.email}}).
     then(user=>{
-        if(user !== null)
-            res.status(400).send({
-                message : 'Un utilisateur existe déjà avec cet email'
-            });
-        else
-        {
+        if(user !== null){
+            res.status(400).send('Un utilisateur existe déjà avec cet email');
+        }
+        else {
             if (!validator.isEmail(req.body.email)){
-                res.status(400).send({
-                    message : 'Email invalide'
-                });
+                res.status(400).send('Email invalide');
             }
 
             if (!validator.isLength(req.body.firstname, { max: 50 })){
-                res.status(400).send({
-                    message : 'Le prénom estt trop long'
-                });
+                res.status(400).send('Le prénom est trop long');
             }
 
             if (!validator.isLength(req.body.lastname, { max: 50 })){
-                res.status(400).send({
-                    message : 'Le nom estt trop long'
-                });
+                res.status(400).send('Le nom est trop long');
             }
 
             if (!validator.isLength(req.body.password, { min:8})){
-                res.status(400).send({
-                    message : 'Le mot de passe est trop petit'
-                });
+                res.status(400).send('Le mot de passe est trop court');
             }
 
-            let hashPassword = bcrypt.hashSync(req.body.password);
+            const salt = bcrypt.genSaltSync(10);
+            const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
             models.users.create({
                 email: req.body.email,
@@ -100,10 +89,10 @@ router.post('/singup', cors(), function(req, res, next) {
                 lastname: req.body.lastname,
                 password: hashPassword
             }).
-            then(res=>{
-                res.status(201).send({
-                    Message: "User created",
-                    Password: hashPassword
+            then(newUser=>{
+                let message = "L'utilisateur " + newUser.password + " a été crée"
+                res.status(201).jsonp({
+                    message: message,
                 });
             }).catch(err=> {res.send(err)})
         }
