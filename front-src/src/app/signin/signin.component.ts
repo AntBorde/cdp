@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from "../auth.service";
 
 @Component({
   selector: 'app-signin',
@@ -9,11 +10,9 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
   encapsulation: ViewEncapsulation.None
 })
 export class SigninComponent implements OnInit {
-  messageErreur = '';
-
   loginForm: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder, private http: HttpClient) {
+  constructor(@Inject(FormBuilder) fb: FormBuilder, private http: HttpClient, private auth: AuthService) {
     this.loginForm = fb.group({
       email : [null, [Validators.required, CustomValidators.email]],
       password : [null, [Validators.required, Validators.minLength(8)]],
@@ -21,9 +20,10 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.destroyToken();
   }
 
-  submitForm() {
+  private submitForm() {
     const body = {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password,
@@ -34,6 +34,8 @@ export class SigninComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.auth.storeToken(data.token);
+          this.auth.storeUser(data.firstname, data.lastname);
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -50,4 +52,6 @@ export class SigninComponent implements OnInit {
 
 interface TokenResponse {
   token: string;
+  firstname : string,
+  lastname: string
 }

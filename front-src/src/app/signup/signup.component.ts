@@ -26,7 +26,7 @@ export class SignupComponent {
     });
   }
 
-  submitForm() {
+  private submitForm() {
     const body = {
       email: this.signupForm.value.email,
       lastname: this.signupForm.value.lastName,
