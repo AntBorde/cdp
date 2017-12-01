@@ -26,7 +26,7 @@
 | 1.3 | u15 | Définir la table des sprints dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.4 | u5 | Définir la table des Builds dans la base de donnée | sql | antoine/younes | / | DONE |
 | 1.5 | sm4 | Définir la table des taches dans la base de donnée | sql | antoine/younes | / | DONE |
-| 1.6 | / | mettre en place l'intégration de sequelize dans le docker | docker | antoine/younes | / | TODO |
+| 1.6 | / | mettre en place l'intégration de sequelize dans le docker | docker | antoine/younes | / | DONE |
 | 2 | u0 | Réaliser le composant (formulaire) angular de la création de compte | ts | / | / | TODO |
 | 3 | u0 | Réaliser la route d'inscription - stokage des données utilisateur dans la base & hachage du mot de passe avec bcrypt | ts | / | 1 | TODO |
 | 4 | u0 | Réaliser le composant (formulaire) angular de connexion | ts | / | / | TODO |
