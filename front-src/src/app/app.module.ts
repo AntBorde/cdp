@@ -3,7 +3,10 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AuthService } from "./auth.service";
+import { MessageService } from "./message.service";
+import { ProjectService } from "./project.service";
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
