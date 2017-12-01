@@ -38,7 +38,9 @@ import { ProjectsComponent } from './projects/projects.component';
   ],
   providers: [
     Title,
-    AuthService
+    AuthService,
+    MessageService,
+    ProjectService
   ],
   bootstrap: [ AppComponent ]
 })

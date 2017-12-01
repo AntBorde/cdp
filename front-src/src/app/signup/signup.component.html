@@ -1,6 +1,7 @@
 <title>DDF - Nouveau compte</title>
 <div class="container mt-5">
   <h1>Créer un nouveau compte</h1>
+  <div *ngIf="errorMessage != ''" class="alert alert-danger">{{this.errorMessage}}</div>
   <form [formGroup]="signupForm" (ngSubmit)="submitForm()">
     <div class="form-group">
       <label for="inputEmail">Adresse email</label>

@@ -2,6 +2,8 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from "../message.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -11,9 +13,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export class SignupComponent {
 
+  private errorMessage: string = '';
   signupForm: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder, private http: HttpClient) {
+  constructor(
+    @Inject(FormBuilder) fb: FormBuilder,
+    private http: HttpClient,
+    private messageService: MessageService,
+    private router: Router ) {
     const password = new FormControl(null, [Validators.required, Validators.minLength(8)]);
     const password2 = new FormControl(null, CustomValidators.equalTo(password));
 
@@ -35,18 +42,22 @@ export class SignupComponent {
     }
 
     this.http
-      .post('http://localhost:3000/api/users/singup', body)
+      .post<SingupResponse>('http://localhost:3000/api/users/singup', body)
       .subscribe(
         data => {
-          console.log(data);
+          this.messageService.setSuccessMessage(data.message);
+          this.router.navigate(['home'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
+            this.errorMessage = err.error.message;
             this.signupForm.reset();
           } else {
             console.log(err.error);
             this.signupForm.reset();
+            this.errorMessage = err.error;
           }
         }
       );

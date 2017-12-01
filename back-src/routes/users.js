@@ -65,23 +65,23 @@ router.post('/singup', cors(), function(req, res) {
     models.users.findOne({where: {email:req.body.email}}).
     then(user=>{
         if(user !== null){
-            res.status(400).send('Un utilisateur existe déjà avec cet email');
+            res.status(400).send('Un utilisateur existe déjà avec cet email.');
         }
         else {
             if (!validator.isEmail(req.body.email)){
-                res.status(400).send('Email invalide');
+                res.status(400).send('Email invalide.');
             }
 
             if (!validator.isLength(req.body.firstname, { max: 50 })){
-                res.status(400).send('Le prénom est trop long');
+                res.status(400).send('Le prénom est trop long.');
             }
 
             if (!validator.isLength(req.body.lastname, { max: 50 })){
-                res.status(400).send('Le nom est trop long');
+                res.status(400).send('Le nom est trop long.');
             }
 
             if (!validator.isLength(req.body.password, { min:8 })){
-                res.status(400).send('Le mot de passe est trop court');
+                res.status(400).send('Le mot de passe est trop court.');
             }
 
             const salt = bcrypt.genSaltSync(10);
@@ -94,7 +94,7 @@ router.post('/singup', cors(), function(req, res) {
                 password: hashPassword
             }).
             then(newUser=>{
-                let message = "L'utilisateur " + newUser.firstname + " a été crée";
+                let message = "L'utilisateur " + newUser.firstname + " a été crée.";
                 res.status(201).jsonp({
                     message: message,
                 });

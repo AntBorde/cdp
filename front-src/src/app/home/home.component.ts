@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MessageService } from "../message.service";
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  private message: string = '';
+
+  constructor( private messageService: MessageService) { }
 
   ngOnInit() {
+    if (this.messageService.successMessage){
+      this.message = this.messageService.consumeMessage();
+    }
   }
 
 }
