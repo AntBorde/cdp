@@ -10,14 +10,14 @@ export class MessageService {
 
   constructor() { }
 
-  public setErrorMessage (message: string) {
-    this.message = message;
-    this.errorMesage = true;
-  }
-
   public setSuccessMessage (message: string) {
     this.message = message;
     this.successMessage = true;
+  }
+
+  public setErrorMessage (message: string) {
+    this.message = message;
+    this.errorMesage = true;
   }
 
   public consumeMessage () {

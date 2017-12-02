@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+
+app.use('/', express.static(path.join(__dirname, '../front-src/dist')));
 app.use('/api/projects', projects);
 app.use('/api/users', users);
 
@@ -37,5 +38,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;
+

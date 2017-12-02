@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 export class SignupComponent {
 
   showErrorMesage : boolean = false;
-  errorMessage: string = '';
+  message: string = '';
   signupForm: FormGroup;
 
   constructor(
@@ -43,23 +43,22 @@ export class SignupComponent {
     }
 
     this.http
-      .post<SingupResponse>('http://localhost:3000/api/users/singup', body)
+      .post<SingupResponse>('http://localhost:8080/api/users/singup', body)
       .subscribe(
         data => {
           this.messageService.setSuccessMessage(data.message);
           this.router.navigate(['home'])
             .catch(reason => console.log('Erreur de redirection: ', reason));
+          this.signupForm.reset();
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            console.log('An error occurred:', err.error.message);
-            this.errorMessage = err.error.message;
+            this.message = err.error.message;
             this.showErrorMesage = true;
             this.signupForm.reset();
           } else {
             console.log(err.error);
-            this.signupForm.reset();
-            this.errorMessage = err.error;
+            this.message = err.error;
             this.showErrorMesage = true;
           }
         }

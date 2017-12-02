@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 
 @Injectable()
 export class AuthService {
 
-  private loggedIn: boolean = false;
+  public loggedIn = new BehaviorSubject<boolean>(false);
   private token: string = null;
   private firstName: string = null;
   private lastName: string = null;
@@ -11,12 +12,8 @@ export class AuthService {
   constructor( ) {
     this.token = localStorage.getItem('cdp-token');
     if (this.token != null){
-      this.loggedIn = true;
+      this.loggedIn.next(true);
     }
-  }
-
-  isLoggedIn() {
-    return this.loggedIn;
   }
 
   storeUser(firstName: string, lastName: string){
@@ -25,15 +22,19 @@ export class AuthService {
   }
 
   storeToken(token: string){
-    this.loggedIn = true;
+    this.loggedIn.next(true);
     this.token = token;
     localStorage.setItem('cdp-token', token);
   }
 
   logout(){
-    this.loggedIn = false;
+    this.loggedIn.next(false);
     this.token = null;
     localStorage.removeItem('cdp-token');
   }
-
+  getFirstName()
+  {
+    if (this.loggedIn)
+    return this.firstName;
+  }
 }

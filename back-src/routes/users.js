@@ -35,20 +35,20 @@ router.post('/signin', cors(), (req, res) => {
     models.users.findOne( {where: { email: req.body.email}}).
     then(user=>{
         if(user === null) {
-            res.status(400).send('Identifiants invalides');
+            res.status(400).send("L'email correspond n'existe pas");
         }
         else
         {
             if(!bcrypt.compareSync(req.body.password, user.password)){
-                res.status(400).send('Identifiants invalides ' + req.body.password);
+                res.status(400).send('Mot de passe incorrect');
             }
             else {
-                const secret = process.env.AUTH_SECRET;
+               const secret = process.env.AUTH_SECRET;
                 const newToken = jwt.sign({
                     userId: user.user_id,
                     email: user.email,
                     firstname: user.firstname,
-                    lastname: user.lastname
+                    lastname: user.lastnames
                 }, secret, { expiresIn: 60 * 60 });
                 res.status(200).jsonp({
                     token: newToken,

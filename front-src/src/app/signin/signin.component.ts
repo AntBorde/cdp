@@ -9,7 +9,6 @@ import { MessageService } from "../message.service";
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  providers: [ AuthService ],
   encapsulation: ViewEncapsulation.None
 })
 export class SigninComponent implements OnInit {
@@ -17,7 +16,8 @@ export class SigninComponent implements OnInit {
   showErrorMessage : boolean = false;
   message: string = '';
   loginForm: FormGroup;
-
+  private errorMessage: string = '';
+  TestLog :boolean;
   constructor(
     @Inject(FormBuilder) fb: FormBuilder,
     private http: HttpClient,
@@ -31,6 +31,7 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.IsLog.subscribe(res=>this.TestLog=res);
     this.auth.logout();
     if (this.messageService.errorMesage){
       this.message = this.messageService.consumeMessage();
@@ -45,13 +46,13 @@ export class SigninComponent implements OnInit {
     };
 
     this.http
-      .post<TokenResponse>('http://localhost:3000/api/users/signin', body)
+      .post<TokenResponse>('http://localhost:8080/api/users/signin', body)
       .subscribe(
         data => {
           this.auth.storeToken(data.token);
-          this.auth.storeUser(data.firstname, data.lastname);
-          this.router.navigate(['projects'])
-            .catch(reason => console.log('Erreur de redirection: ', reason));
+          this.auth.storeUser(data.lastName,data.lastName);
+          this.router.navigate(['profile'])
+           .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -72,6 +73,6 @@ export class SigninComponent implements OnInit {
 
 interface TokenResponse {
   token: string;
-  firstname : string,
-  lastname: string
+  firstName : string,
+  lastName: string
 }
