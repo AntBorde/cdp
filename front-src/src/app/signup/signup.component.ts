@@ -13,7 +13,8 @@ import { Router } from "@angular/router";
 
 export class SignupComponent {
 
-  private errorMessage: string = '';
+  showErrorMesage : boolean = false;
+  errorMessage: string = '';
   signupForm: FormGroup;
 
   constructor(
@@ -53,11 +54,13 @@ export class SignupComponent {
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
             this.errorMessage = err.error.message;
+            this.showErrorMesage = true;
             this.signupForm.reset();
           } else {
             console.log(err.error);
             this.signupForm.reset();
             this.errorMessage = err.error;
+            this.showErrorMesage = true;
           }
         }
       );

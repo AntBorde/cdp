@@ -8,13 +8,15 @@ import { MessageService } from "../message.service";
 })
 export class HomeComponent implements OnInit {
 
-  private message: string = '';
+  message: string = '';
+  showSuccessMessage: boolean = false;
 
   constructor( private messageService: MessageService) { }
 
   ngOnInit() {
     if (this.messageService.successMessage){
       this.message = this.messageService.consumeMessage();
+      this.showSuccessMessage = true;
     }
   }
 

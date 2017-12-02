@@ -4,8 +4,8 @@ import {falseIfMissing} from "protractor/built/util";
 @Injectable()
 export class MessageService {
 
-  public message: string = null;
-  public errorMesage: boolean= false;
+  private message: string = '';
+  public errorMesage: boolean = false;
   public successMessage: boolean = false;
 
   constructor() { }

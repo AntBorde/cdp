@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AuthService {
 
-  public loggedIn: boolean = false;
+  private loggedIn: boolean = false;
   private token: string = null;
   private firstName: string = null;
   private lastName: string = null;
@@ -13,6 +13,10 @@ export class AuthService {
     if (this.token != null){
       this.loggedIn = true;
     }
+  }
+
+  isLoggedIn() {
+    return this.loggedIn;
   }
 
   storeUser(firstName: string, lastName: string){
