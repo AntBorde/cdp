@@ -3,9 +3,12 @@ let router = express.Router();
 let cors = require('cors');
 var models  = require('../models');
 var jwt = require('jsonwebtoken');
-router.use('/projects', require('./projects.js'));
-router.use('/users', require('./users.js'));
-//app.use('/users',users);
+let expressJwt = require('express-jwt');
+
+// sub-routes
+let projects = require('./projects');
+let users = require('./users');
+
 router.use(cors());
 
 router.get('/', (req, res, next) => {
@@ -48,6 +51,11 @@ router.post('/login', (req, res) => {
       }
     }).catch(err => res.send(err));
 });
+
+// Protected routes
+router.use(expressJwt({ secret: "toto" }));
+router.use('/projects', projects);
+router.use('/users', users);
 
 //Déconnexion
 router.get('/logout', (req, res, next) => {
