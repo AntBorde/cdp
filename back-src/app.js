@@ -3,7 +3,6 @@ let path = require('path');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-let expressJwt = require('express-jwt');
 
 let index = require('./routes/index');
 let projects = require('./routes/projects');
@@ -17,12 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 
-// Protected routes
-app.use(expressJwt({ secret: "toto" }));
-app.use('/projects', projects);
-app.use('/users', users);
+app.use('/', express.static(path.join(__dirname, '../front-src/dist')));
+app.use('/api/projects', projects);
+app.use('/api/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,5 +38,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;
+
