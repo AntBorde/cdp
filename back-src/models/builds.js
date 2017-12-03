@@ -8,14 +8,19 @@ module.exports = function(sequelize, DataTypes) {
                     primaryKey: true,
                     allowNull: false
                 },
-            describle:
+            description:
                 {
                     type: DataTypes.TEXT,
                     allowNull: false
                 },
-            name:
+            project_id:
                 {
-                    type: DataTypes.STRING(125),
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
+            url:
+                {
+                    type: DataTypes.STRING(250),
                     allowNull: false
                 }
         },
@@ -26,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
         },
     );
     builds.associate = function(models) {
-        builds.belongsTo(models.projects, {foreignKey : 'name'});
+        builds.belongsTo(models.projects, {foreignKey : 'project_id'});
     }
     return builds;
 };

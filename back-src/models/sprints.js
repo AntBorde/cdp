@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
                     primaryKey: true,
                     allowNull: false
                 },
-            describle:
+            description:
                 {
                     type: DataTypes.TEXT,
                     allowNull: false
@@ -24,9 +24,9 @@ module.exports = function(sequelize, DataTypes) {
                     type: DataTypes.DATE,
                     allowNull: false
                 },
-            name:
+            project_id:
                 {
-                    type: DataTypes.STRING(125),
+                    type: DataTypes.INTEGER,
                     allowNull: false
                 }
         }, {
@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
         }
     );
     sprints.associate = function(models) {
-        sprints.belongsTo(models.projects, {foreignKey : 'name'});
+        sprints.belongsTo(models.projects, {foreignKey : 'project_id'});
         sprints.hasMany(models.tasks, {foreignKey: 'sprint_id'});
 
     }

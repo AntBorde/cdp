@@ -2,9 +2,9 @@
 
 module.exports = function(sequelize, DataTypes) {
     const project_team = sequelize.define("project_team", {
-            name:
+            project_id:
                 {
-                    type: DataTypes.STRING(125),
+                    type: DataTypes.INTEGER,
                     primaryKey: true,
                     allowNull: false
                 },
@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
             tableName: 'project_team',
         });
     project_team.associate = function(models) {
-        project_team.belongsTo(models.projects,{foreignKey : 'name'});
+        project_team.belongsTo(models.projects,{foreignKey : 'project_id'});
         project_team.belongsTo(models.users,{foreignKey : 'user_id'});
     }
 

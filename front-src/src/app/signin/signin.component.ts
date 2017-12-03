@@ -16,8 +16,7 @@ export class SigninComponent implements OnInit {
   showErrorMessage : boolean = false;
   message: string = '';
   loginForm: FormGroup;
-  private errorMessage: string = '';
-  TestLog :boolean;
+
   constructor(
     @Inject(FormBuilder) fb: FormBuilder,
     private http: HttpClient,
@@ -31,7 +30,6 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.IsLog.subscribe(res=>this.TestLog=res);
     this.auth.logout();
     if (this.messageService.errorMesage){
       this.message = this.messageService.consumeMessage();

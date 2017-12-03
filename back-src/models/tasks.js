@@ -8,15 +8,14 @@ module.exports = function(sequelize, DataTypes) {
                     primaryKey: true,
                     allowNull: false
                 },
-            describle:
+            description:
                 {
                     type: DataTypes.TEXT,
                     allowNull: false
                 },
             user_id:
                 {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
+                    type: DataTypes.INTEGER
                 },
             state:
                 {
@@ -25,12 +24,11 @@ module.exports = function(sequelize, DataTypes) {
                 },
             cost:
                 {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
+                    type: DataTypes.INTEGER
                 },
-            name:
+            project_id:
                 {
-                    type: DataTypes.STRING(125),
+                    type: DataTypes.INTEGER,
                     allowNull: false
                 },
             sprint_id:
@@ -45,7 +43,7 @@ module.exports = function(sequelize, DataTypes) {
         }
     );
     tasks.associate = function(models) {
-        tasks.belongsTo(models.projects, {foreignKey : 'name'});
+        tasks.belongsTo(models.projects, {foreignKey : 'project_id'});
         tasks.belongsTo(models.users,{foreignKey : 'user_id'});
         tasks.belongsTo(models.sprints,{foreignKey : 'sprint_id'});
     }

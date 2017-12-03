@@ -1,7 +1,7 @@
 <title>DDF - Connexion</title>
 <div class="container mt-5">
   <h1>Connectez-vous</h1>
-  <div *ngIf="showErrorMessage == true" class="alert alert-danger">{{this.errorMessage}}</div>
+  <div *ngIf="showErrorMessage == true" class="alert alert-danger">{{this.message}}</div>
   <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
     <div class="form-group">
       <label for="inputEmail">Adresse email</label>

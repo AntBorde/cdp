@@ -2,13 +2,19 @@
 
 module.exports = function(sequelize, DataTypes) {
     const projects = sequelize.define("projects", {
-        name:
+        project_id:
             {
-                type: DataTypes.STRING(125),
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
                 primaryKey: true,
                 allowNull: false
             },
-        describle:
+        name:
+            {
+                type: DataTypes.STRING(125),
+                allowNull: false
+            },
+        description:
             {
                 type: DataTypes.TEXT,
                 allowNull: false
