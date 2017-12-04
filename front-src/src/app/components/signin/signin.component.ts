@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from "@angular/router";
-import { AuthService } from "../auth.service";
-import { MessageService } from "../message.service";
+import { AuthService } from "../../services/auth.service";
+import { MessageService } from "../../services/message.service";
 
 @Component({
   selector: 'app-signin',

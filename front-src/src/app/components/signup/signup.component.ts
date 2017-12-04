@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from "../message.service";
+import { MessageService } from "../../services/message.service";
 import { Router } from "@angular/router";
 
 @Component({
