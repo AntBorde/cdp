@@ -8,6 +8,7 @@ export class AuthService {
   private token: string = null;
   private firstName: string = null;
   private lastName: string = null;
+  private Email: string = null;
 
   constructor( ) {
     this.token = localStorage.getItem('cdp-token');
@@ -16,9 +17,10 @@ export class AuthService {
     }
   }
 
-  storeUser(firstName: string, lastName: string){
+  storeUser(firstName: string, lastName: string,Email:string){
     this.firstName = firstName;
     this.lastName = lastName;
+    this.Email = Email;
   }
 
   storeToken(token: string){
@@ -32,9 +34,19 @@ export class AuthService {
     this.token = null;
     localStorage.removeItem('cdp-token');
   }
+  getLastName()
+  {
+    if (this.loggedIn)
+    return this.lastName;
+  }
   getFirstName()
   {
     if (this.loggedIn)
     return this.firstName;
+  }
+  getEmail()
+  {
+    if (this.loggedIn)
+    return this.Email;
   }
 }

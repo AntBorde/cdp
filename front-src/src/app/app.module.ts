@@ -15,7 +15,6 @@ import { AppRoutingModule } from './/app-routing.module';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { SigninComponent } from './signin/signin.component';
-import { ProjectsComponent } from './projects/projects.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProjectCreateComponent } from './project/project-create/project-create.component';
 
@@ -29,7 +28,6 @@ import { ProjectCreateComponent } from './project/project-create/project-create.
     SignupComponent,
     HomeComponent,
     SigninComponent,
-    ProjectsComponent,
     ProfileComponent,
     ProjectCreateComponent
   ],

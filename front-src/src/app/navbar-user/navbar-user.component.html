@@ -1,7 +1,7 @@
 <ng-container *ngIf="loggedIn; else loginContainer">
   <button class="btn btn-danger mr-1 1 my-sm-0" (click)="logout()">Déconnexion</button>
 </ng-container>
-<ng-container #loginContainer>
+<ng-template #loginContainer>
   <button class="btn btn-primary mr-1 1 my-sm-0" routerLink="/signin">Connexion</button>
   <button class="btn btn-success mr-1 my-sm-0" routerLink="/signup">Nouveau compte</button>
-</ng-container>
+</ng-template>

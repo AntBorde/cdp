@@ -13,8 +13,8 @@ import { MessageService } from "../message.service";
 })
 export class SigninComponent implements OnInit {
 
-  showErrorMessage : boolean = false;
-  message: string = '';
+  message = '';
+  isError = false;
   loginForm: FormGroup;
 
   constructor(
@@ -31,12 +31,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.auth.logout();
-    if (this.messageService.errorMesage){
-      this.message = this.messageService.consumeMessage();
-      this.showErrorMessage = true;
-    }
   }
-
   private submitForm() {
     const body = {
       email: this.loginForm.value.email,
@@ -48,7 +43,7 @@ export class SigninComponent implements OnInit {
       .subscribe(
         data => {
           this.auth.storeToken(data.token);
-          this.auth.storeUser(data.lastName,data.lastName);
+          this.auth.storeUser(data.firstName,data.lastName,data.Email);
           this.router.navigate(['profile'])
            .catch(reason => console.log('Erreur de redirection: ', reason));
         },
@@ -56,21 +51,23 @@ export class SigninComponent implements OnInit {
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
             this.message = err.error.message;
-            this.showErrorMessage = true;
-            this.loginForm.reset();
+            this.isError = true;
           } else {
             console.log(err.error);
             this.message = err.error;
-            this.showErrorMessage = true;
-            this.loginForm.reset();
+            this.isError = true;
           }
         }
       );
   }
+  private showError(message: string): void {
+    this.message = message;
+    this.isError = true;
+  }
 }
-
 interface TokenResponse {
   token: string;
   firstName : string,
-  lastName: string
+  lastName: string,
+  Email: string,
 }

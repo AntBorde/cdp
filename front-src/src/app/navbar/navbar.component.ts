@@ -6,12 +6,11 @@ import { AuthService } from "../auth.service";
   encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent implements OnInit {
-  TestLog :boolean;
+  loggedIn :boolean;
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.IsLog.subscribe(res=>this.TestLog=res);
-    
+    this.authService.loggedIn.subscribe(res=>this.loggedIn=res);
   }
   
 }

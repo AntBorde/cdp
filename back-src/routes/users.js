@@ -32,7 +32,7 @@ router.get('/:id' , function(req, res) {
 
 /*Sign in and get a token*/
 router.post('/signin', cors(), (req, res) => {
-    models.users.findOne( {where: { email: req.body.email}}).
+    models.users.findOne( {where: {email: req.body.email}}).
     then(user=>{
         if(user === null) {
             res.status(400).send("L'email correspond n'existe pas");
@@ -49,11 +49,12 @@ router.post('/signin', cors(), (req, res) => {
                     email: user.email,
                     firstname: user.firstname,
                     lastname: user.lastnames
-                }, secret, { expiresIn: 60 * 60 });
+                },secret, { expiresIn: 60 * 60 });
                 res.status(200).jsonp({
                     token: newToken,
                     firstName: user.firstname,
                     lastName: user.lastname,
+                    Email: user.email
                 });
             }
         }
