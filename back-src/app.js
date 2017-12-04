@@ -5,8 +5,6 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let index = require('./routes/index');
-let projects = require('./routes/projects');
-let users = require('./routes/users');
 
 let app = express();
 
@@ -35,6 +33,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 module.exports = app;
