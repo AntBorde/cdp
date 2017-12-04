@@ -39,7 +39,7 @@ export class SigninComponent implements OnInit {
     };
 
     this.http
-      .post<TokenResponse>('http://localhost:8080/api/users/signin', body)
+      .post<TokenResponse>('http://localhost:3000/api/users/signin', body)
       .subscribe(
         data => {
           this.auth.storeToken(data.token);

@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', express.static(path.join(__dirname, '../front-src/dist')));
+app.use('/home', express.static(path.join(__dirname, '../front-src/dist')));
 app.use('/api/projects', projects);
 app.use('/api/users', users);
 

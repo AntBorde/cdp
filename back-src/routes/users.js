@@ -49,7 +49,7 @@ router.post('/signin', cors(), (req, res) => {
                     email: user.email,
                     firstname: user.firstname,
                     lastname: user.lastnames
-                },secret, { expiresIn: 60 * 60 });
+                },"secret", { expiresIn: 60 * 60 });
                 res.status(200).jsonp({
                     token: newToken,
                     firstName: user.firstname,
