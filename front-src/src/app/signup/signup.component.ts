@@ -1,34 +1,72 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from "../message.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'signup',
+  selector: 'app-signup',
   templateUrl: './signup.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SignupComponent implements OnInit {
 
+export class SignupComponent {
+
+  showErrorMesage : boolean = false;
+  message: string = '';
   signupForm: FormGroup;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder){
-    let password = new FormControl('', Validators.required);
-    let password2 = new FormControl('', CustomValidators.equalTo(password));
+  constructor(
+    @Inject(FormBuilder) fb: FormBuilder,
+    private http: HttpClient,
+    private messageService: MessageService,
+    private router: Router ) {
+    const password = new FormControl(null, [Validators.required, Validators.minLength(8)]);
+    const password2 = new FormControl(null, CustomValidators.equalTo(password));
 
     this.signupForm = fb.group({
-      email : [null, Validators.required, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      lastName : [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      firstName : [null,  Validators.compose([Validators.required, Validators.maxLength(50)])],
+      email : [null, [Validators.required, CustomValidators.email]],
+      lastName : [null, Validators.required],
+      firstName : [null,  Validators.required],
       password: password,
       password2: password2,
-    })
+    });
   }
 
-  ngOnInit() {
+  private submitForm() {
+    const body = {
+      email: this.signupForm.value.email,
+      lastname: this.signupForm.value.lastName,
+      firstname: this.signupForm.value.firstName,
+      password: this.signupForm.value.password,
+    }
+
+    this.http
+      .post<SingupResponse>('http://localhost:8080/api/users/singup', body)
+      .subscribe(
+        data => {
+          this.messageService.setSuccessMessage(data.message);
+          this.router.navigate(['home'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));
+          this.signupForm.reset();
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.message = err.error.message;
+            this.showErrorMesage = true;
+            this.signupForm.reset();
+          } else {
+            console.log(err.error);
+            this.message = err.error;
+            this.showErrorMesage = true;
+          }
+        }
+      );
   }
 
-  submitForm(value: any){
-    console.log(value);
-  }
+}
 
+interface SingupResponse {
+  message: string;
 }
