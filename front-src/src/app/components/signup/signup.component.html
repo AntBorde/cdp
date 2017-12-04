@@ -1,0 +1,58 @@
+<title>DDF - Nouveau compte</title>
+<div class="container mt-5">
+  <h1>Créer un nouveau compte</h1>
+  <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+  role="alert">
+{{ message }}
+</div>
+  <form [formGroup]="signupForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="inputEmail">Adresse email</label>
+      <input [ngClass]="{'is-invalid': (signupForm.controls['email'].invalid && signupForm.controls['email'].touched)}"
+             formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="signupForm.controls['email'].hasError('required')">Veuillez renseigner votre adresse email.</ng-container>
+        <ng-container *ngIf="signupForm.controls['email'].hasError('email')">Veuillez renseigner une adresse email valide.</ng-container>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputLastName">Nom</label>
+      <input [ngClass]="{'is-invalid': (signupForm.controls['lastName'].invalid && signupForm.controls['lastName'].touched)}"
+        formControlName="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nom" maxlength="50">
+      <div class="invalid-feedback">
+        Veuillez renseigner votre nom.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputFirstName">Prénom</label>
+      <input [ngClass]="{'is-invalid': (signupForm.controls['firstName'].invalid && signupForm.controls['firstName'].touched)}"
+        formControlName="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Prénom">
+      <div class="invalid-feedback">
+        Veuillez renseigner votre prénom.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword">Mot de passe</label>
+      <input [ngClass]="{'is-invalid': (signupForm.controls['password'].invalid && signupForm.controls['password'].touched)}"
+        formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="signupForm.controls['password'].hasError('required')">Veuillez renseigner votre mot de passe.</ng-container>
+        <ng-container *ngIf="signupForm.controls['password'].hasError('minlength')">Votre mot de passe est trop court (minimum 8 caractères).</ng-container>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword2">Confirmer le mot de passe</label>
+      <input [ngClass]="{'is-invalid': (signupForm.controls['password2'].invalid && signupForm.controls['password2'].touched)}"
+        formControlName="password2" type="password" class="form-control" id="inputPassword2" placeholder="Mot de passe">
+      <div class="invalid-feedback">
+        Les mots de passe doivent être identiques.
+      </div>
+    </div>
+    <button [disabled]="signupForm.invalid" type="submit" class="btn btn-primary">Créer un compte</button>
+  </form>
+</div>
+

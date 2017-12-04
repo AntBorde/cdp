@@ -3,7 +3,7 @@ let path = require('path');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-
+let cors = require('cors');
 let index = require('./routes/index');
 
 let app = express();
@@ -13,8 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
-app.use('/', index);
+app.use('/api/projects', projects);
+app.use('/api/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -33,5 +35,4 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send('error');
 });
-
 module.exports = app;
