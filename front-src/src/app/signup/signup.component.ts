@@ -43,7 +43,7 @@ export class SignupComponent {
     }
 
     this.http
-      .post<SingupResponse>('http://localhost:8080/api/users/singup', body)
+      .post<SingupResponse>('http://localhost:3000/api/users/singup', body)
       .subscribe(
         data => {
           this.showSuccess(data.message);

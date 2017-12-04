@@ -3,7 +3,7 @@ let path = require('path');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-
+let cors = require('cors');
 let index = require('./routes/index');
 let projects = require('./routes/projects');
 let users = require('./routes/users');
@@ -15,9 +15,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
-
-app.use('/home', express.static(path.join(__dirname, '../front-src/dist')));
 app.use('/api/projects', projects);
 app.use('/api/users', users);
 
@@ -39,4 +38,3 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 module.exports = app;
-
