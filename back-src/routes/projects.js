@@ -8,9 +8,9 @@ router.get('/' , function(req, res, next) {
     models.projects.findAll().
     then(projects=>{
         if(projects==null)
-            res.send("projects not found");
+        res.status(400).send("Aucun projet n'est crée pour le moment ..");
         else
-            res.send(projects);
+        res.status(200).send(projects);
     }).catch(err=> {res.send(err)})
 });
 

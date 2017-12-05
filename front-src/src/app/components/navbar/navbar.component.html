@@ -15,6 +15,14 @@
                   <a class="nav-link" routerLink="/Updateprofile">Modifier mes informations </a>
                 </li>
               </ul>
+              <div ngbDropdown class="d-inline-block nav-link">
+                  <button class="btn btn-outline-primary nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>Projets</button>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBasic1" ngbDropdownMenu >
+                      <button class="dropdown-item" routerLink="/projects">Liste des projets</button>
+                      <button class="dropdown-item">Créer un projet</button>
+                      <button class="dropdown-item">Participer a un projet</button>
+                  </div>
+              </div>
             <app-navbar-user></app-navbar-user>
           </nav>
     </ng-template>

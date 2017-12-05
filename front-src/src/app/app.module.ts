@@ -18,6 +18,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectCreateComponent } from './components/project/project-create/project-create.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
 
 
 
@@ -31,7 +32,8 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     SigninComponent,
     ProfileComponent,
     ProjectCreateComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    ProjectsListComponent
   ],
   imports: [
     BrowserModule,
