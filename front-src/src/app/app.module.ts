@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectCreateComponent } from './components/project/project-create/project-create.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 
 
@@ -29,7 +30,8 @@ import { ProjectCreateComponent } from './components/project/project-create/proj
     HomeComponent,
     SigninComponent,
     ProfileComponent,
-    ProjectCreateComponent
+    ProjectCreateComponent,
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,

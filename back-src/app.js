@@ -5,6 +5,8 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let index = require('./routes/index');
+let projects = require('./routes/projects');
+let users = require('./routes/users');
 
 let app = express();
 
@@ -14,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+
 
 app.use('/api/projects', projects);
 app.use('/api/users', users);
@@ -33,6 +36,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('error');
+  res.render('error');
 });
 module.exports = app;

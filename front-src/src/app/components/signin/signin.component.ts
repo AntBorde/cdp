@@ -43,9 +43,9 @@ export class SigninComponent implements OnInit {
       .subscribe(
         data => {
           this.auth.storeToken(data.token);
-          this.auth.storeUser(data.firstName,data.lastName,data.Email);
-          this.router.navigate(['profile'])
-           .catch(reason => console.log('Erreur de redirection: ', reason));
+          this.auth.storeUser(data.UserId,data.firstName,data.lastName,data.Email);
+         this.router.navigate(['profile'])
+        .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -67,6 +67,7 @@ export class SigninComponent implements OnInit {
 }
 interface TokenResponse {
   token: string;
+  UserId:string,
   firstName : string,
   lastName: string,
   Email: string,

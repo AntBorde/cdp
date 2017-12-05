@@ -6,6 +6,7 @@ export class AuthService {
 
   public loggedIn = new BehaviorSubject<boolean>(false);
   private token: string = null;
+  private UserId: string = null;
   private firstName: string = null;
   private lastName: string = null;
   private Email: string = null;
@@ -17,7 +18,8 @@ export class AuthService {
     }
   }
 
-  storeUser(firstName: string, lastName: string,Email:string){
+  storeUser(UserId:string,firstName: string, lastName: string,Email:string){
+    this.UserId = UserId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.Email = Email;
@@ -48,5 +50,10 @@ export class AuthService {
   {
     if (this.loggedIn)
     return this.Email;
+  }
+  getUserId()
+  {
+    if (this.loggedIn)
+    return this.UserId;
   }
 }

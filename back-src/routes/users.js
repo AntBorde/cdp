@@ -24,9 +24,9 @@ router.get('/:id' , function(req, res) {
     models.users.findById(req.params.id).
     then(user=>{
         if(user==null)
-            res.send("user not found");
+        res.status(400).send("Utilisateur nan trouvé");
         else
-            res.send(user);
+        res.status(200).send(user);
     }).catch(err=> {res.send(err)})
 });
 
@@ -49,12 +49,13 @@ router.post('/signin', cors(), (req, res) => {
                     email: user.email,
                     firstname: user.firstname,
                     lastname: user.lastnames
-                },"secret", { expiresIn: 60 * 60 });
+                },secret, { expiresIn: 60 * 60 });
                 res.status(200).jsonp({
                     token: newToken,
+                    UserId:user.user_id,
                     firstName: user.firstname,
                     lastName: user.lastname,
-                    Email: user.email
+                    Email: user.email,
                 });
             }
         }
@@ -108,15 +109,31 @@ router.post('/singup', cors(), function(req, res) {
 router.put('/:id' , function(req, res) {
     models.users.findById(req.params.id).
     then(user=>{
-        if(user==null)
-            res.send("user not found");
+        if(user == null){
+            res.status(400).send("cette utilisateur n'existe pas.");
+        }
         else
         {
-            models.users.update(
-                {email:req.body.email,password:req.body.password},
+            if (!validator.isEmail(req.body.email)){
+                    res.status(400).send('Email invalide.');
+                }
+    
+                if (!validator.isLength(req.body.password, { min:8 })){
+                    res.status(400).send('Le mot de passe est trop court.');
+                }
+                const salt = bcrypt.genSaltSync(10);
+                const hashPassword = bcrypt.hashSync(req.body.password, salt);
+                
+                 models.users.update(
+                {email:req.body.email,password:hashPassword},
                 { where: { user_id:req.params.id}}).
-            then(ress=>{
-                res.send("user updated");
+              then(UpdateUser=>{
+                  console.log(req.body.email);
+                res.status(200).jsonp({
+                    UserId:req.params.id,
+                    Email: req.body.email,
+                    message: "Informations modifiées avec succès",
+                });
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
