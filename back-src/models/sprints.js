@@ -1,6 +1,6 @@
 "use strict";
 module.exports = function(sequelize, DataTypes) {
-    const sprints = sequelize.define("sprints", {
+    const sprint = sequelize.define("sprint", {
             sprint_id:
                 {
                     type: DataTypes.INTEGER,
@@ -23,24 +23,14 @@ module.exports = function(sequelize, DataTypes) {
                 {
                     type: DataTypes.DATE,
                     allowNull: false
-                },
-            project_id:
-                {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
                 }
-        }, {
-            timestamps: false,
-            freezeTableName: true,
-            tableName: 'Sprint',
         }
     );
-    sprints.associate = function(models) {
-        sprints.belongsTo(models.projects, {foreignKey : 'project_id'});
-        sprints.hasMany(models.tasks, {foreignKey: 'sprint_id'});
 
-    }
+    sprint.associate = function(models) {
+        sprint.belongsTo(models.project);
+        sprint.hasMany(models.task);
+    };
 
-
-    return sprints;
+    return sprint;
 };

@@ -1,19 +1,21 @@
-let express = require('express');
-let router = express.Router();
-let cors = require('cors');
-var models  = require('../models');
+const express = require('express');
+const router = express.Router();
+const cors = require('cors');
+const models  = require('../models');
+const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-/*GET: liste des projets*/
-router.get('/' ,  cors(),function(req, res) {
-    models.projects.findAll().
-    then(projects=>{
-        if(projects==null)
-        res.status(400).send("Aucun projet n'est crée pour le moment ..");
-        else
-        res.status(200).send(projects);
-    }).catch(err=> {res.send(err)})
+/*GET: liste des projets associés à un utilisateur*/
+router.get('/' , function(req, res) {
+    models.projects.findAll()
+        .then(projects=>{
+            if(projects==null)
+                res.status(400).send("Aucun projet n'est crée pour le moment ..");
+            else
+                res.status(200).send(projects);
+        }).catch(err=> {res.send(err)})
 });
+
 
 /*POST project */
 router.post('/', cors(), function(req, res) {
@@ -52,17 +54,17 @@ router.post('/', cors(), function(req, res) {
 
 /*   GET project infos concernant un projet */
 router.get('/:id' , function(req, res, next) {
-    models.projects.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-            res.send(project);
-    }).catch(err=> {res.send(err)})
+    models.projects.findById(req.params.id)
+        .then(project=>{
+            if(project==null)
+                res.send("project not exist");
+            else
+                res.send(project);
+        }).catch(err=> {res.send(err)})
 
 });
 
-/* GET Users to Project_team =>les utilisateurs associés au projet*/
+/* GET Users to Project_team => les utilisateurs associés au projet */
 router.get('/:id/users' , function(req, res, next) {
     models.projects.findById(req.params.id).
     then(project=>{
@@ -85,41 +87,42 @@ router.get('/:id/users' , function(req, res, next) {
 router.post('/:id/users/' , function(req, res, next) {
     if(req.body.status=='p')
     {
-        models.project_team.findOne({where: {project_id: req.body.project_id,status:'p'}}).
-        then(membre=>{
-        if(membre!=null)
-        res.status(400).send("Il existe déjà un product owner pour ce projet ");
-        else
-        {
-            models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
-            then(ress=>{
-                let message = "Vous êtes le product owner du projet sélectionné";
-                res.status(201).jsonp({
-                    message: message,
-                });
+        models.project_team.findOne({where: {project_id: req.body.project_id,status:'p'}})
+            .then(membre=>{
+                if(membre!=null)
+                    res.status(400).send("Il existe déjà un product owner pour ce projet ");
+                else
+                {
+                    models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
+                    then(ress=>{
+                        let message = "Vous êtes le product owner du projet sélectionné";
+                        res.status(201).jsonp({
+                            message: message,
+                        });
+                    }).catch(error=>{res.status(400).send(error)})
+                }
             }).catch(error=>{res.status(400).send(error)})
-        }
-        }).catch(error=>{res.status(400).send(error)})
-      }
-        else
-        {
-            models.project_team.findOne({where: {project_id: req.body.project_id,user_id:req.body.user_id}}).
-            then(membreCreate=>{
+    }
+    else
+    {
+        models.project_team.findOne({where: {project_id: req.body.project_id,user_id:req.body.user_id}}).
+        then(membreCreate=>{
             if(membreCreate!=null)
-            res.status(400).send("Vous êtes déja membre du projet sélectionné");
+                res.status(400).send("Vous êtes déja membre du projet sélectionné");
             else
             {
-            models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
-            then(ress=>{
-                let message = "Vous participez au projet sélectionné";
-                res.status(201).jsonp({
-                    message: message,
-                });
-            }).catch(error=>{res.status(400).send(error)})
-           }
-           }) 
-        }
-  });
+                models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
+                then(ress=>{
+                    let message = "Vous participez au projet sélectionné";
+                    res.status(201).jsonp({
+                        message: message,
+                    });
+                }).catch(error=>{res.status(400).send(error)})
+            }
+        })
+    }
+});
+
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {
     models.projects.findById(req.params.id).
@@ -198,6 +201,7 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
             }).catch(error=> {res.send(error)})}
     }).catch(err=> {res.send(err)})
 });
+
 /* GET Sprints to project*/
 router.get('/:id/sprints' , function(req, res, next) {
     models.projects.findById(req.params.id).
@@ -232,6 +236,7 @@ router.post('/:id/sprints/' , function(req, res, next) {
         }
     }).catch(err=> {res.send(err)})
 });
+
 /** GET tâches :renvoie la listes des tâches associées à un sprint */
 router.get('/:name/sprints/:id' , function(req, res, next) {
 
@@ -254,7 +259,8 @@ router.get('/:name/sprints/:id' , function(req, res, next) {
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
-})
+});
+
 /**POST: Ajout d'une tâche */
 router.post('/:name/sprints/:id' , function(req, res, next) {
 
@@ -279,6 +285,7 @@ router.post('/:name/sprints/:id' , function(req, res, next) {
         }
     }).catch(err=> {res.send(err)})
 })
+
 /** PUT: Modifie le statut de la tâche*/
 router.put('/:name/sprints/:id/:tid/' , function(req, res, next) {
     models.projects.findById(req.params.name).
@@ -304,7 +311,8 @@ router.put('/:name/sprints/:id/:tid/' , function(req, res, next) {
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
-})
+});
+
 /** DELETE: Supprime la tâche*/
 // console.log(models.sprints.prototype);
 router.delete('/:name/sprints/:id/:tid/' , function(req, res, next) {
@@ -330,7 +338,8 @@ router.delete('/:name/sprints/:id/:tid/' , function(req, res, next) {
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
-})
+});
+
 /**GET: renvoie la liste des builds */
 router.get('/:id/builds' , function(req, res, next) {
     models.projects.findById(req.params.id).
@@ -349,6 +358,7 @@ router.get('/:id/builds' , function(req, res, next) {
         }
     }).catch(err=> {res.send(err)})
 });
+
 /**POST: crée un build*/
 router.get('/:id/builds/' , function(req, res, next) {
     models.projects.findById(req.params.id).

@@ -4,7 +4,8 @@ version: "2.3"
 
 services:
   db:
-    build: ./bd
+#    build: ./bd
+    image: mariadb
     ports:
       - "3306:3306"
     environment:
