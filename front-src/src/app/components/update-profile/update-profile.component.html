@@ -1,0 +1,51 @@
+
+<div class="container mt-5" id="container"> 
+  <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+  role="alert">
+{{ message }}
+</div>
+  <form [formGroup]="UpdateInfoUserForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="inputEmail">Adresse email</label>
+      <input [ngClass]="{'is-invalid': (UpdateInfoUserForm.controls['email'].invalid && UpdateInfoUserForm.controls['email'].touched)}"
+             formControlName="email" type="email" class="form-control" id="inputEmail">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="UpdateInfoUserForm.controls['email'].hasError('required')">Veuillez renseigner votre adresse email.</ng-container>
+        <ng-container *ngIf="UpdateInfoUserForm.controls['email'].hasError('email')">Veuillez renseigner une adresse email valide.</ng-container>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputLastName">Nom</label>
+      <input disabled 
+         type="text" class="form-control" id="inputLastName" value= {{this.auth.getLastName()}} maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="inputFirstName">Prénom</label>
+      <input disabled 
+       type="text" class="form-control" id="inputFirstName" value= {{this.auth.getFirstName()}}>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword">Mot de passe</label>
+      <input [ngClass]="{'is-invalid': (UpdateInfoUserForm.controls['password'].invalid && UpdateInfoUserForm.controls['password'].touched)}"
+        formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+      <div class="invalid-feedback">
+        <ng-container *ngIf="UpdateInfoUserForm.controls['password'].hasError('required')">Veuillez renseigner votre mot de passe.</ng-container>
+        <ng-container *ngIf="UpdateInfoUserForm.controls['password'].hasError('minlength')">Votre mot de passe est trop court (minimum 8 caractères).</ng-container>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword2">Confirmer le mot de passe</label>
+      <input [ngClass]="{'is-invalid': (UpdateInfoUserForm.controls['password2'].invalid && UpdateInfoUserForm.controls['password2'].touched)}"
+        formControlName="password2" type="password" class="form-control" id="inputPassword2" placeholder="Mot de passe">
+      <div class="invalid-feedback">
+        Les mots de passe doivent être identiques.
+      </div>
+    </div>
+    <button [disabled]="UpdateInfoUserForm.invalid" type="submit" class="btn btn-primary">Modifier</button>
+  </form>
+</div>
+

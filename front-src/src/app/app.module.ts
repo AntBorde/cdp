@@ -1,16 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { HttpClientModule } from "@angular/common/http";
-import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { AuthService } from "./services/auth.service";
+import { MessageService } from "./services/message.service";
+import { ProjectService } from "./services/project.service";
+
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { NavbarUserComponent } from './navbar-user/navbar-user.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
-import { SigninComponent } from './signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { HomeComponent } from './components/home/home.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ProjectCreateComponent } from './components/project/project-create/project-create.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+
+
 
 @NgModule({
   declarations: [
@@ -19,7 +28,10 @@ import { SigninComponent } from './signin/signin.component';
     NavbarUserComponent,
     SignupComponent,
     HomeComponent,
-    SigninComponent
+    SigninComponent,
+    ProfileComponent,
+    ProjectCreateComponent,
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +41,10 @@ import { SigninComponent } from './signin/signin.component';
     NgbModule.forRoot()
   ],
   providers: [
-    Title
+    Title,
+    AuthService,
+    MessageService,
+    ProjectService
   ],
   bootstrap: [ AppComponent ]
 })
