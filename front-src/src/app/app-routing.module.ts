@@ -16,14 +16,13 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  //d'ici can activate
-  { path: 'profile', component: ProfileComponent},
-  { path: 'Updateprofile', component: UpdateProfileComponent},
-  { path: 'projects', component: ProjectsListComponent},
-  { path: 'Addproject', component: ProjectCreateComponent},
-  { path: 'Participate', component: ProjectParticipateComponent}
+
+  { path: 'profile', component: ProfileComponent,canActivate:[AuthGuard]},
+  { path: 'Updateprofile', component: UpdateProfileComponent,canActivate:[AuthGuard]},
+  { path: 'projects', component: ProjectsListComponent,canActivate:[AuthGuard]},
+  { path: 'Addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]},
+  { path: 'Participate', component: ProjectParticipateComponent,canActivate:[AuthGuard]}
 ];
-//canActivate:[AuthGuard]
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)
