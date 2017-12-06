@@ -30,12 +30,13 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     projects.associate = function(models) {
-        projects.hasMany(models.issues, {foreignKey: 'name',onDelete: 'CASCADE'});
-        projects.hasMany(models.project_team, {foreignKey :'name',onDelete: 'CASCADE'});
-        projects.hasMany(models.builds, {foreignKey :'name',onDelete: 'CASCADE'});
-        projects.hasMany(models.sprints, {foreignKey :'name',onDelete: 'CASCADE'});
+        projects.hasMany(models.issues, {foreignKey: 'project_id',onDelete: 'CASCADE'});
+        projects.hasMany(models.project_team, {foreignKey :'project_id',onDelete: 'CASCADE'});
+        projects.hasMany(models.builds, {foreignKey :'project_id',onDelete: 'CASCADE'});
+        projects.hasMany(models.sprints, {foreignKey :'project_id',onDelete: 'CASCADE'});
     }
 
 
     return projects;
 };
+
