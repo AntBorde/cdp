@@ -8,6 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProjectCreateComponent } from './components/project/project-create/project-create.component';
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
+import { ProjectParticipateComponent } from './components/project/project-participate/project-participate.component';
 import { AuthGuard } from './guard/authentification.guard';
 
 const routes: Routes = [
@@ -15,12 +16,14 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'profile', component: ProfileComponent,canActivate:[AuthGuard]},
-  { path: 'Updateprofile', component: UpdateProfileComponent,canActivate:[AuthGuard]},
-  { path: 'projects', component: ProjectsListComponent,canActivate:[AuthGuard]},
-  { path: 'Addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]}
+  //d'ici can activate
+  { path: 'profile', component: ProfileComponent},
+  { path: 'Updateprofile', component: UpdateProfileComponent},
+  { path: 'projects', component: ProjectsListComponent},
+  { path: 'Addproject', component: ProjectCreateComponent},
+  { path: 'Participate', component: ProjectParticipateComponent}
 ];
-
+//canActivate:[AuthGuard]
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)

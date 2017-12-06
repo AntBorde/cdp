@@ -16,7 +16,6 @@ message = '';
     .get<ProjectResponse[]>('http://localhost:3000/api/projects/')
     .subscribe(
       data => {
-        console.log(data);
         if(data.length!=0)
        this.projects=data;
       },
@@ -29,9 +28,10 @@ message = '';
       }
     );
   }
-
+  
 }
 interface ProjectResponse {
+  project_id:number;
   name: string;
   description:string,
   git : string,

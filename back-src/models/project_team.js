@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
         {
             timestamps: false,
             freezeTableName: true,
-            tableName: 'project_team',
+            tableName: 'Project_team',
         });
     project_team.associate = function(models) {
         project_team.belongsTo(models.projects,{foreignKey : 'project_id'});
