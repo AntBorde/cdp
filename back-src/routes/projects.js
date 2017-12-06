@@ -2,9 +2,10 @@ let express = require('express');
 let router = express.Router();
 let cors = require('cors');
 var models  = require('../models');
+const validator = require('validator');
 
 /*GET: liste des projets*/
-router.get('/' , function(req, res, next) {
+router.get('/' ,  cors(),function(req, res) {
     models.projects.findAll().
     then(projects=>{
         if(projects==null)
@@ -15,19 +16,35 @@ router.get('/' , function(req, res, next) {
 });
 
 /*POST project */
-router.post('/', function(req, res, next) {
-    models.projects.findById(req.body.name).
+router.post('/', cors(), function(req, res) {
+    models.projects.findOne({where: {name: req.body.name}}).
     then(project=>{
-        if(project != null)
-            res.status(400).send("Un projet existe déjà avec ce nom");
-        else
-        {
+        if(project !== null){
+            res.status(400).send('Un projet existe déjà avec ce nom.');
+        }
+        else {
+
+            if (!validator.isLength(req.body.name, { max: 40 })){
+                res.status(400).send('le nom du projet est invalide.');
+            }
+
+            if (!validator.isLength(req.body.description, { max: 100})){
+                res.status(400).send('La description est trop longue.');
+            }
+
+            if (!validator.isLength(req.body.git, { max:30 })){
+                res.status(400).send('Le git est trop long.');
+            }
             models.projects.create({
                 name:req.body.name,
-                describle:req.body.describle,
-                git:req.body.git}).
-            then(ress=>{
-                res.send("project created");
+                description:req.body.description,
+                git:req.body.git
+            }).
+            then(newProject=>{
+                let message = "Le projet " +req.body.name + " a été crée";
+                res.status(201).jsonp({
+                    message: message,
+                });
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})

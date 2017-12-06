@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent,canActivate:[AuthGuard]},
   { path: 'Updateprofile', component: UpdateProfileComponent,canActivate:[AuthGuard]},
   { path: 'projects', component: ProjectsListComponent,canActivate:[AuthGuard]},
+  { path: 'Addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({
