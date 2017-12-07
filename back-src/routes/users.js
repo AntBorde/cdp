@@ -63,7 +63,7 @@ router.post('/signin', cors(), (req, res) => {
 });
 
 /*Create user account*/
-router.post('/singup', cors(), function(req, res) {
+router.post('/signup', cors(), function(req, res) {
     models.users.findOne({where: {email:req.body.email}}).
     then(user=>{
         if(user !== null){

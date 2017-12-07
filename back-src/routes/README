@@ -1,6 +1,6 @@
 # Routes
 
-/register =>
+/signup =>
   POST: Créer un utilisateur
 /login =>
   GET:  authentifie l'utilisateur
