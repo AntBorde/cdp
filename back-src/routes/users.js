@@ -123,18 +123,27 @@ router.put('/:id' , function(req, res) {
                 }
                 const salt = bcrypt.genSaltSync(10);
                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
-                
-                 models.users.update(
-                {email:req.body.email,password:hashPassword},
-                { where: { user_id:req.params.id}}).
-              then(UpdateUser=>{
-                  console.log(req.body.email);
-                res.status(200).jsonp({
-                    UserId:req.params.id,
-                    Email: req.body.email,
-                    message: "Informations modifiées avec succès",
-                });
-            }).catch(err=> {res.send(err)})
+               models.users.findOne({where: {email: req.body.email}}).
+               then(userEmail=>{
+                  if(userEmail.email==req.body.email && userEmail.user_id!=req.params.id)
+                  {
+                    res.status(400).send('Un utilisateur existe déjà avec cet email.');
+                  }
+                  else
+                  {
+                    models.users.update(
+                        {email:req.body.email,password:hashPassword},
+                        { where: { user_id:req.params.id}}).
+                      then(UpdateUser=>{
+                          console.log(req.body.email);
+                        res.status(200).jsonp({
+                            UserId:req.params.id,
+                            Email: req.body.email,
+                            message: "Informations modifiées avec succès",
+                        });
+                    }).catch(err=> {res.send(err)})
+                  }
+              }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
 });
