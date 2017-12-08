@@ -1,3 +1,5 @@
+//test u0 issue
+
 describe('inscription', function() {
 
   beforeEach(function(){
@@ -6,6 +8,7 @@ describe('inscription', function() {
   it('tentative de register', function() {
     var registerButton = element(by.id('registerBtn'));
     registerButton.click();
+
     var email = element(by.id('inputEmail'));
     var firstName = element(by.id('inputFirstName'));
     var lastName = element(by.id('inputLastName'));
@@ -37,6 +40,8 @@ describe('inscription', function() {
 
     loginButton = element(by.id('login'));
     loginButton.click();
+    browser.waitForAngular();
+    expect(browser.driver.getCurrentUrl()).toMatch('/profile');
   });
 
 
