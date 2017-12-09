@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     );
 
     user.associate = function(models) {
-        user.belongsToMany(models.project, {through : models.project_team});
+        user.belongsToMany(models.project, {through: 'UserProject'});
     };
     return user;
 };

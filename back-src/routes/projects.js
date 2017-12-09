@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
 const models  = require('../models');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-/*GET: liste des projets associés à un utilisateur*/
+/*GET: list of projects with their product Owner*/
 router.get('/' , function(req, res) {
-    models.project.findAll()
-        .then(projects=>{
-            if(projects==null)
-                res.status(400).send("Aucun projet n'est crée pour le moment ..");
-            else
-                res.status(200).send(projects);
+    models.projects.findAll({
+        include: [{
+            model: ProductOwner,
+            attributes: ['firstname', 'lastname']
+        }]
+    })
+        .then(projects => {
+            console.log(projects);
+            res.status(200).send();
         }).catch(err=> {res.send(err)})
 });
 
-
-/*POST project */
-router.post('/', cors(), function(req, res) {
+/*POST project with new product owner*/
+router.post('/', function(req, res) {
     models.project.findOne({where: {name: req.body.name}}).
     then(project=>{
         if(project !== null){
@@ -40,19 +41,27 @@ router.post('/', cors(), function(req, res) {
             models.project.create({
                 name:req.body.name,
                 description:req.body.description,
-                git:req.body.git
+                git:req.body.git,
+                productOwner:req.body.productOwnerName,
+                user_id:req.body.user_id
             }).
             then(newProject=>{
-                let message = "Le projet " +req.body.name + " a été crée";
-                res.status(201).jsonp({
-                    message: message,
-                });
+                models.project_team.create({
+                    project_id:newProject.project_id,
+                    user_id:req.body.user_id,
+                    status:'p',
+                }).then(newProductOwner=>{
+                    let message = "Le projet " +req.body.name + " a été bien crée";
+                    res.status(201).jsonp({
+                        message: message,
+                    });
+                }).catch(err=> {res.send(err)})
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
 });
 
-/*   GET project infos concernant un projet */
+/*GET project infos concernant un projet */
 router.get('/:id' , function(req, res, next) {
     models.project.findById(req.params.id)
         .then(project=>{
@@ -85,42 +94,21 @@ router.get('/:id/users' , function(req, res, next) {
 
 /* POST add user to the Project_team */
 router.post('/:id/users/' , function(req, res, next) {
-    if(req.body.status=='p')
-    {
-        models.project_team.findOne({where: {project_id: req.body.project_id,status:'p'}})
-            .then(membre=>{
-                if(membre!=null)
-                    res.status(400).send("Il existe déjà un product owner pour ce projet ");
-                else
-                {
-                    models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
-                    then(ress=>{
-                        let message = "Vous êtes le product owner du projet sélectionné";
-                        res.status(201).jsonp({
-                            message: message,
-                        });
-                    }).catch(error=>{res.status(400).send(error)})
-                }
+    models.project_team.findOne({where: {project_id: req.body.project_id,user_id:req.body.user_id}}).
+    then(membreCreate=>{
+        if(membreCreate!=null)
+            res.status(400).send("Vous êtes déja membre du projet sélectionné");
+        else
+        {
+            models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:'d'}).
+            then(ress=>{
+                let message = "Vous participez au projet sélectionné";
+                res.status(201).jsonp({
+                    message: message,
+                });
             }).catch(error=>{res.status(400).send(error)})
-    }
-    else
-    {
-        models.project_team.findOne({where: {project_id: req.body.project_id,user_id:req.body.user_id}}).
-        then(membreCreate=>{
-            if(membreCreate!=null)
-                res.status(400).send("Vous êtes déja membre du projet sélectionné");
-            else
-            {
-                models.project_team.create({project_id:req.params.id,user_id:req.body.user_id,status:req.body.status}).
-                then(ress=>{
-                    let message = "Vous participez au projet sélectionné";
-                    res.status(201).jsonp({
-                        message: message,
-                    });
-                }).catch(error=>{res.status(400).send(error)})
-            }
-        })
-    }
+        }
+    })
 });
 
 /* GET Issues to Project (backlog)*/

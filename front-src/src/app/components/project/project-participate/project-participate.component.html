@@ -17,12 +17,9 @@ role="alert">
                 <option *ngFor="let project of projects" [ngValue]="project.project_id">{{project.name}}</option>
               </select>
             </div>
-            <div class="form-group form-control-sm">
-                <label for="inputStatus">Status</label>
-                <select class="form-control form-control-sm" id="inputStatus" formControlName="status"> 
-                  <option value="d">Développeur</option>
-                  <option value="p">Product owner</option>
-                </select>
+            <div class="form-group">
+                <label for="Développeur">Status</label>
+                <input type="text" disabled class="form-control form-control-sm" id="Développeur" placeholder="Développeur">
               </div>
             <button [disabled]="ParticipateForm.invalid" type="submit" class="btn btn-primary">Participer au projet</button>
        </form> 
