@@ -26,6 +26,7 @@ create table if not exists User
       name          varchar(125)    not null,
       description   Text            not null,
       git           varchar(250)    not null,
+      productOwner varchar(125)     not null,
       primary key(project_id)
     );
 

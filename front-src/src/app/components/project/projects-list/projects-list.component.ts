@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
+import {Project} from '../../../models/project';
 @Component({
   selector: 'app-projects-list',
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.css']
 })
 export class ProjectsListComponent implements OnInit {
-projects:any =null;
+projects:Project[]=null;
 message = '';
   constructor(private http: HttpClient) { }
 
@@ -18,6 +18,7 @@ message = '';
       data => {
         if(data.length!=0)
        this.projects=data;
+       console.log(data);
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -35,4 +36,5 @@ interface ProjectResponse {
   name: string;
   description:string,
   git : string,
+  productOwner:String;
 }
