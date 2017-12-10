@@ -3,4 +3,5 @@ export interface Project {
     name: string;
     description: string;
     git: string;
+    productOwner:string;
   }

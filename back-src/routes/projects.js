@@ -91,6 +91,22 @@ router.get('/:id/users' , function(req, res, next) {
         }
     }).catch(err=> {res.send(err)})
 });
+/*Get member to project_team*/
+router.get('/:id/users/:iduser' , function(req, res, next) {
+    console.log(req.params.id);
+    console.log(req.params.iduser);
+    
+    models.project_team.findOne({where: {project_id:req.params.id,user_id:req.params.iduser}}).
+            then(membre =>{
+                console.log(membre);
+                if(membre ==null)
+                res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
+                else
+                res.status(200).jsonp({
+                    message:"Ok"
+                });
+            }).catch(err=> {res.send(err)})
+});
 
 /* POST add user to the Project_team */
 router.post('/:id/users/' , function(req, res, next) {

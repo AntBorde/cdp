@@ -16,6 +16,7 @@ role="alert">
                 <th>Description</th>
                 <th>Git</th>
                 <th>Product Owner</th>
+                <th>Backlog</th>
               </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@ role="alert">
                     <td>{{project.description}}</td>
                     <td>{{project.git}}</td>
                     <td>{{project.productOwner}}</td>
+                    <td >
+                     <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)">Backlog</button>
+                    </td>
                 </tr>
             </tbody>
           </table>
