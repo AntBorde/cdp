@@ -26,9 +26,8 @@ describe('createProject', function() {
 
     createProjectButton = element(by.id('createProjectBtn'));
     createProjectButton.click();
-    browser.pause();
     browser.waitForAngular();
-
+    browser.waitForAngular();
     expect(browser.driver.getCurrentUrl()).toMatch('/projects');
 
   });
@@ -37,13 +36,28 @@ describe('createProject', function() {
     browser.waitForAngular();
     var projectButton = element(by.id('dropdownBasic1'));
     projectButton.click();
-    
-    var listeProjectButton = element(by.id('listeProject'));;
+
+    var listeProjectButton = element(by.id('listeProject'));
     listeProjectButton.click();
     browser.waitForAngular();
 
     expect(browser.driver.getCurrentUrl()).toMatch('/projects');
 
   });
+
+  it('rejoindre un projet',function(){
+    browser.waitForAngular();
+    var projectButton = element(by.id('dropdownBasic1'));
+    projectButton.click();
+
+    var rejoindreProjectButton = element(by.id('rejoindreProject'));
+    rejoindreProjectButton.click();
+    browser.waitForAngular();
+
+    expect(browser.driver.getCurrentUrl()).toMatch('/Participate');
+
+    var projectBar = element(by.id('inputProject'));
+
+});
 
 });

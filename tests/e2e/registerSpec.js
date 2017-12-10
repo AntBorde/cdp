@@ -1,4 +1,4 @@
-//test u0 issue
+//test u0 et u1 issue
 
 describe('inscription', function() {
 
@@ -35,7 +35,6 @@ describe('inscription', function() {
     var password = element(by.id('inputPassword'));
 
     email.sendKeys('toto@gmail.com');
-    browser.pause();
     password.sendKeys('blablabla');
 
     loginButton = element(by.id('login'));
