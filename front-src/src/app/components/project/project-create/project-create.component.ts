@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from "@angular/router";
-
+import { AuthService } from "../../../services/auth.service";
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
@@ -17,7 +17,8 @@ export class ProjectCreateComponent implements OnInit {
   constructor(
     @Inject(FormBuilder) fb: FormBuilder,
     private http: HttpClient,
-    private router: Router ) {
+    private router: Router ,
+    private auth: AuthService,) {
       this.CreateProjectForm = fb.group({
         name : [null, [Validators.required]],
         description : [null, Validators.required],
@@ -32,7 +33,8 @@ export class ProjectCreateComponent implements OnInit {
       name: this.CreateProjectForm.value.name,
       description: this.CreateProjectForm.value.description,
       git: this.CreateProjectForm.value.git,
-      
+      productOwnerName:this.auth.getLastName()+' '+this.auth.getFirstName(),
+      user_id:this.auth.getUserId()
     }
     this.http
     .post<CreateProjectResponse>('http://localhost:3000/api/projects/',body)

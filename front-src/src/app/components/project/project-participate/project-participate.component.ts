@@ -18,7 +18,6 @@ export class ProjectParticipateComponent implements OnInit {
   private http: HttpClient,private auth: AuthService) { 
     this.ParticipateForm = fb.group({
       projet: [,[Validators.required]],
-      status: ['d',[Validators.required]]
     });
   }
   ngOnInit() {
@@ -43,23 +42,19 @@ export class ProjectParticipateComponent implements OnInit {
   {
    const body = {
         project_id: this.ParticipateForm.value.projet,
-        user_id:this.auth.getUserId(),
-        status: this.ParticipateForm.value.status,
+        user_id:this.auth.getUserId()
       };
       this.http
       .post<ParticipateResponse>('http://localhost:3000/api/projects/'+body.project_id+'/users',body)
       .subscribe(
         data => {
         this.showSuccess(data.message);
-         this.ParticipateForm.reset();
-         console.log(data.message);
+        this.ParticipateForm.reset();
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            console.log(err.error.message);
             this.showError(err.error.message);
           } else {
-            console.log(err.error);
             this.showError(err.error);
           }
         }

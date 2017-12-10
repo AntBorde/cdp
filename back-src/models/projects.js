@@ -23,7 +23,13 @@ module.exports = function(sequelize, DataTypes) {
             {
                 type: DataTypes.STRING(250),
                 allowNull: false
-            }}, {
+            },
+            productOwner:
+            {
+                type: DataTypes.STRING(125),
+                allowNull: false
+            }
+        }, {
         timestamps: false,
         freezeTableName: true,
         tableName: 'Project',

@@ -20,6 +20,7 @@ import { ProjectCreateComponent } from './components/project/project-create/proj
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
 import { ProjectParticipateComponent } from './components/project/project-participate/project-participate.component';
+import { BacklogComponent } from './components/backlog/backlog.component';
 
 
 
@@ -35,7 +36,8 @@ import { ProjectParticipateComponent } from './components/project/project-partic
     ProjectCreateComponent,
     UpdateProfileComponent,
     ProjectsListComponent,
-    ProjectParticipateComponent
+    ProjectParticipateComponent,
+    BacklogComponent
   ],
   imports: [
     BrowserModule,
