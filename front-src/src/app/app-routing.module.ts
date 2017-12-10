@@ -10,7 +10,7 @@ import { ProjectCreateComponent } from './components/project/project-create/proj
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
 import { ProjectParticipateComponent } from './components/project/project-participate/project-participate.component';
 import { AuthGuard } from './guard/authentification.guard';
-
+import { BacklogComponent } from './components/backlog/backlog.component';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
@@ -21,7 +21,8 @@ const routes: Routes = [
   { path: 'Updateprofile', component: UpdateProfileComponent,canActivate:[AuthGuard]},
   { path: 'projects', component: ProjectsListComponent,canActivate:[AuthGuard]},
   { path: 'Addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]},
-  { path: 'Participate', component: ProjectParticipateComponent,canActivate:[AuthGuard]}
+  { path: 'Participate', component: ProjectParticipateComponent,canActivate:[AuthGuard]},
+  { path: 'project/:id/Backlog', component: BacklogComponent,canActivate:[AuthGuard]}
 ];
 @NgModule({
   imports: [
