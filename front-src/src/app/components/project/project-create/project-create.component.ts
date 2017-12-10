@@ -13,7 +13,7 @@ export class ProjectCreateComponent implements OnInit {
   CreateProjectForm: FormGroup;
   message = '';
   isError = false;
-  
+
   constructor(
     @Inject(FormBuilder) fb: FormBuilder,
     private http: HttpClient,
@@ -23,7 +23,7 @@ export class ProjectCreateComponent implements OnInit {
         description : [null, Validators.required],
         git : [null,  Validators.required,CustomValidators.templateUrl],
       });
-    
+
    }
    ngOnInit() {
   }
@@ -32,8 +32,8 @@ export class ProjectCreateComponent implements OnInit {
       name: this.CreateProjectForm.value.name,
       description: this.CreateProjectForm.value.description,
       git: this.CreateProjectForm.value.git,
-      
-    }
+
+    };
     this.http
     .post<CreateProjectResponse>('http://localhost:3000/api/projects/',body)
     .subscribe(
@@ -55,7 +55,7 @@ export class ProjectCreateComponent implements OnInit {
     this.message = message;
     this.isError = true;
   }
-  
+
   private showSuccess(message: string): void {
     this.message = message;
     this.isError = false;

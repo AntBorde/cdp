@@ -5,20 +5,36 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-/*GET User by id*/
-router.get('/:id' , function(req, res) {
-    models.users.findById(req.params.id)
-        .then(user => {
-            if(user == null)
-                res.send("Utilisateur non trouvé.");
-            else
-                res.send(user);
-        }).catch(err => {res.send(err)})
+/*GET User info from token*/
+router.get('/info' , function(req, res) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                //res.status(403).send(err.message);
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        models.user.findById(decoded.userId)
+            .then(user => {
+                if(user == null)
+                    res.send("Identifiants invalides.");
+                else
+                    res.status(200).jsonp({
+                        userId: user.user_id,
+                        firstName: user.firstname,
+                        lastName: user.lastname,
+                        email: user.email,
+                    });
+            }).catch(err => {res.send(err)})
+    });
 });
 
 /*Sign in and get a token*/
 router.post('/signin', (req, res, next) => {
-    models.users.findOne({where: { email: req.body.email}})
+    models.user.findOne({where: { email: req.body.email}})
         .then(user=>{
             if(user === null) {
                 res.status(400).send("Identifiants invalides.");
@@ -30,18 +46,13 @@ router.post('/signin', (req, res, next) => {
                 }
                 else {
                     const secret = process.env.AUTH_SECRET;
-                    const newToken = jwt.sign({
-                        userId: user.user_id,
-                        email: user.email,
-                        firstname: user.firstname,
-                        lastname: user.lastname
-                    },secret, { expiresIn: 60 * 60 });
+                    const newToken = jwt.sign({userId: user.user_id}, secret, { expiresIn: 60 * 60 });
                     res.status(200).jsonp({
                         token: newToken,
-                        UserId:user.user_id,
+                        userId: user.user_id,
                         firstName: user.firstname,
                         lastName: user.lastname,
-                        Email: user.email,
+                        email: user.email,
                     });
                 }
             }
@@ -49,8 +60,8 @@ router.post('/signin', (req, res, next) => {
 });
 
 /*Create user account*/
-router.post('/singup', function(req, res) {
-    models.users.findOne({where: {email: req.body.email}})
+router.post('/signup', function(req, res) {
+    models.user.findOne({where: {email: req.body.email}})
         .then(user => {
             if( user !== null ){
                 res.status(400).send('Un utilisateur existe déjà avec cet email.');
@@ -75,7 +86,7 @@ router.post('/singup', function(req, res) {
                 const salt = bcrypt.genSaltSync(10);
                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
-                models.users.create({
+                models.user.create({
                     email: req.body.email,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
@@ -93,56 +104,73 @@ router.post('/singup', function(req, res) {
 
 /** PUT Modifie utilisateur*/
 router.put('/:id' , function(req, res) {
-    models.users.findById(req.params.id).
-    then(user => {
-        if(user == null){
-            res.status(400).send("L'utilisateur n'existe pas.");
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                //res.status(403).send(err.message);
+                res.status(403).send("Identifiants invalides.");
+            }
         }
-        else
-        {
-            if (!validator.isEmail(req.body.email)){
-                res.status(400).send('Email invalide.');
-            }
 
-            if (!validator.isLength(req.body.password, { min:8 })){
-                res.status(400).send('Le mot de passe est trop court.');
-            }
-            const salt = bcrypt.genSaltSync(10);
-            const hashPassword = bcrypt.hashSync(req.body.password, salt);
-            models.users.findOne({where: {email: req.body.email}}).
-            then(userEmail=>{
-                if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
-                {
-                    res.status(400).send('Un utilisateur existe déjà avec cet email.');
+        if (parseInt(decoded.userId) !== parseInt(req.params.id)) {
+            res.status(400).send("Opération non autorisée.");
+        }
+
+        else {
+            models.user.findById(req.params.id).
+            then(user => {
+                if(user == null){
+                    res.status(400).send("L'utilisateur n'existe pas.");
                 }
                 else
                 {
-                    models.users.update(
-                        {email:req.body.email,password:hashPassword},
-                        { where: { user_id:req.params.id}}).
-                    then(UpdateUser=>{
-                        console.log(req.body.email);
-                        res.status(200).jsonp({
-                            UserId:req.params.id,
-                            Email: req.body.email,
-                            message: "Informations modifiées avec succès",
-                        });
+                    if (!validator.isEmail(req.body.email)){
+                        res.status(400).send('Email invalide.');
+                    }
+
+                    if (!validator.isLength(req.body.password, { min:8 })){
+                        res.status(400).send('Le mot de passe est trop court.');
+                    }
+                    const salt = bcrypt.genSaltSync(10);
+                    const hashPassword = bcrypt.hashSync(req.body.password, salt);
+                    models.user.findOne({where: {email: req.body.email}}).
+                    then(userEmail => {
+                        if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
+                        {
+                            res.status(400).send('Un utilisateur existe déjà avec cet email.');
+                        }
+                        else
+                        {
+                            models.user.update(
+                                { email: req.body.email, password: hashPassword},
+                                { where: { user_id: req.params.id}}).
+                            then( updatedUser =>{
+                                console.log(req.body.email);
+                                res.status(200).jsonp({
+                                    userId: updatedUser.user_id,
+                                    email: updatedUser.email,
+                                });
+                            }).catch(err=> {res.send(err)})
+                        }
                     }).catch(err=> {res.send(err)})
                 }
-            }).catch(err=> {res.send(err)})
+            }).catch(err=> {res.status(500).send(err)})
         }
-    }).catch(err=> {res.status(500).send(err)})
+    });
 });
 
 /* Delete utilisateur*/
 router.delete('/:id' , function(req, res) {
-    models.users.findById(req.params.id).
+    models.user.findById(req.params.id).
     then(user=>{
         if(user==null)
             res.send("user not found");
         else
         {
-            models.users.destroy(
+            models.user.destroy(
                 { where: {user_id :req.params.id}}).
             then(
                 res.send("user deleted")

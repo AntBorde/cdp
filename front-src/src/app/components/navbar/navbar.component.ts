@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 
 export class NavbarComponent implements OnInit {
 
-  loggedIn: boolean = false;
+  loggedIn: boolean = this.authService.loggedIn.getValue();
 
   constructor( private authService: AuthService, private router: Router ) { }
 

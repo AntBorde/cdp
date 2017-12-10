@@ -16,12 +16,11 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'profile', component: ProfileComponent,canActivate:[AuthGuard]},
-  { path: 'updateprofile', component: UpdateProfileComponent,canActivate:[AuthGuard]},
-  { path: 'projects', component: ProjectsListComponent,canActivate:[AuthGuard]},
-  { path: 'addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]},
-  { path: 'participate', component: ProjectParticipateComponent,canActivate:[AuthGuard]},
-  { path: 'addproject', component: ProjectCreateComponent,canActivate:[AuthGuard]}
+  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+  { path: 'projects', component: ProjectsListComponent, canActivate:[AuthGuard]},
+  { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
+  { path: 'participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
+  { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({

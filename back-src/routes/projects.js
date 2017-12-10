@@ -7,7 +7,7 @@ const validator = require('validator');
 
 /*GET: liste des projets associés à un utilisateur*/
 router.get('/' , function(req, res) {
-    models.projects.findAll()
+    models.project.findAll()
         .then(projects=>{
             if(projects==null)
                 res.status(400).send("Aucun projet n'est crée pour le moment ..");
@@ -19,7 +19,7 @@ router.get('/' , function(req, res) {
 
 /*POST project */
 router.post('/', cors(), function(req, res) {
-    models.projects.findOne({where: {name: req.body.name}}).
+    models.project.findOne({where: {name: req.body.name}}).
     then(project=>{
         if(project !== null){
             res.status(400).send('Un projet existe déjà avec ce nom.');
@@ -37,7 +37,7 @@ router.post('/', cors(), function(req, res) {
             if (!validator.isLength(req.body.git, { max:30 })){
                 res.status(400).send('Le git est trop long.');
             }
-            models.projects.create({
+            models.project.create({
                 name:req.body.name,
                 description:req.body.description,
                 git:req.body.git
@@ -54,7 +54,7 @@ router.post('/', cors(), function(req, res) {
 
 /*   GET project infos concernant un projet */
 router.get('/:id' , function(req, res, next) {
-    models.projects.findById(req.params.id)
+    models.project.findById(req.params.id)
         .then(project=>{
             if(project==null)
                 res.send("project not exist");
@@ -66,7 +66,7 @@ router.get('/:id' , function(req, res, next) {
 
 /* GET Users to Project_team => les utilisateurs associés au projet */
 router.get('/:id/users' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -125,7 +125,7 @@ router.post('/:id/users/' , function(req, res, next) {
 
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -144,7 +144,7 @@ router.get('/:id/issues' , function(req, res, next) {
 
 /* GET Issue by id */
 router.get('/:id/issues/:issue' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -163,7 +163,7 @@ router.get('/:id/issues/:issue' , function(req, res, next) {
 
 /* POST Issue to project */
 router.post('/:id/issues/' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -179,7 +179,7 @@ router.post('/:id/issues/' , function(req, res, next) {
 
 /* PUT Issue */
 router.put('/:id/issues/:issue' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -204,7 +204,7 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
 
 /* GET Sprints to project*/
 router.get('/:id/sprints' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -223,7 +223,7 @@ router.get('/:id/sprints' , function(req, res, next) {
 
 /** POST sprint to project */
 router.post('/:id/sprints/' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -240,7 +240,7 @@ router.post('/:id/sprints/' , function(req, res, next) {
 /** GET tâches :renvoie la listes des tâches associées à un sprint */
 router.get('/:name/sprints/:id' , function(req, res, next) {
 
-    models.projects.findById(req.params.name).
+    models.project.findById(req.params.name).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -264,7 +264,7 @@ router.get('/:name/sprints/:id' , function(req, res, next) {
 /**POST: Ajout d'une tâche */
 router.post('/:name/sprints/:id' , function(req, res, next) {
 
-    models.projects.findById(req.params.name).
+    models.project.findById(req.params.name).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -284,11 +284,11 @@ router.post('/:name/sprints/:id' , function(req, res, next) {
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
-})
+});
 
 /** PUT: Modifie le statut de la tâche*/
 router.put('/:name/sprints/:id/:tid/' , function(req, res, next) {
-    models.projects.findById(req.params.name).
+    models.project.findById(req.params.name).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -316,7 +316,7 @@ router.put('/:name/sprints/:id/:tid/' , function(req, res, next) {
 /** DELETE: Supprime la tâche*/
 // console.log(models.sprints.prototype);
 router.delete('/:name/sprints/:id/:tid/' , function(req, res, next) {
-    models.projects.findById(req.params.name).
+    models.project.findById(req.params.name).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -342,7 +342,7 @@ router.delete('/:name/sprints/:id/:tid/' , function(req, res, next) {
 
 /**GET: renvoie la liste des builds */
 router.get('/:id/builds' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
@@ -361,7 +361,7 @@ router.get('/:id/builds' , function(req, res, next) {
 
 /**POST: crée un build*/
 router.get('/:id/builds/' , function(req, res, next) {
-    models.projects.findById(req.params.id).
+    models.project.findById(req.params.id).
     then(project=>{
         if(project==null)
             res.send("project not exist");
