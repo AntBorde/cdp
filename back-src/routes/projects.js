@@ -6,18 +6,51 @@ const validator = require('validator');
 
 /*GET: list of projects with their product Owner*/
 router.get('/' , function(req, res) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+        }
+        else {
     models.project.findAll({
-     include: [{
-        model:models.user, 
-        attributes: ['firstname','lastname']
-       }]
+        include: [
+            { model: models.user}
+         ]
     })
-        .then(projects => {
-            console.log(projects);
-            res.status(200).send(projects);
-        }).catch(err=> {res.send(err)})
-});
-
+    .then(projects => {
+        if(projects.length==0)
+        {
+            res.status(404).send("Aucun projet n'est créé pour le moment ..")
+        }
+        else
+        {
+        let promises = [];
+        let promise = Promise.resolve();
+        promise = promise.then(() => {
+        projects.forEach(project => {
+            promises.push(project);        
+     });
+     }).then(() => {
+    let ListProjectsProductOwner=[];
+     promises.forEach(element => {
+        if(element.dataValues.users[0].dataValues.user_id==element.dataValues.productOwnerUserId)
+        {
+            let ProjectProductOwner={
+                name:element.dataValues.name,
+                description:element.dataValues.description,
+                git:element.dataValues.git,
+                productOwner:element.dataValues.users[0].dataValues.lastname
+            };
+            ListProjectsProductOwner.push(ProjectProductOwner);
+        }   
+    });
+    res.status(200).send(ListProjectsProductOwner);
+    })
+    }
+    }).catch(err=> {res.send(err)})
+    }
+    })})
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
