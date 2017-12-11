@@ -2,8 +2,8 @@
   <div class="card-block">
       <p class="card-text">Projet : {{ this.projectName }} </p>
       <p class="card-text">ProductOwner : {{ this.ProductOwner }} </p>
-      <a routerLink="" class="btn btn-success" id="create-btn">
-        <i class="fa fa-plus"></i>Nouvelle issue </a>
+        <button type="button" class="btn btn-success" (click)='NavigateAddIssue()'>
+       <i class="fa fa-plus"></i>Nouvelle issue</button>
     </div>
   </div>
 <div id="container">
@@ -12,8 +12,8 @@
         <tr>
           <th>Issue ID</th>
           <th>Story</th>
-          <th>priorité</th>
-          <th>difficulté</th>
+          <th>Priorité</th>
+          <th>Difficulté</th>
           <th>Status</th>
         </tr>
       </thead>

@@ -19,6 +19,7 @@ import { ProjectCreateComponent } from './components/project/project-create/proj
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
 import { ProjectParticipateComponent } from "./components/project/project-participate/project-participate.component";
 import { BacklogComponent } from './components/backlog/backlog.component';
+import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { BacklogComponent } from './components/backlog/backlog.component';
     ProjectCreateComponent,
     ProjectsListComponent,
     ProjectParticipateComponent,
-    BacklogComponent
+    BacklogComponent,
+    CreateIssueComponent
   ],
   imports: [
     BrowserModule,

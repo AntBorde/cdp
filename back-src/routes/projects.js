@@ -185,7 +185,39 @@ router.get('/:id/issues' , function(req, res, next) {
     }).catch(err=> {res.send(err)})
 });
 
-
+/* POST Issue to project */
+router.post('/:id/issues/' , function(req, res, next) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
+   if(!validator.isLength(req.body.story, { min: 10 })){
+      res.status(400).send('story invalide.');
+    }   
+    else{
+    models.project.findById(req.params.id).
+    then(project=>{
+    models.issue.create({
+    story:req.body.story,
+    difficulty:req.body.difficulty,
+    priority:req.body.priority,
+    state:'TODO',
+    projectProjectId:req.body.projectProjectId
+    }).then(NewIssue=>{
+        let message = "Issue crée";
+        res.status(201).jsonp({
+        message: message,
+      });
+    })
+    }).catch(err=> {console.log(err)})
+}}})
+});
 /* GET Issue by id */
 router.get('/:id/issues/:issue' , function(req, res, next) {
     models.project.findById(req.params.id).
@@ -205,21 +237,7 @@ router.get('/:id/issues/:issue' , function(req, res, next) {
     }).catch(err=> {res.send(err)})
 });
 
-/* POST Issue to project */
-router.post('/:id/issues/' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            models.issues.create({storie:req.body.storie,difficulty:req.body.difficulty,priority:req.body.priority,state:req.body.state,name:req.params.id}).
-            then(ress=>{
-                res.send("issue affected to project");
-            }).catch(error=>{res.send("issue already affected to project"+error)})
-        }
-    }).catch(err=> {res.send(err)})
-});
+
 
 /* PUT Issue */
 router.put('/:id/issues/:issue' , function(req, res, next) {

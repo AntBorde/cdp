@@ -19,7 +19,8 @@ export class BacklogComponent implements OnInit {
   ProductOwner: string;
   Backlog:Issue[]=null
   constructor(private http: HttpClient,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
    projectId=this.activatedRoute.snapshot.paramMap.get('idProject');
   ngOnInit() {
     this.http
@@ -33,9 +34,11 @@ export class BacklogComponent implements OnInit {
     this.
     http.
     get<Issue[]>('http://localhost:3000/api/projects/'+this.projectId+'/issues')
-    .subscribe( data => { this.Backlog=data; console.log(this.Backlog);
+    .subscribe( data => { this.Backlog=data;
      });
-
+  }
+  NavigateAddIssue(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/CreateIssue']);
   }
 }
 
