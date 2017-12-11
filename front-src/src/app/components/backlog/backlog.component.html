@@ -10,13 +10,19 @@
         <tr>
           <th>Issue ID</th>
           <th>Story</th>
-          <th>Difficulty</th>
-          <th>Priority</th>
-          <th>State</th>
+          <th>priorité</th>
+          <th>difficulté</th>
+          <th>Status</th>
         </tr>
       </thead>
-      <tbody>
-
-      </tbody>
+          <tbody>
+              <tr *ngFor="let issue of Backlog">
+                  <td>{{issue.issue_id}}</td>
+                  <td>{{issue.story}}</td>
+                  <td>{{issue.difficulty}}</td>
+                  <td>{{issue.priority}}</td>
+                  <td>{{issue.state}}</td>
+              </tr>
+          </tbody>
     </table>
 </div>

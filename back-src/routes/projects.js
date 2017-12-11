@@ -177,20 +177,14 @@ router.get('/:id/productOwner' , function(req, res, next) {
 router.get('/:id/issues' , function(req, res, next) {
     models.project.findById(req.params.id).
     then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
             project.getIssues().
             then(Issues =>{
-                if(Issues.length==0)
-                    res.send("project without Issues");
-                else
-                    res.send(Issues);
+             res.status(200).send(Issues);
             }).catch(err=> {res.send(err)})
-        }
+    
     }).catch(err=> {res.send(err)})
 });
+
 
 /* GET Issue by id */
 router.get('/:id/issues/:issue' , function(req, res, next) {
