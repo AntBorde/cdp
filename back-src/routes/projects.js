@@ -25,7 +25,6 @@ router.get('/' , function(req, res) {
                     if(projects.length==0)
                     res.status(404).send("Aucun projet n'est créé pour le moment ..");
                     else{
-                    console.log(projects);
                     res.status(200).jsonp(projects);
                     }
                 }).catch(err=> {res.send(err)})
@@ -111,7 +110,7 @@ router.post('/:id/users/' , function(req, res, next) {
                          res.status(201).jsonp({
                          message: message,
                        });
-                     }).catch(err=> {console.log(err)})
+                     }).catch(err=> {res.send(err)})
                 }
                  }).catch(err=> {res.send(err)})
         }
@@ -161,7 +160,18 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
 }
 });
 });
-
+/** Get ProductOwner*/
+router.get('/:id/productOwner' , function(req, res, next) {
+    models.project.findById(req.params.id).
+    then(project=>{
+    project.getProductOwner().then(productOwn=>{
+        res.status(201).jsonp({
+            projectName: project.name,
+            productOwner:productOwn.dataValues.lastname+' '+productOwn.dataValues.firstname
+          });
+        }).catch(err=> {res.send(err)})
+    }).catch(err=> {res.send(err)})
+})
 
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {

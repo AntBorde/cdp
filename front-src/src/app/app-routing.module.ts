@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsListComponent, canActivate:[AuthGuard]},
   { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
   { path: 'project/participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
-  { path: 'project/:id/Backlog', component: BacklogComponent,canActivate:[AuthGuard]}
+  { path: 'project/:idProject/Backlog', component: BacklogComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({
