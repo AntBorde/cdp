@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { AuthService } from "../../../services/auth.service";
 @Component({
@@ -37,7 +37,8 @@ export class ProjectCreateComponent implements OnInit {
       user_id:this.auth.getUserId()
     }
     this.http
-    .post<CreateProjectResponse>('http://localhost:3000/api/projects/',body)
+    .post<CreateProjectResponse>('http://localhost:3000/api/projects/',body,{
+    headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
     .subscribe(
       data => {
         this.showSuccess(data.message);

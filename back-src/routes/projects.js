@@ -20,6 +20,17 @@ router.get('/' , function(req, res) {
 
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                //res.status(403).send(err.message);
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
     models.project.findOne({where: {name: req.body.name}}).
     then(project=>{
         if(project !== null){
@@ -59,8 +70,9 @@ router.post('/', function(req, res) {
             }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
+}
+})
 });
-
 /*GET project infos concernant un projet */
 router.get('/:id' , function(req, res, next) {
     models.project.findById(req.params.id)
