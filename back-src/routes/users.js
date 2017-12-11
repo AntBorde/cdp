@@ -138,8 +138,9 @@ router.put('/:id' , function(req, res) {
                     const hashPassword = bcrypt.hashSync(req.body.password, salt);
                     models.user.findOne({where: {email: req.body.email}}).
                     then(userEmail => {
-                        if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
+                        if(userEmail.email === req.body.email && userEmail.user_id != req.params.id)
                         {
+                            console.log(userEmail.user_id+' '+req.params.id);
                             res.status(400).send('Un utilisateur existe déjà avec cet email.');
                         }
                         else
@@ -148,10 +149,9 @@ router.put('/:id' , function(req, res) {
                                 { email: req.body.email, password: hashPassword},
                                 { where: { user_id: req.params.id}}).
                             then( updatedUser =>{
-                                console.log(req.body.email);
                                 res.status(200).jsonp({
                                     userId: updatedUser.user_id,
-                                    email: updatedUser.email,
+                                    email: req.body.email,
                                 });
                             }).catch(err=> {res.send(err)})
                         }
