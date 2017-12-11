@@ -14,7 +14,7 @@ role="alert">
           <div class="form-group form-control-sm">
               <label for="inputProject">Projet</label>
               <select class="form-control form-control-sm" id="inputProject" formControlName="projet"> 
-                <option *ngFor="let project of projects" [ngValue]="project.project_id">{{project.name}}</option>
+                <option selected *ngFor="let project of projects" [ngValue]="project.project_id">{{project.name}}</option>
               </select>
             </div>
             <div class="form-group">

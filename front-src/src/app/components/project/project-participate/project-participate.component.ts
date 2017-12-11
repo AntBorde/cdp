@@ -2,7 +2,11 @@ import { Component, OnInit,Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Project} from '../../../models/project';
 import { AuthService } from "../../../services/auth.service";
+import {ProjectService} from "../../../services/project.service";
+
 @Component({
   selector: 'app-project-participate',
   templateUrl: './project-participate.component.html',
@@ -15,27 +19,17 @@ export class ProjectParticipateComponent implements OnInit {
   isError = false;
 
   constructor( @Inject(FormBuilder) fb: FormBuilder,
-  private http: HttpClient,private auth: AuthService) { 
+  private http: HttpClient,private auth: AuthService,
+  private ProjectService: ProjectService) { 
     this.ParticipateForm = fb.group({
-      projet: [,[Validators.required]],
+    projet: [,[Validators.required]],
     });
   }
   ngOnInit() {
-    this.http
-    .get<ProjectResponse[]>('http://localhost:3000/api/projects/')
-    .subscribe(
-      data => {
-        if(data.length!=0)
-       this.projects=data;
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-         this.message= err.error.message;
-        } else {
-          this.message=err.error;
-        }
-      }
-    );
+    this
+    .ProjectService
+    .getProjects()
+    .subscribe(projects => this.projects = projects);
   }
 
   private submitForm()
@@ -70,12 +64,6 @@ export class ProjectParticipateComponent implements OnInit {
     this.isError = false;
   }
   
-}
-interface ProjectResponse {
-  project_id:number;
-  name: string;
-  description:string,
-  git : string,
 }
 interface ParticipateResponse
 {

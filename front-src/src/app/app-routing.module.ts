@@ -18,8 +18,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
   { path: 'projects', component: ProjectsListComponent, canActivate:[AuthGuard]},
   { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
-  { path: 'participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
-  { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
+  { path: 'project/participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
   { path: 'project/:id/Backlog', component: BacklogComponent,canActivate:[AuthGuard]}
 ];
 

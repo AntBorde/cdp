@@ -13,47 +13,25 @@ router.get('/' , function(req, res) {
             }
         }
         else {
-    models.project.findAll({
-        include: [
-            { model: models.user}
-         ]
-    })
-    .then(projects => {
-        if(projects.length==0)
-        {
-            res.status(404).send("Aucun projet n'est créé pour le moment ..")
+            models.project.findAll({
+                attributes: ['project_id', 'name', 'description', 'git'],
+                include: [{
+                    model: models.user,
+                    as: 'productOwner',
+                    attributes: ['firstname', 'lastname']
+                }]
+                })
+                .then(projects => {
+                    if(projects.length==0)
+                    res.status(404).send("Aucun projet n'est créé pour le moment ..");
+                    else{
+                    console.log(projects);
+                    res.status(200).jsonp(projects);
+                    }
+                }).catch(err=> {res.send(err)})
         }
-        else
-        {
-        let promises = [];
-        let promise = Promise.resolve();
-        promise = promise.then(() => {
-        projects.forEach(project => {
-            promises.push(project);        
-     });
-     }).then(() => {
-    let ListProjectsProductOwner=[];
-     promises.forEach(element => {
-        element.dataValues.users.forEach(user => {
-            if(user.dataValues.user_id==element.dataValues.productOwnerUserId)
-            {
-                let ProjectProductOwner={
-                    name:element.dataValues.name,
-                    description:element.dataValues.description,
-                    git:element.dataValues.git,
-                    productOwner:element.dataValues.users[0].dataValues.lastname
-                };
-                ListProjectsProductOwner.push(ProjectProductOwner);
-            }    
-        });
-        
-    });
-    res.status(200).send(ListProjectsProductOwner);
     })
-    }
-    }).catch(err=> {res.send(err)})
-    }
-    })})
+})
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
@@ -90,20 +68,12 @@ router.post('/', function(req, res) {
                 description:req.body.description,
                 git:req.body.git,
                 productOwnerUserId:req.body.user_id,
-            }).
-            then(newProject=>{
-                models.UserProjects.create({
-                    status:'p',
-                    projectProjectId:newProject.project_id,
-                    userUserId:req.body.user_id,
-                }).
-                then(newProductOwner=>{
+            }).then(newProductOwner=>{
                     let message = "Le projet " +req.body.name + " a été bien crée";
                     res.status(201).jsonp({
                     message: message,
                   });
                 }).catch(err=> {res.send(err)})
-            }).catch(err=> {res.send(err)})
         }
     }).catch(err=> {res.send(err)})
 }
