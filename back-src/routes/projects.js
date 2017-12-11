@@ -6,15 +6,15 @@ const validator = require('validator');
 
 /*GET: list of projects with their product Owner*/
 router.get('/' , function(req, res) {
-    models.projects.findAll({
-        include: [{
-            model: ProductOwner,
-            attributes: ['firstname', 'lastname']
-        }]
+    models.project.findAll({
+     include: [{
+        model:models.user, 
+        attributes: ['firstname','lastname']
+       }]
     })
         .then(projects => {
             console.log(projects);
-            res.status(200).send();
+            res.status(200).send(projects);
         }).catch(err=> {res.send(err)})
 });
 
@@ -42,19 +42,19 @@ router.post('/', function(req, res) {
                 name:req.body.name,
                 description:req.body.description,
                 git:req.body.git,
-                productOwner:req.body.productOwnerName,
-                user_id:req.body.user_id
+                productOwnerUserId:req.body.user_id,
             }).
             then(newProject=>{
-                models.project_team.create({
-                    project_id:newProject.project_id,
-                    user_id:req.body.user_id,
+                models.UserProjects.create({
                     status:'p',
-                }).then(newProductOwner=>{
+                    projectProjectId:newProject.project_id,
+                    userUserId:req.body.user_id,
+                }).
+                then(newProductOwner=>{
                     let message = "Le projet " +req.body.name + " a été bien crée";
                     res.status(201).jsonp({
-                        message: message,
-                    });
+                    message: message,
+                  });
                 }).catch(err=> {res.send(err)})
             }).catch(err=> {res.send(err)})
         }

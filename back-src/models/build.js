@@ -22,6 +22,9 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 }
         },
+        {
+            timestamps: false
+        }
     );
 
     build.associate = function(models) {

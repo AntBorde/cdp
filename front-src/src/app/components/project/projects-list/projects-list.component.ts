@@ -49,7 +49,7 @@ interface ProjectResponse {
   name: string;
   description:string,
   git : string,
-  productOwner:String;
+ // productOwner:String;
 }
 interface AccesResponse {
     message: string;

@@ -24,11 +24,14 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING(250),
                 allowNull: false
             }
+        },
+        {
+            timestamps: false
         }
     );
 
     project.associate = function(models) {
-        project.belongsToMany(models.user, {through: 'UserProject'});
+        project.belongsToMany(models.user, {through: 'UserProjects'});
         project.belongsTo(models.user, {as: 'productOwner'});
         project.hasMany(models.issue, {onDelete: 'CASCADE'});
         project.hasMany(models.build, {onDelete: 'CASCADE'});

@@ -34,11 +34,14 @@ module.exports = function(sequelize, DataTypes) {
                     type: DataTypes.CHAR(60),
                     allowNull: false
                 }
+        },
+        {
+            timestamps: false
         }
     );
 
     user.associate = function(models) {
-        user.belongsToMany(models.project, {through: 'UserProject'});
+        user.belongsToMany(models.project, {through: 'UserProjects'});
     };
     return user;
 };
