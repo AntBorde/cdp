@@ -47,8 +47,7 @@ export class ProfileComponent implements OnInit {
         headers: new HttpHeaders().set('Authorization', this.authService.getToken())})
       .subscribe(
         data => {
-          this.authService.storeUser(data.userId, this.authService.getFirstName(), this.authService.getLastName(),data.email);
-          console.log(data.email);
+          this.authService.storeUser(data.userId, this.authService.getFirstName(), this.authService.getLastName(), data.email);
           this.messageService.setSuccessMessage('Vos informations ont été mises à jour.');
           setTimeout(() => this.router.navigate(['/home']), 1000);
         },
