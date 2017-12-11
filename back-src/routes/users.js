@@ -115,7 +115,7 @@ router.put('/:id' , function(req, res) {
             }
         }
 
-        if (parseInt(decoded.userId) !== parseInt(req.params.id)) {
+        if (parseInt(decoded.userId) != parseInt(req.params.id)) {
             res.status(400).send("Opération non autorisée.");
         }
 
@@ -140,7 +140,6 @@ router.put('/:id' , function(req, res) {
                     then(userEmail => {
                         if(userEmail.email === req.body.email && userEmail.user_id != req.params.id)
                         {
-                            console.log(userEmail.user_id+' '+req.params.id);
                             res.status(400).send('Un utilisateur existe déjà avec cet email.');
                         }
                         else
