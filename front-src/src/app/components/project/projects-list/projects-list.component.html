@@ -26,7 +26,7 @@ role="alert">
                     <td>{{project.git}}</td>
                     <td>{{project.productOwner.lastname+' '+project.productOwner.firstname}}</td>
                     <td >
-                     <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)">Backlog</button>
+                     <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)">Backlog {{project.name}}</button>
                     </td>
                 </tr>
             </tbody>

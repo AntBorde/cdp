@@ -95,7 +95,6 @@ router.post('/:id/users/' , function(req, res, next) {
            
     models.project.findById(req.params.id).
     then(project=>{
-        let productOwner=false;
         project.getProductOwner().then(product=>{
         if(product.dataValues.user_id==req.body.user_id)
         res.status(400).send('Vous êtes le product owner du projet '+project.name);
@@ -122,51 +121,45 @@ router.post('/:id/users/' , function(req, res, next) {
 })
 });
 
-/*GET project infos concernant un projet */
-router.get('/:id' , function(req, res, next) {
-    models.project.findById(req.params.id)
-        .then(project=>{
-            if(project==null)
-                res.send("project not exist");
-            else
-                res.send(project);
-        }).catch(err=> {res.send(err)})
-
-});
-
-/* GET Users to Project_team => les utilisateurs associés au projet */
-router.get('/:id/users' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getProject_teams().
-            then(team =>{
-                if(team.length==0)
-                    res.send("project without team");
-                else
-                    res.send(team);
-            }).catch(err=> {res.send(err)})
-        }
-    }).catch(err=> {res.send(err)})
-});
 /*Get member to project_team*/
 router.get('/:id/users/:iduser' , function(req, res, next) {
-    console.log(req.params.id);
-    console.log(req.params.iduser);
-    
-    models.project_team.findOne({where: {project_id:req.params.id,user_id:req.params.iduser}}).
-            then(membre =>{
-                console.log(membre);
-                if(membre ==null)
-                res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
-                else
-                res.status(200).jsonp({
-                    message:"Ok"
-                });
-            }).catch(err=> {res.send(err)})
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
+    models.project.findById(req.params.id).
+    then(project=>{
+    project.getProductOwner().then(product=>{
+        if(product.dataValues.user_id!=req.params.iduser)
+        {
+            project.hasUser(req.params.iduser).then(userMember=>{
+                if(!userMember)
+                {
+                    res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
+                }
+                else{
+                    res.status(200).jsonp({
+                        message:"Ok"
+                    });
+                }
+             }).catch(err=> {res.send(err)})
+        }
+        else
+        {
+            res.status(200).jsonp({
+                message:"Ok"
+            });
+        }
+        }).catch(err=> {res.send(err)})
+    }).catch(err=> {res.send(err)})
+}
+});
 });
 
 

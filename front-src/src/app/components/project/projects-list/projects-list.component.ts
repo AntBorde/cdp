@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,HttpHeaders } from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Project} from '../../../models/project';
 import { AuthService } from "../../../services/auth.service";
@@ -24,8 +24,11 @@ isError = false;
   }
   getAccess(projectID)
   {
+ 
+  
     this.http
-    .get<AccesResponse>('http://localhost:3000/api/projects/'+projectID+'/users/'+this.auth.getUserId())
+    .get<AccesResponse>('http://localhost:3000/api/projects/'+projectID+'/users/'+this.auth.getUserId(),{
+    headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
     .subscribe(
       data => {
         this.router.navigate(['project/'+projectID+'/Backlog']);
