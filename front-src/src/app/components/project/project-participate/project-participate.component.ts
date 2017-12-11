@@ -1,7 +1,7 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Project} from '../../../models/project';
 import { AuthService } from "../../../services/auth.service";
@@ -20,7 +20,8 @@ export class ProjectParticipateComponent implements OnInit {
 
   constructor( @Inject(FormBuilder) fb: FormBuilder,
   private http: HttpClient,private auth: AuthService,
-  private ProjectService: ProjectService) { 
+  private ProjectService: ProjectService,
+  private router: Router) { 
     this.ParticipateForm = fb.group({
     projet: [,[Validators.required]],
     });
@@ -39,11 +40,13 @@ export class ProjectParticipateComponent implements OnInit {
         user_id:this.auth.getUserId()
       };
       this.http
-      .post<ParticipateResponse>('http://localhost:3000/api/projects/'+body.project_id+'/users',body)
+      .post<ParticipateResponse>('http://localhost:3000/api/projects/'+body.project_id+'/users',body,{
+        headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
       .subscribe(
         data => {
         this.showSuccess(data.message);
         this.ParticipateForm.reset();
+        setTimeout(() => this.router.navigate(['/projects']), 1000);
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
