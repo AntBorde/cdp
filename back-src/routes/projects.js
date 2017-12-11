@@ -34,16 +34,19 @@ router.get('/' , function(req, res) {
      }).then(() => {
     let ListProjectsProductOwner=[];
      promises.forEach(element => {
-        if(element.dataValues.users[0].dataValues.user_id==element.dataValues.productOwnerUserId)
-        {
-            let ProjectProductOwner={
-                name:element.dataValues.name,
-                description:element.dataValues.description,
-                git:element.dataValues.git,
-                productOwner:element.dataValues.users[0].dataValues.lastname
-            };
-            ListProjectsProductOwner.push(ProjectProductOwner);
-        }   
+        element.dataValues.users.forEach(user => {
+            if(user.dataValues.user_id==element.dataValues.productOwnerUserId)
+            {
+                let ProjectProductOwner={
+                    name:element.dataValues.name,
+                    description:element.dataValues.description,
+                    git:element.dataValues.git,
+                    productOwner:element.dataValues.users[0].dataValues.lastname
+                };
+                ListProjectsProductOwner.push(ProjectProductOwner);
+            }    
+        });
+        
     });
     res.status(200).send(ListProjectsProductOwner);
     })
