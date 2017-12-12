@@ -178,14 +178,10 @@ router.get('/:id/productOwner', function(req, res, next) {
 
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-            project.getIssues().
-            then(Issues =>{
-             res.status(200).send(Issues);
-            }).catch(err=> {res.send(err)})
-    
-    }).catch(err=> {res.send(err)})
+  models.project.findById(req.params.id)
+    .then(project => project.getIssues())
+    .then(Issues => res.status(200).send(Issues))
+    .catch(err=> res.send(err));
 });
 
 /* POST Issue to project */
