@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../../services/auth.service";
 import {Sprint} from '../../../models/sprint';
 import {ProjectService} from "../../../services/project.service";
 import {ActivatedRoute} from '@angular/router';
