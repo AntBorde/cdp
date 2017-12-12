@@ -13,9 +13,9 @@ router.get('/info' , function(req, res) {
                 res.status(401).send("Votre session a expiré.");
             }
             else {
-                //res.status(403).send(err.message);
                 res.status(403).send("Identifiants invalides.");
             }
+	  return;
         }
         models.user.findById(decoded.userId)
             .then(user => {
@@ -26,9 +26,9 @@ router.get('/info' , function(req, res) {
                         userId: user.user_id,
                         firstName: user.firstname,
                         lastName: user.lastname,
-                        email: user.email,
+                        email: user.email
                     });
-            }).catch(err => {res.send(err)})
+            }).catch(err => res.send(err));
     });
 });
 
