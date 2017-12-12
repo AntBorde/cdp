@@ -193,7 +193,7 @@ router.post('/:id/issues/' , function(req, res, next) {
     } else if (!validator.isLength(req.body.story, { min: 10 })) {
       res.status(400).send('story invalide.');
     } else {
-      models.project.findById(req.params.id)
+    models.project.findById(req.params.id)
 	.then(project => models.issue.create({
 	  story: req.body.story,
 	  difficulty: req.body.difficulty,
@@ -257,40 +257,70 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
 
 
 /* GET Sprints to project*/
+
 router.get('/:id/sprints' , function(req, res, next) {
     models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints().
-            then(Sprints =>{
-                if(Sprints.length==0)
-                    res.send("project without Sprints");
-                else
-                    res.send(Sprints);
-            }).catch(err=> {res.send(err)})
-        }
+    then(project=>{project.getSprints().
+    then(Sprints =>{
+        res.status(200).send(Sprints);})
+    .catch(err=> {res.send(err)})
     }).catch(err=> {res.send(err)})
 });
-
 /** POST sprint to project */
 router.post('/:id/sprints/' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            models.sprints.create({describle:req.body.describle,dateBegin:req.body.dateBegin,dateEnd:req.body.dateEnd,name:req.params.id}).
-            then(ress=>{
-                res.send("sprint affected to project");
-            }).catch(error=>{res.send(error)})
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
         }
-    }).catch(err=> {res.send(err)})
+    else {
+    if (!validator.isLength(req.body.description, { min:10 })) 
+           return res.status(400).send('description invalide.');
+    if(req.body.dateBegin>=req.body.dateEnd)
+           return res.status(400).send('Date fin de sprint doit être supérieure à la date du début');
+    models.project.findById(req.params.id)
+	.then(project => models.sprint.create({
+	  description:req.body.description,
+	  dateBegin: req.body.dateBegin,
+	  dateEnd: req.body.dateEnd,
+	  projectProjectId:req.params.id
+	})).then(res.status(201).jsonp({ message: "Sprint crée" }))
+    .catch(err => console.log(err));
+   }
+})
 });
-
+/** PUT modifier un sprint associée à un projet */
+router.put('/:id/sprints/:idsprint' , function(req, res, next) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
+            if(!validator.isLength(req.body.description, { min: 10 })){
+                return res.status(400).send('description invalide.');
+              }
+              if(req.body.dateBegin>=req.body.dateEnd)
+              return res.status(400).send('Date fin de sprint doit être supérieure à la date du début');
+                models.sprint.update(
+                {description:req.body.description,dateBegin:req.body.dateBegin,dateEnd:req.body.dateEnd},
+                {where:{sprint_id:req.params.idsprint,projectProjectId:req.params.id}})
+                .then(() => {
+                    res.status(201).jsonp({
+                    message: "Modification effectuée",
+                  });
+                }).catch(err=> {res.send(err)})
+        }
+    })
+})
 /** GET tâches :renvoie la listes des tâches associées à un sprint */
 router.get('/:name/sprints/:id' , function(req, res, next) {
 

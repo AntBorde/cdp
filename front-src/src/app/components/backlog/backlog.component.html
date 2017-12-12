@@ -3,9 +3,10 @@
       <p class="card-text">Projet : {{ this.projectName }} </p>
       <p class="card-text">ProductOwner : {{ this.ProductOwner }} </p>
         <button type="button" class="btn btn-success" (click)='NavigateAddIssue()'>
-       <i class="fa fa-plus" id="newIssue"></i>Nouvelle issue</button>
+          <i class="fa fa-plus-circle" aria-hidden="true" id="newIssue"></i>Nouvelle issue</button>
        <button type="button" class="btn btn-success" (click)='NavigateUpdateIssue()'>
-        <i class="fa fa-pencil" aria-hidden="true"id="modifIssue"></i>Modifier une issue</button>
+        <i class="fa fa-pencil" aria-hidden="true" id="modifIssue"></i>Modifier une issue</button>
+        <button type="button" class="btn btn-info"(click)='NavigateSprints()'><i class="fa fa-list" aria-hidden="true"></i>Liste des Sprints</button>
     </div>
   </div>
 <div id="container">

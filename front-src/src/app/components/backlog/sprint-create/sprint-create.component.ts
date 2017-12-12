@@ -4,17 +4,15 @@ import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import { AuthService } from "../../../services/auth.service";
-import {Issue} from '../../../models/issue';
+import {Sprint} from '../../../models/sprint';
 import {ActivatedRoute} from '@angular/router';
-
 @Component({
-  selector: 'app-create-issue',
-  templateUrl: './create-issue.component.html',
-  styleUrls: ['./create-issue.component.css']
+  selector: 'app-sprint-create',
+  templateUrl: './sprint-create.component.html',
+  styleUrls: ['./sprint-create.component.css']
 })
-
-export class CreateIssueComponent implements OnInit {
-  AddIssueForm: FormGroup;
+export class SprintCreateComponent implements OnInit {
+  AddSprintForm: FormGroup;
   projectId=this.activatedRoute.snapshot.paramMap.get('idProject');
   message = '';
   isError = false;
@@ -23,30 +21,30 @@ export class CreateIssueComponent implements OnInit {
     @Inject(FormBuilder) fb: FormBuilder,
     private router: Router ,
     private auth: AuthService,) {
-      this.AddIssueForm = fb.group({
-        story : [null, [Validators.required,Validators.minLength(10)]],
-        priority:[,[Validators.required]],
-        difficulty:[,[Validators.required]],
+ 
+      this.AddSprintForm = fb.group({
+        description : [, [Validators.required,Validators.minLength(10)]],
+        dateBegin:[,[Validators.required]],
+        dateEnd:[,[Validators.required]],
       });
     }
     ngOnInit(){
     }
     private submitForm() {
       const body = {
-        story: this.AddIssueForm.value.story,
-        priority: this.AddIssueForm.value.priority,
-        difficulty: this.AddIssueForm.value.difficulty,
-        state:'TODO',
+        description: this.AddSprintForm.value.description,
+        dateBegin: this.AddSprintForm.value.dateBegin,
+        dateEnd: this.AddSprintForm.value.dateEnd,
         projectProjectId:this.projectId
       };
       this.http
-      .post<CreateIssueResponse>('http://localhost:3000/api/projects/'+this.projectId+'/issues',body,{
+      .post<CreateSprintResponse>('http://localhost:3000/api/projects/'+this.projectId+'/sprints',body,{
       headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
       .subscribe(
         data => {
           this.showSuccess(data.message);
-          setTimeout(() => this.router.navigate(['project/'+this.projectId+'/Backlog']), 1000);
-         this.AddIssueForm.reset();
+           setTimeout(() => this.router.navigate(['project/'+this.projectId+'/Backlog/SprintList']), 1000);
+         this.AddSprintForm.reset();
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -68,7 +66,7 @@ export class CreateIssueComponent implements OnInit {
     this.isError = false;
   }
 }
-interface CreateIssueResponse
+interface CreateSprintResponse
 {
   message:string;
 }

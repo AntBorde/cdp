@@ -1,0 +1,28 @@
+<div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+role="alert">
+{{ message }}
+</div>
+<div id="container">
+    <h1>Créer un nouveau sprint</h1>
+     <form [formGroup]="AddSprintForm" (ngSubmit)="submitForm()">
+              <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea [ngClass]="{'is-invalid': (AddSprintForm.controls['description'].invalid && AddSprintForm.controls['description'].touched)}"
+                         formControlName="description" type="text" class="form-control" id="description" placeholder="Description" rows="2" maxlength="100"></textarea>
+                         <div class="invalid-feedback">
+                          <ng-container *ngIf="AddSprintForm.controls['description'].hasError('required')">Veuillez renseigner la description du sprint.</ng-container>
+                          <ng-container *ngIf="AddSprintForm.controls['description'].hasError('minlength')">Description trop courte (minimum 10 caractères).</ng-container>
+                        </div>
+                </div>
+                <div class="form-group">
+                  <label for="dateBegin">Date début</label>
+                  <input formControlName="dateBegin"  type="date" class="form-control" id="dateBegin">
+                </div>
+                <div class="form-group">
+                  <label for="dateEnd">Date fin</label>
+                  <input formControlName="dateEnd"  type="date" class="form-control" id="dateEnd">
+                </div>
+                
+              <button [disabled]="AddSprintForm.invalid" type="submit" class="btn btn-primary">Créer Sprint</button>
+      </form> 
+ </div>
