@@ -65,6 +65,8 @@ export class CreateIssueComponent implements OnInit {
     this.message = message;
     this.isError = false;
   }
+
+  ngOnInit() { }
 }
 interface CreateIssueResponse
 {
