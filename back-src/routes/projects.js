@@ -186,37 +186,28 @@ router.get('/:id/issues' , function(req, res, next) {
 
 /* POST Issue to project */
 router.post('/:id/issues/' , function(req, res, next) {
-    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
-        if (err) {
-            if (err.name === 'TokenExpiredError'){
-                res.status(401).send("Votre session a expiré.");
-            }
-            else {
-                res.status(403).send("Identifiants invalides.");
-            }
-        }
-        else {
-   if(!validator.isLength(req.body.story, { min: 10 })){
+  jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+    if (err && err.name === 'TokenExpiredError'){
+      res.status(401).send("Votre session a expiré.");
+    } else if (err) {
+      res.status(403).send("Identifiants invalides.");
+    } else if (!validator.isLength(req.body.story, { min: 10 })) {
       res.status(400).send('story invalide.');
-    }   
-    else{
-    models.project.findById(req.params.id).
-    then(project=>{
-    models.issue.create({
-    story:req.body.story,
-    difficulty:req.body.difficulty,
-    priority:req.body.priority,
-    state:'TODO',
-    projectProjectId:req.body.projectProjectId
-    }).then(NewIssue=>{
-        let message = "Issue crée";
-        res.status(201).jsonp({
-        message: message,
-      });
-    })
-    }).catch(err=> {console.log(err)})
-}}})
+    } else {
+      models.project.findById(req.params.id)
+	.then(project => models.issue.create({
+	  story: req.body.story,
+	  difficulty: req.body.difficulty,
+	  priority: req.body.priority,
+	  state: 'TODO',
+	  projectProjectId: req.body.projectProjectId
+	}))
+	.then(NewIssue => res.status(201).jsonp({ message: "Issue crée" }))
+	.catch(err => res.send(err));
+    }
+  });
 });
+
 /* GET Issue by id */
 router.get('/:id/issues/:issue' , function(req, res, next) {
     models.project.findById(req.params.id).
