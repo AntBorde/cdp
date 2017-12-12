@@ -15,7 +15,6 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class UpdateIssueComponent implements OnInit {
   Backlog:Issue[]=null;
-  issueModel:Issue;
   story:string;
   priority:number;
   difficulty:number;

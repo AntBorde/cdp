@@ -23,6 +23,7 @@ import { CreateIssueComponent } from './components/backlog/create-issue/create-i
 import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
 import { SprintCreateComponent } from './components/backlog/sprint-create/sprint-create.component';
 import { SprintListComponent } from './components/backlog/sprint-list/sprint-list.component';
+import { SprintUpdateComponent } from './components/backlog/sprint-update/sprint-update.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { SprintListComponent } from './components/backlog/sprint-list/sprint-lis
     CreateIssueComponent,
     UpdateIssueComponent,
     SprintCreateComponent,
-    SprintListComponent
+    SprintListComponent,
+    SprintUpdateComponent
   ],
   imports: [
     BrowserModule,

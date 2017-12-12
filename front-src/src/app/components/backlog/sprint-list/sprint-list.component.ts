@@ -40,6 +40,10 @@ export class SprintListComponent implements OnInit {
   NavigateAddSprint(){
     this.router.navigate(['project/'+this.projectId+'/Backlog/CreateSprint']);
   }
+  NavigateUpdateSprint(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/UpdateSprint']);
+  }
+  
 }
 
 interface ProductOwnerResponse

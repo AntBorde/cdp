@@ -1,0 +1,36 @@
+<div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+role="alert">
+{{ message }}
+</div>
+<div id="container">
+    <h1>Modifier un sprint</h1>
+     <form [formGroup]="UpdateSprintForm" (ngSubmit)="UpdateSprint()">
+      <div class="form-group form-control-sm">
+        <label for="sprint_id">Sprint ID</label>
+        <select class="form-control form-control-sm" id="sprint_id" (change)="onChange($event)" formControlName="sprint_id"> 
+          <option selected *ngFor="let sprint of Sprints" [ngValue]="sprint.sprint_id">{{sprint.sprint_id}}</option>
+        </select>
+      </div>  
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea [(ngModel)]="description" [ngClass]="{'is-invalid': (UpdateSprintForm.controls['description'].invalid && UpdateSprintForm.controls['description'].touched)}"
+               formControlName="description" type="text" class="form-control" id="description" placeholder="Description" rows="2" maxlength="100"></textarea>
+               <div class="invalid-feedback">
+                <ng-container *ngIf="UpdateSprintForm.controls['description'].hasError('required')">Veuillez renseigner la description du sprint.</ng-container>
+                <ng-container *ngIf="UpdateSprintForm.controls['description'].hasError('minlength')">Description trop courte (minimum 10 caractères).</ng-container>
+              </div>
+      </div> 
+      <div class="form-group">
+        <label for="dateBegin">Date début</label>
+        <input [(ngModel)]="dateBegin" formControlName="dateBegin"  type="date" class="form-control" id="dateBegin">
+      </div>
+      <div class="form-group">
+        <label for="dateEnd">Date fin</label>
+        <input [(ngModel)]="dateEnd" formControlName="dateEnd"  type="date" class="form-control" id="dateEnd">
+      </div>
+      <button [disabled]="UpdateSprintForm.invalid" type="submit" class="btn btn-primary">Modifier</button>
+      </form> 
+</div>  
+             
+
+ 

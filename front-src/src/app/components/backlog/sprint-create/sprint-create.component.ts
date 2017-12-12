@@ -43,7 +43,7 @@ export class SprintCreateComponent implements OnInit {
       .subscribe(
         data => {
           this.showSuccess(data.message);
-          setTimeout(() => this.router.navigate(['project/'+this.projectId+'/Backlog/SprintList']), 1000);
+           setTimeout(() => this.router.navigate(['project/'+this.projectId+'/Backlog/SprintList']), 1000);
          this.AddSprintForm.reset();
         },
         (err: HttpErrorResponse) => {

@@ -293,7 +293,34 @@ router.post('/:id/sprints/' , function(req, res, next) {
    }
 })
 });
-
+/** PUT modifier un sprint associée à un projet */
+router.put('/:id/sprints/:idsprint' , function(req, res, next) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
+            if(!validator.isLength(req.body.description, { min: 10 })){
+                return res.status(400).send('description invalide.');
+              }
+              if(req.body.dateBegin>=req.body.dateEnd)
+              return res.status(400).send('Date fin de sprint doit être supérieure à la date du début');
+                models.sprint.update(
+                {description:req.body.description,dateBegin:req.body.dateBegin,dateEnd:req.body.dateEnd},
+                {where:{sprint_id:req.params.idsprint,projectProjectId:req.params.id}})
+                .then(() => {
+                    res.status(201).jsonp({
+                    message: "Modification effectuée",
+                  });
+                }).catch(err=> {res.send(err)})
+        }
+    })
+})
 /** GET tâches :renvoie la listes des tâches associées à un sprint */
 router.get('/:name/sprints/:id' , function(req, res, next) {
 

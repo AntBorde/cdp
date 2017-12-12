@@ -4,7 +4,7 @@
       <p class="card-text">ProductOwner : {{ this.ProductOwner }} </p>
         <button type="button"(click)="NavigateAddSprint()" class="btn btn-success" >
        <i class="fa fa-plus"></i>Nouveau sprint</button>
-       <button type="button" class="btn btn-success" >
+       <button type="button" (click)="NavigateUpdateSprint()"class="btn btn-success" >
         <i class="fa fa-pencil" aria-hidden="true"></i>Modifier un sprint</button>
     </div>
   </div>
