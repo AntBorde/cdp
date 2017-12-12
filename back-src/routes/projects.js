@@ -31,6 +31,7 @@ router.get('/' , function(req, res) {
         }
     })
 })
+
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
@@ -47,9 +48,8 @@ router.post('/', function(req, res) {
     models.project.findOne({where: {name: req.body.name}}).
     then(project=>{
         if(project !== null){
-            res.status(400).send('Un projet existe déjà avec ce nom.');
-        }
-        else {
+          return res.status(400).send('Un projet existe déjà avec ce nom.');
+        } else {
 
             if (!validator.isLength(req.body.name, { max: 40 })){
                 res.status(400).send('le nom du projet est invalide.');
@@ -62,21 +62,20 @@ router.post('/', function(req, res) {
             if (!validator.isLength(req.body.git, { max:30 })){
                 res.status(400).send('Le git est trop long.');
             }
-            models.project.create({
+            return models.project.create({
                 name:req.body.name,
                 description:req.body.description,
                 git:req.body.git,
-                productOwnerUserId:req.body.user_id,
-            }).then(newProductOwner=>{
-                    let message = "Le projet " +req.body.name + " a été bien crée";
-                    res.status(201).jsonp({
-                    message: message,
-                  });
-                }).catch(err=> {res.send(err)})
+                productOwnerUserId:req.body.user_id
+            }).then(newProductOwner => {
+              res.status(201).jsonp({
+                message: "Le projet " +req.body.name + " a été bien crée"
+              });
+            });
         }
-    }).catch(err=> {res.send(err)})
-}
-})
+    }).catch(err => res.send(err));
+	}
+    });
 });
 
 /* POST add user to UserProjects */
