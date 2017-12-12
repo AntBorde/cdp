@@ -27,13 +27,11 @@
     <div class="form-group">
       <label for="inputGit">Git</label>
       <input [ngClass]="{'is-invalid': (CreateProjectForm.controls['git'].invalid && CreateProjectForm.controls['git'].touched)}"
-        formControlName="git" type="text" class="form-control" id="inputDescription" placeholder="Git">
+        formControlName="git" type="text" class="form-control" id="inputgit" placeholder="Git">
       <div class="invalid-feedback">
         Veuillez renseigner le git du projet.
       </div>
     </div>
-    <button [disabled]="CreateProjectForm.invalid" type="submit" class="btn btn-primary">Créer un projet</button>
+    <button [disabled]="CreateProjectForm.invalid" type="submit" class="btn btn-primary" id="createProjectBtn">Créer un projet</button>
   </form>
 </div>
-
-
