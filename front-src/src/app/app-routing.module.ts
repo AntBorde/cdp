@@ -11,6 +11,7 @@ import { ProjectParticipateComponent } from './components/project/project-partic
 import { AuthGuard } from './guard/authentification.guard';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
+import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
   { path: 'project/participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog', component: BacklogComponent,canActivate:[AuthGuard]},
-  { path: 'project/:idProject/Backlog/CreateIssue', component: CreateIssueComponent,canActivate:[AuthGuard]}
+  { path: 'project/:idProject/Backlog/CreateIssue', component: CreateIssueComponent,canActivate:[AuthGuard]},
+  { path: 'project/:idProject/Backlog/UpdateIssue', component: UpdateIssueComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({
@@ -35,3 +37,4 @@ const routes: Routes = [
   providers: [AuthGuard]
 })
 export class AppRoutingModule { }
+

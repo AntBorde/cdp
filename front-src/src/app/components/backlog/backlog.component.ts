@@ -40,6 +40,9 @@ export class BacklogComponent implements OnInit {
   NavigateAddIssue(){
     this.router.navigate(['project/'+this.projectId+'/Backlog/CreateIssue']);
   }
+  NavigateUpdateIssue(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/UpdateIssue']);
+  }
 }
 
 interface ProductOwnerResponse
@@ -47,3 +50,4 @@ interface ProductOwnerResponse
 projectName:string;
 productOwner:string;
 }
+
