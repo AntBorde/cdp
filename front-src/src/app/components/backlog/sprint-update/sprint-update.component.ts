@@ -40,7 +40,11 @@ export class SprintUpdateComponent implements OnInit {
     this.
     http.
     get<Sprint[]>('http://localhost:3000/api/projects/'+this.projectId+'/sprints')
-    .subscribe( data => { this.Sprints=data;
+    .subscribe( data => { 
+      if(data.length==0)
+      this.Sprints=null;
+      else
+      this.Sprints=data;
      });
   }
   onChange($event) {

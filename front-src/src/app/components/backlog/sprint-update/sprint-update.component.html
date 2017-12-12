@@ -2,6 +2,12 @@
 role="alert">
 {{ message }}
 </div>
+<ng-container *ngIf="Sprints == null; else blockElse">
+  <div class="alert alert-danger" role="alert">
+      <strong>Aucun sprint n'est créé pour le moment ..</strong>
+    </div>
+</ng-container>
+<ng-template #blockElse>
 <div id="container">
     <h1>Modifier un sprint</h1>
      <form [formGroup]="UpdateSprintForm" (ngSubmit)="UpdateSprint()">
@@ -31,6 +37,6 @@ role="alert">
       <button [disabled]="UpdateSprintForm.invalid" type="submit" class="btn btn-primary">Modifier</button>
       </form> 
 </div>  
-             
+</ng-template>      
 
  
