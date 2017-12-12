@@ -31,6 +31,7 @@ router.get('/' , function(req, res) {
         }
     })
 })
+
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
@@ -47,9 +48,8 @@ router.post('/', function(req, res) {
     models.project.findOne({where: {name: req.body.name}}).
     then(project=>{
         if(project !== null){
-            res.status(400).send('Un projet existe déjà avec ce nom.');
-        }
-        else {
+          return res.status(400).send('Un projet existe déjà avec ce nom.');
+        } else {
 
             if (!validator.isLength(req.body.name, { max: 40 })){
                 res.status(400).send('le nom du projet est invalide.');
@@ -62,21 +62,20 @@ router.post('/', function(req, res) {
             if (!validator.isLength(req.body.git, { max:30 })){
                 res.status(400).send('Le git est trop long.');
             }
-            models.project.create({
+            return models.project.create({
                 name:req.body.name,
                 description:req.body.description,
                 git:req.body.git,
-                productOwnerUserId:req.body.user_id,
-            }).then(newProductOwner=>{
-                    let message = "Le projet " +req.body.name + " a été bien crée";
-                    res.status(201).jsonp({
-                    message: message,
-                  });
-                }).catch(err=> {res.send(err)})
+                productOwnerUserId:req.body.user_id
+            }).then(newProductOwner => {
+              res.status(201).jsonp({
+                message: "Le projet " +req.body.name + " a été bien crée"
+              });
+            });
         }
-    }).catch(err=> {res.send(err)})
-}
-})
+    }).catch(err => res.send(err));
+	}
+    });
 });
 
 /* POST add user to UserProjects */
@@ -91,7 +90,7 @@ router.post('/:id/users/' , function(req, res, next) {
             }
         }
         else {
-           
+
     models.project.findById(req.params.id).
     then(project=>{
         project.getProductOwner().then(product=>{
@@ -160,64 +159,54 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
 }
 });
 });
+
 /** Get ProductOwner*/
-router.get('/:id/productOwner' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-    project.getProductOwner().then(productOwn=>{
-        res.status(201).jsonp({
-            projectName: project.name,
-            productOwner:productOwn.dataValues.lastname+' '+productOwn.dataValues.firstname
-          });
-        }).catch(err=> {res.send(err)})
-    }).catch(err=> {res.send(err)})
-})
+router.get('/:id/productOwner', function(req, res, next) {
+  models.project.findById(req.params.id)
+    .then(project => project.getProductOwner()
+	  .then(po => {
+	    let values = po.dataValues;
+	    let productOwner = values.lastname + ' '+ values.firstname;
+	    res.status(201).jsonp({
+              projectName: project.name,
+              productOwner
+	    });
+	  }))
+    .catch(err => res.send(err));
+});
 
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-            project.getIssues().
-            then(Issues =>{
-             res.status(200).send(Issues);
-            }).catch(err=> {res.send(err)})
-    
-    }).catch(err=> {res.send(err)})
+  models.project.findById(req.params.id)
+    .then(project => project.getIssues())
+    .then(Issues => res.status(200).send(Issues))
+    .catch(err=> res.send(err));
 });
 
 /* POST Issue to project */
 router.post('/:id/issues/' , function(req, res, next) {
-    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
-        if (err) {
-            if (err.name === 'TokenExpiredError'){
-                res.status(401).send("Votre session a expiré.");
-            }
-            else {
-                res.status(403).send("Identifiants invalides.");
-            }
-        }
-        else {
-   if(!validator.isLength(req.body.story, { min: 10 })){
+  jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+    if (err && err.name === 'TokenExpiredError'){
+      res.status(401).send("Votre session a expiré.");
+    } else if (err) {
+      res.status(403).send("Identifiants invalides.");
+    } else if (!validator.isLength(req.body.story, { min: 10 })) {
       res.status(400).send('story invalide.');
-    }   
-    else{
-    models.project.findById(req.params.id).
-    then(project=>{
-    models.issue.create({
-    story:req.body.story,
-    difficulty:req.body.difficulty,
-    priority:req.body.priority,
-    state:'TODO',
-    projectProjectId:req.body.projectProjectId
-    }).then(NewIssue=>{
-        let message = "Issue crée";
-        res.status(201).jsonp({
-        message: message,
-      });
-    })
-    }).catch(err=> {console.log(err)})
-}}})
+    } else {
+      models.project.findById(req.params.id)
+	.then(project => models.issue.create({
+	  story: req.body.story,
+	  difficulty: req.body.difficulty,
+	  priority: req.body.priority,
+	  state: 'TODO',
+	  projectProjectId: req.body.projectProjectId
+	}))
+	.then(NewIssue => res.status(201).jsonp({ message: "Issue crée" }))
+	.catch(err => res.send(err));
+    }
+  });
 });
+
 /* GET Issue by id */
 router.get('/:id/issues/:issue' , function(req, res, next) {
     models.project.findById(req.params.id).
@@ -253,7 +242,7 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
         else {
             if(!validator.isLength(req.body.story, { min: 10 })){
                return res.status(400).send('story invalide.');
-              }   
+              }
                 models.issue.update(
                 {story:req.body.story,difficulty:req.body.difficulty,priority:req.body.priority,state:req.body.state},
                 {where:{issue_id:req.params.issue,projectProjectId:req.params.id}})
@@ -261,7 +250,7 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
                     res.status(201).jsonp({
                     message: "Modification effectuée",
                   });
-                }).catch(err=> {res.send(err)})    
+                }).catch(err=> {res.send(err)})
         }
     })
 })
