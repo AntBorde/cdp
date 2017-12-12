@@ -86,20 +86,19 @@ router.post('/signup', function(req, res) {
                 const salt = bcrypt.genSaltSync(10);
                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
-                models.user.create({
+                return models.user.create({
                     email: req.body.email,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     password: hashPassword
                 }).
-                then( newUser => {
-                    let message = "L'utilisateur " + newUser.firstname + " a été crée.";
-                    res.status(201).jsonp({
-                        message: message,
-                    });
-                }).catch(err => {res.send(err)})
+                then(newUser => {
+                  res.status(201).jsonp({
+                    message: "L'utilisateur " + newUser.firstname + " a été crée."
+                  });
+                });
             }
-        }).catch(err => {res.send(err)})
+        }).catch(err => res.send(err))
 });
 
 /** PUT Modifie utilisateur*/
