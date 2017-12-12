@@ -27,7 +27,9 @@ export class CreateIssueComponent implements OnInit {
         story : [null, [Validators.required]],
         priority:[,[Validators.required]],
         difficulty:[,[Validators.required]],
-      }); 
+      });
+    }
+    ngOnInit(){
     }
     private submitForm() {
       const body = {
@@ -36,7 +38,7 @@ export class CreateIssueComponent implements OnInit {
         difficulty: this.AddIssueForm.value.difficulty,
         state:'TODO',
         projectProjectId:this.projectId
-      }
+      };
       this.http
       .post<CreateIssueResponse>('http://localhost:3000/api/projects/'+this.projectId+'/issues',body,{
       headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
@@ -54,8 +56,8 @@ export class CreateIssueComponent implements OnInit {
           }
         }
       );
-    }
-  
+  }
+
   private showError(message: string): void {
     this.message = message;
     this.isError = true;
@@ -70,5 +72,3 @@ interface CreateIssueResponse
 {
   message:string;
 }
-
-
