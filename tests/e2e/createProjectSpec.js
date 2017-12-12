@@ -3,15 +3,14 @@
 describe('createProject', function() {
 
   beforeEach(function() {
-    browser.get('http://localhost:4200/profile');
+    browser.get('http://localhost:4200/home');
   });
-
+var nameProject = 'test';
   it('tentative de creation de projet',function(){
-    var nameProject = 'test'+Math.random();
-    browser.waitForAngular();
-    expect(browser.driver.getCurrentUrl()).toMatch('/profile');
 
-    var projectButton = element(by.id('dropdownBasic1'));
+    browser.waitForAngular();
+
+    var projectButton = element(by.id('projectDropdown'));
     projectButton.click();
     var createProjectButton = element(by.id('createProject'));
     createProjectButton.click();
@@ -26,23 +25,22 @@ describe('createProject', function() {
 
     createProjectButton = element(by.id('createProjectBtn'));
     createProjectButton.click();
-    browser.pause();
     browser.waitForAngular();
-
-    expect(browser.driver.getCurrentUrl()).toMatch('/projects');
 
   });
 
   it('visualiser projet',function(){
     browser.waitForAngular();
-    var projectButton = element(by.id('dropdownBasic1'));
+    var projectButton = element(by.id('projectDropdown'));
     projectButton.click();
-    
+
     var listeProjectButton = element(by.id('listeProject'));;
     listeProjectButton.click();
     browser.waitForAngular();
 
     expect(browser.driver.getCurrentUrl()).toMatch('/projects');
+
+    var backlogButton = element(by.id(nameProject));
 
   });
 

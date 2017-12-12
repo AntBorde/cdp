@@ -34,8 +34,6 @@ describe('inscription', function() {
     var email = element(by.id('inputEmail'));
     var password = element(by.id('inputPassword'));
 
-    browser.pause();
-
     email.sendKeys('toto@gmail.com');
     password.sendKeys('blablabla');
 
