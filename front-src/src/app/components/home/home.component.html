@@ -1,8 +1,12 @@
 <title>DDF - Accueil</title>
-<div class="container  mt-2">
-  <div *ngIf="showSuccessMessage == true " class="alert alert-success">{{this.message}}</div>
+<div class="container mt-2 text-center">
+  <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'">{{this.message}}</div>
   <h1 class="display-1">
     Bienvenue!
   </h1>
-  <p>Veuillez vous connecter pour commencer.</p>
+  <p *ngIf="loggedIn; else welcomeTemplate">Connecté en tant que {{this.authService.getFirstName()}} {{this.authService.getLastName()}} ({{this.authService.getEmail()}})</p>
+
+  <ng-template #welcomeTemplate>
+    <p>Veuillez vous connecter pour commencer.</p>
+  </ng-template>
 </div>

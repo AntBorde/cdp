@@ -1,0 +1,30 @@
+<div class="card" align="center">
+  <div class="card-block">
+      <p class="card-text">Projet : {{ this.projectName }} </p>
+      <p class="card-text">ProductOwner : {{ this.ProductOwner }} </p>
+        <button type="button" class="btn btn-success" (click)='NavigateAddIssue()'>
+       <i class="fa fa-plus"></i>Nouvelle issue</button>
+    </div>
+  </div>
+<div id="container">
+  <table class="table">
+      <thead>
+        <tr>
+          <th>Issue ID</th>
+          <th>Story</th>
+          <th>Priorité</th>
+          <th>Difficulté</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+          <tbody>
+              <tr *ngFor="let issue of Backlog">
+                  <td>{{issue.issue_id}}</td>
+                  <td>{{issue.story}}</td>
+                  <td>{{issue.difficulty}}</td>
+                  <td>{{issue.priority}}</td>
+                  <td>{{issue.state}}</td>
+              </tr>
+          </tbody>
+    </table>
+</div>

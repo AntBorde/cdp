@@ -5,7 +5,7 @@ const cors = require('cors');
 
 router.use(cors());
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.send('Server live');
 });
 

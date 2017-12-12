@@ -1,8 +1,12 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Project} from '../../../models/project';
 import { AuthService } from "../../../services/auth.service";
+import {ProjectService} from "../../../services/project.service";
+
 @Component({
   selector: 'app-project-participate',
   templateUrl: './project-participate.component.html',
@@ -15,51 +19,39 @@ export class ProjectParticipateComponent implements OnInit {
   isError = false;
 
   constructor( @Inject(FormBuilder) fb: FormBuilder,
-  private http: HttpClient,private auth: AuthService) { 
+  private http: HttpClient,private auth: AuthService,
+  private ProjectService: ProjectService,
+  private router: Router) { 
     this.ParticipateForm = fb.group({
-      projet: [,[Validators.required]],
-      status: ['d',[Validators.required]]
+    projet: [,[Validators.required]],
     });
   }
   ngOnInit() {
-    this.http
-    .get<ProjectResponse[]>('http://localhost:3000/api/projects/')
-    .subscribe(
-      data => {
-        if(data.length!=0)
-       this.projects=data;
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-         this.message= err.error.message;
-        } else {
-          this.message=err.error;
-        }
-      }
-    );
+    this
+    .ProjectService
+    .getProjects()
+    .subscribe(projects => this.projects = projects);
   }
 
   private submitForm()
   {
    const body = {
         project_id: this.ParticipateForm.value.projet,
-        user_id:this.auth.getUserId(),
-        status: this.ParticipateForm.value.status,
+        user_id:this.auth.getUserId()
       };
       this.http
-      .post<ParticipateResponse>('http://localhost:3000/api/projects/'+body.project_id+'/users',body)
+      .post<ParticipateResponse>('http://localhost:3000/api/projects/'+body.project_id+'/users',body,{
+        headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
       .subscribe(
         data => {
         this.showSuccess(data.message);
-         this.ParticipateForm.reset();
-         console.log(data.message);
+        this.ParticipateForm.reset();
+        setTimeout(() => this.router.navigate(['/projects']), 1000);
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            console.log(err.error.message);
             this.showError(err.error.message);
           } else {
-            console.log(err.error);
             this.showError(err.error);
           }
         }
@@ -75,12 +67,6 @@ export class ProjectParticipateComponent implements OnInit {
     this.isError = false;
   }
   
-}
-interface ProjectResponse {
-  project_id:number;
-  name: string;
-  description:string,
-  git : string,
 }
 interface ParticipateResponse
 {
