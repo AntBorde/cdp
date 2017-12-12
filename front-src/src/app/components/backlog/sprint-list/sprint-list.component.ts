@@ -35,8 +35,10 @@ export class SprintListComponent implements OnInit {
     http.
     get<Sprint[]>('http://localhost:3000/api/projects/'+this.projectId+'/sprints')
     .subscribe( data => { this.Sprints=data;
-      console.log(data);
      });
+  }
+  NavigateAddSprint(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/CreateSprint']);
   }
 }
 

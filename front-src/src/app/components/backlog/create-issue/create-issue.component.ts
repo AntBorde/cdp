@@ -24,7 +24,7 @@ export class CreateIssueComponent implements OnInit {
     private router: Router ,
     private auth: AuthService,) {
       this.AddIssueForm = fb.group({
-        story : [null, [Validators.required]],
+        story : [null, [Validators.required,Validators.minLength(10)]],
         priority:[,[Validators.required]],
         difficulty:[,[Validators.required]],
       });
