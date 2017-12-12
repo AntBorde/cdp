@@ -132,22 +132,22 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
             }
         }
         else {
-    models.project.findById(req.params.id).
-    then(project=>{
-    project.getProductOwner().then(product=>{
-        if(product.dataValues.user_id!=req.params.iduser)
-        {
-            project.hasUser(req.params.iduser).then(userMember=>{
-                if(!userMember)
-                {
-                    res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
-                }
-                else{
-                    res.status(200).jsonp({
-                        message:"Ok"
-                    });
-                }
-             }).catch(err=> {res.send(err)})
+        models.project.findById(req.params.id).
+        then(project=>{
+        project.getProductOwner().then(product=>{
+            if(product.dataValues.user_id!=req.params.iduser)
+            {
+                project.hasUser(req.params.iduser).then(userMember=>{
+                    if(!userMember)
+                    {
+                        res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
+                    }
+                    else{
+                        res.status(200).jsonp({
+                            message:"Ok"
+                        });
+                    }
+                }).catch(err=> {res.send(err)})
         }
         else
         {
@@ -241,28 +241,31 @@ router.get('/:id/issues/:issue' , function(req, res, next) {
 
 /* PUT Issue */
 router.put('/:id/issues/:issue' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getIssues({ where: { issue_id:req.params.issue}}).
-            then(Issue =>{
-                if(Issue.length==0)
-                    res.send("issue not found");
-                else
-                {
-                    models.issues.update(
-                        {storie:req.body.stories,difficulty:req.body.difficulty,priority:req.body.priority,state:req.body.state},
-                        {where:{issue_id:req.params.issue}})
-                        .then(() => {
-                            res.send("issue modified");
-                        }).catch(err=> {res.send(err)})
-                }
-            }).catch(error=> {res.send(error)})}
-    }).catch(err=> {res.send(err)})
-});
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError'){
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(403).send("Identifiants invalides.");
+            }
+        }
+        else {
+            if(!validator.isLength(req.body.story, { min: 10 })){
+               return res.status(400).send('story invalide.');
+              }   
+                models.issue.update(
+                {story:req.body.story,difficulty:req.body.difficulty,priority:req.body.priority,state:req.body.state},
+                {where:{issue_id:req.params.issue,projectProjectId:req.params.id}})
+                .then(() => {
+                    res.status(201).jsonp({
+                    message: "Modification effectuée",
+                  });
+                }).catch(err=> {res.send(err)})    
+        }
+    })
+})
+
 
 /* GET Sprints to project*/
 router.get('/:id/sprints' , function(req, res, next) {

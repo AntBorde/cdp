@@ -1,8 +1,9 @@
 export interface Issue {
     issue_id:number;
-    difficulty:string;
+    difficulty:number;
     story:string;
-    priority:string;
+    priority:number;
     state:string;
     projectProjectId:number;
   }
+  
