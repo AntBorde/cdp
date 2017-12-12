@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    const projects = sequelize.define("projects", {
+    const project = sequelize.define("project", {
         project_id:
             {
                 type: DataTypes.INTEGER,
@@ -23,20 +23,20 @@ module.exports = function(sequelize, DataTypes) {
             {
                 type: DataTypes.STRING(250),
                 allowNull: false
-            }}, {
-        timestamps: false,
-        freezeTableName: true,
-        tableName: 'Project',
-    });
+            }
+        },
+        {
+            timestamps: false
+        }
+    );
 
-    projects.associate = function(models) {
-        projects.hasMany(models.issues, {foreignKey: 'project_id',onDelete: 'CASCADE'});
-        projects.hasMany(models.project_team, {foreignKey :'project_id',onDelete: 'CASCADE'});
-        projects.hasMany(models.builds, {foreignKey :'project_id',onDelete: 'CASCADE'});
-        projects.hasMany(models.sprints, {foreignKey :'project_id',onDelete: 'CASCADE'});
-    }
+    project.associate = function(models) {
+        project.belongsToMany(models.user, {through: 'UserProjects'});
+        project.belongsTo(models.user, {as: 'productOwner'});
+        project.hasMany(models.issue, {onDelete: 'CASCADE'});
+        project.hasMany(models.build, {onDelete: 'CASCADE'});
+        project.hasMany(models.sprint, {onDelete: 'CASCADE'});
+    };
 
-
-    return projects;
+    return project;
 };
-

@@ -1,4 +1,0 @@
-Pour accéder à mysql après avoir lancer les container avec `docker-compose up`
-
-  `docker ps` (pour récupérer l'id du container mariadb)
-  `docker exec -ti CONTAINER_ID mysql -ppassword`

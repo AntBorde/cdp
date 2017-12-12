@@ -1,23 +1,26 @@
-let express = require('express');
-let path = require('path');
-let logger = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let cors = require('cors');
-let index = require('./routes/index');
-let projects = require('./routes/projects');
-let users = require('./routes/users');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const index = require('./routes/index');
+const projects = require('./routes/projects');
+const users = require('./routes/users');
 
-let app = express();
+const app = express();
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 
+//app.use('/', express.static(path.join(__dirname, '../front-src/dist')));
 app.use('/api/projects', projects);
 app.use('/api/users', users);
 
@@ -33,8 +36,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  res.status(err.status || 500);
-  res.send('error');
+  res.status(err.status || 500).send(err.message);
 });
 module.exports = app;

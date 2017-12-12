@@ -1,22 +1,50 @@
-<div class="card card-outline-primary mb-3 text-center" id="container">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <table class="table">
-        <tbody>
-          <tr>
-            <th scope="row">Nom</th>
-            <td>{{this.auth.getLastName()}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Prénom</th>
-            <td>{{this.auth.getFirstName()}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Email</th>
-            <td>{{this.auth.getEmail()}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </blockquote>
+<title>DDF - Profil</title>
+<div class="container mt-5" id="container">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert" role="alert">{{message}}</div>
+        <dl class="row">
+          <dt class="col-sm-3">Nom</dt>
+          <dd class="col-sm-9">{{this.authService.getLastName()}}</dd>
+          <dt class="col-sm-3">Prénom</dt>
+          <dd class="col-sm-9">{{this.authService.getFirstName()}}</dd>
+          <dt class="col-sm-3">Addresse mail</dt>
+          <dd class="col-sm-9">{{this.authService.getEmail()}}</dd>
+        </dl>
+        <h2 class="mt-2">Modifiez vos identifiants</h2>
+        <form [formGroup]="updateInfoUserForm" (ngSubmit)="submitForm()">
+          <div class="form-group">
+            <label for="inputEmail">Adresse email</label>
+            <input [ngClass]="{'is-invalid': (updateInfoUserForm.controls['email'].invalid && updateInfoUserForm.controls['email'].touched)}"
+                   formControlName="email" type="email" class="form-control" id="inputEmail">
+            <div class="invalid-feedback">
+              <ng-container *ngIf="updateInfoUserForm.controls['email'].hasError('required')">Veuillez renseigner votre adresse email.</ng-container>
+              <ng-container *ngIf="updateInfoUserForm.controls['email'].hasError('email')">Veuillez renseigner une adresse email valide.</ng-container>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword">Mot de passe</label>
+            <input [ngClass]="{'is-invalid': (updateInfoUserForm.controls['password'].invalid && updateInfoUserForm.controls['password'].touched)}"
+                   formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+            <div class="invalid-feedback">
+              <ng-container *ngIf="updateInfoUserForm.controls['password'].hasError('required')">Veuillez renseigner votre mot de passe.</ng-container>
+              <ng-container *ngIf="updateInfoUserForm.controls['password'].hasError('minlength')">Votre mot de passe est trop court (minimum 8 caractères).</ng-container>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputPassword2">Confirmer le mot de passe</label>
+            <input [ngClass]="{'is-invalid': (updateInfoUserForm.controls['password2'].invalid && updateInfoUserForm.controls['password2'].touched)}"
+                   formControlName="password2" type="password" class="form-control" id="inputPassword2" placeholder="Mot de passe">
+            <div class="invalid-feedback">
+              Les mots de passe doivent être identiques.
+            </div>
+          </div>
+          <button [disabled]="updateInfoUserForm.invalid" type="submit" class="btn btn-primary">Modifier</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+

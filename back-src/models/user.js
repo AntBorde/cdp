@@ -2,7 +2,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    const users = sequelize.define("users", {
+    const user = sequelize.define("user", {
             user_id:
                 {
                     type: DataTypes.INTEGER,
@@ -13,8 +13,8 @@ module.exports = function(sequelize, DataTypes) {
             email:
                 {
                     type: DataTypes.STRING,
-                    isEmail: true,
                     allowNull: false,
+                    unique: true,
                     validate: {
                         isEmail: true
                     }
@@ -33,13 +33,17 @@ module.exports = function(sequelize, DataTypes) {
                 {
                     type: DataTypes.CHAR(60),
                     allowNull: false
-                }}, {
-            timestamps: false,
-            freezeTableName: true,
-            tableName: 'User'
+                }
+        },
+        {
+            timestamps: false
         }
     );
-    return users;
+
+    user.associate = function(models) {
+        user.belongsToMany(models.project, {through: 'UserProjects'});
+    };
+    return user;
 };
 
 

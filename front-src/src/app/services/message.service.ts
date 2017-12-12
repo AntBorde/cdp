@@ -20,12 +20,10 @@ export class MessageService {
     this.errorMesage = true;
   }
 
-  public consumeMessage () {
-    let res = this.message;
-    this.message = null;
+  public consumeMessage (): string {
     this.errorMesage = false;
     this.successMessage = false;
-    return res;
+    return this.message;
   }
 
 }

@@ -1,6 +1,6 @@
 "use strict";
 module.exports = function(sequelize, DataTypes) {
-    const builds = sequelize.define("builds", {
+    const build = sequelize.define("build", {
             build_id:
                 {
                     type: DataTypes.INTEGER,
@@ -13,25 +13,23 @@ module.exports = function(sequelize, DataTypes) {
                     type: DataTypes.TEXT,
                     allowNull: false
                 },
-            project_id:
-                {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
-                },
             url:
                 {
                     type: DataTypes.STRING(250),
-                    allowNull: false
+                    allowNull: false,
+                    validate: {
+                        isURL: true
+                    }
                 }
         },
         {
-            timestamps: false,
-            freezeTableName: true,
-            tableName: 'Build',
-        },
+            timestamps: false
+        }
     );
-    builds.associate = function(models) {
-        builds.belongsTo(models.projects, {foreignKey : 'project_id'});
-    }
-    return builds;
+
+    build.associate = function(models) {
+        build.belongsTo(models.project);
+    };
+
+    return build;
 };

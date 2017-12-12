@@ -11,10 +11,11 @@ import { MessageService } from "../../services/message.service";
   templateUrl: './signin.component.html',
   encapsulation: ViewEncapsulation.None
 })
+
 export class SigninComponent implements OnInit {
 
-  message = '';
-  isError = false;
+  message: string = '';
+  isError: boolean = false;
   loginForm: FormGroup;
 
   constructor(
@@ -30,6 +31,15 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.messageService.errorMesage){
+      this.message = this.messageService.consumeMessage();
+      this.isError = true;
+    }
+
+    else {
+      this.message = '';
+    }
+
     this.auth.logout();
   }
   private submitForm() {
@@ -39,13 +49,13 @@ export class SigninComponent implements OnInit {
     };
 
     this.http
-      .post<TokenResponse>('http://localhost:3000/api/users/signin', body)
+      .post<SigninResponse>('http://localhost:3000/api/users/signin', body)
       .subscribe(
         data => {
           this.auth.storeToken(data.token);
-          this.auth.storeUser(data.UserId,data.firstName,data.lastName,data.Email);
-         this.router.navigate(['profile'])
-        .catch(reason => console.log('Erreur de redirection: ', reason));
+          this.auth.storeUser(data.userId, data.firstName, data.lastName, data.email);
+          this.router.navigate(['home'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -60,15 +70,16 @@ export class SigninComponent implements OnInit {
         }
       );
   }
+
   private showError(message: string): void {
     this.message = message;
     this.isError = true;
   }
 }
-interface TokenResponse {
+interface SigninResponse {
   token: string;
-  UserId:string,
-  firstName : string,
-  lastName: string,
-  Email: string,
+  userId:string;
+  firstName : string;
+  lastName: string;
+  email: string;
 }
