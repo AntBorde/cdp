@@ -160,18 +160,21 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
 }
 });
 });
+
 /** Get ProductOwner*/
-router.get('/:id/productOwner' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-    project.getProductOwner().then(productOwn=>{
-        res.status(201).jsonp({
-            projectName: project.name,
-            productOwner:productOwn.dataValues.lastname+' '+productOwn.dataValues.firstname
-          });
-        }).catch(err=> {res.send(err)})
-    }).catch(err=> {res.send(err)})
-})
+router.get('/:id/productOwner', function(req, res, next) {
+  models.project.findById(req.params.id)
+    .then(project => project.getProductOwner()
+	  .then(po => {
+	    let values = po.dataValues;
+	    let productOwner = values.lastname + ' '+ values.firstname;
+	    res.status(201).jsonp({
+              projectName: project.name,
+              productOwner
+	    });
+	  }))
+    .catch(err => res.send(err));
+});
 
 /* GET Issues to Project (backlog)*/
 router.get('/:id/issues' , function(req, res, next) {
