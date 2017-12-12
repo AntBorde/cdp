@@ -13,7 +13,7 @@ role="alert">
       <form [formGroup]="ParticipateForm" (ngSubmit)="submitForm()">
           <div class="form-group form-control-sm">
               <label for="inputProject">Projet</label>
-              <select class="form-control form-control-sm" id="inputProject" formControlName="projet"> 
+              <select class="form-control form-control-sm" id="inputProject" formControlName="projet">
                 <option selected *ngFor="let project of projects" [ngValue]="project.project_id">{{project.name}}</option>
               </select>
             </div>
@@ -21,8 +21,7 @@ role="alert">
                 <label for="Développeur">Status</label>
                 <input type="text" disabled class="form-control form-control-sm" id="Développeur" placeholder="Développeur">
               </div>
-            <button [disabled]="ParticipateForm.invalid" type="submit" class="btn btn-primary">Participer au projet</button>
-       </form> 
+            <button [disabled]="ParticipateForm.invalid" type="submit" class="btn btn-primary" id="participate">Participer au projet</button>
+       </form>
   </div>
   </ng-template>
-

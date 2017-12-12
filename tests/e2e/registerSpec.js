@@ -1,10 +1,15 @@
-//test u0 issue
+//test u0 u1 issue
 
 describe('inscription', function() {
 
   beforeEach(function(){
     browser.get('http://localhost:4200/home');
   });
+  //browser.pause();
+/*  var deco = element(by.id('deconnexion'));
+  deco.click();
+  browser.waitForAngular()*/
+
   it('tentative de register', function() {
     var registerButton = element(by.id('registerBtn'));
     registerButton.click();
