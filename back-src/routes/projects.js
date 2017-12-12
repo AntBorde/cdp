@@ -133,7 +133,8 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
         else {
     models.project.findById(req.params.id).
     then(project=>{
-    project.getProductOwner().then(product=>{
+      return project.getProductOwner()
+	.then(product => {
         if(product.dataValues.user_id!=req.params.iduser)
         {
             project.hasUser(req.params.iduser).then(userMember=>{
