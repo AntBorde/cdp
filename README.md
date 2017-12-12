@@ -6,7 +6,7 @@ Attention: le container de mongodb est incompatible avec Windows
 
  * Installer la dernière version docker-ce selon les instructions du site : https://docs.docker.com/engine/installation/
  * Installer la dernière version de docker-compose selon les instructions du site : https://docs.docker.com/compose/install/
- 
+
 Ajoutez votre utilisateur local au groupe Docker selon les instructions du site : https://docs.docker.com/engine/installation/linux/linux-postinstall/
 
 Pour lancer le site :
@@ -17,6 +17,13 @@ Pour lancer le site :
 * *docker-compose build* pour reconstruire les images, nécessaire si package.json a changé
 
 Le site est accessible sur *localhost:3000*
+
+
+Pour lancer les tests:
+* *npm install -g protractor* pour installer protractor
+* *sudo webdriver-manager update* mettre a jour selenium
+* *webdriver-manager start* pour lancer selenium
+* *protractor protractorConf.js* pour lancer les tests
 
 # User stories
 

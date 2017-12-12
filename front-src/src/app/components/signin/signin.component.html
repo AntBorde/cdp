@@ -23,9 +23,8 @@
             <ng-container *ngIf="loginForm.controls['password'].hasError('minlength')">Votre mot de passe est trop court (minimum 8 caractères).</ng-container>
           </div>
         </div>
-        <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary">Se connecter</button>
+        <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary" id="login" >Se connecter</button>
       </form>
     </div>
   </div>
 </div>
-

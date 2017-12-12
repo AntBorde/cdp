@@ -5,21 +5,21 @@
       <div ngbDropdown>
         <a class="nav-link dropdown-toggle" id="projectDropdown" ngbDropdownToggle>Projets</a>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <button class="dropdown-item" routerLink="/projects">Liste des projets</button>
-          <button class="dropdown-item" routerLink="/addproject">Créer un projet</button>
-          <button class="dropdown-item" routerLink="/project/participate">S'inscrire à un projet</button>
+          <button class="dropdown-item" routerLink="/projects"id="listeProject">Liste des projets</button>
+          <button class="dropdown-item" routerLink="/addproject" id="createProject" >Créer un projet</button>
+          <button class="dropdown-item" routerLink="/project/participate" id="inscriptionProject">S'inscrire à un projet</button>
         </div>
       </div>
     </li>
   </ul>
-  <button class="btn btn-info mr-1 l my-sm-0" routerLink="/profile">Mon Profil</button>
-  <button class="btn btn-danger mr-1 1 my-sm-0" (click)="logout()">Déconnexion</button>
+  <button class="btn btn-info mr-1 l my-sm-0" routerLink="/profile" id="profil">Mon Profil</button>
+  <button class="btn btn-danger mr-1 1 my-sm-0" (click)="logout()" id="deconnexion">Déconnexion</button>
 </nav>
 
 <ng-template #loginTemplate>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand mr-auto" routerLink="/home">DDF</a>
-    <button class="btn btn-primary mr-1 1 my-sm-0" routerLink="/signin">Connexion</button>
-    <button class="btn btn-success mr-1 my-sm-0" routerLink="/signup">Nouveau compte</button>
+    <button class="btn btn-primary mr-1 1 my-sm-0" routerLink="/signin" id="loginBtn">Connexion</button>
+    <button class="btn btn-success mr-1 my-sm-0" routerLink="/signup" id="registerBtn">Nouveau compte</button>
   </nav>
 </ng-template>
