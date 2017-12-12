@@ -12,7 +12,7 @@ import { AuthGuard } from './guard/authentification.guard';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
 import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
-
+import { SprintListComponent } from './components/backlog/sprint-list/sprint-list.component';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: 'project/participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog', component: BacklogComponent,canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog/CreateIssue', component: CreateIssueComponent,canActivate:[AuthGuard]},
-  { path: 'project/:idProject/Backlog/UpdateIssue', component: UpdateIssueComponent,canActivate:[AuthGuard]}
+  { path: 'project/:idProject/Backlog/UpdateIssue', component: UpdateIssueComponent,canActivate:[AuthGuard]},
+  { path: 'project/:idProject/Backlog/SprintList', component: SprintListComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

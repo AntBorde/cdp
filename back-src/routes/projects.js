@@ -193,7 +193,7 @@ router.post('/:id/issues/' , function(req, res, next) {
     } else if (!validator.isLength(req.body.story, { min: 10 })) {
       res.status(400).send('story invalide.');
     } else {
-      models.project.findById(req.params.id)
+    models.project.findById(req.params.id)
 	.then(project => models.issue.create({
 	  story: req.body.story,
 	  difficulty: req.body.difficulty,
@@ -257,38 +257,27 @@ router.put('/:id/issues/:issue' , function(req, res, next) {
 
 
 /* GET Sprints to project*/
+
 router.get('/:id/sprints' , function(req, res, next) {
     models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints().
-            then(Sprints =>{
-                if(Sprints.length==0)
-                    res.send("project without Sprints");
-                else
-                    res.send(Sprints);
-            }).catch(err=> {res.send(err)})
-        }
+    then(project=>{project.getSprints().
+    then(Sprints =>{
+        res.status(200).send(Sprints);})
+    .catch(err=> {res.send(err)})
     }).catch(err=> {res.send(err)})
 });
-
 /** POST sprint to project */
 router.post('/:id/sprints/' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            models.sprints.create({describle:req.body.describle,dateBegin:req.body.dateBegin,dateEnd:req.body.dateEnd,name:req.params.id}).
-            then(ress=>{
-                res.send("sprint affected to project");
-            }).catch(error=>{res.send(error)})
-        }
-    }).catch(err=> {res.send(err)})
+    models.project.findById(req.params.id)
+	.then(project => models.sprint.create({
+      sprint_id:'3',
+	  description: "req.body.story",
+	  dateBegin: "2004-02-02",
+	  dateEnd: "2004-02-02",
+	  projectProjectId:'1'
+	}))
+	.then(NewIssue => res.status(201).jsonp({ message: "Issue crée" }))
+	.catch(err => res.send(err));
 });
 
 /** GET tâches :renvoie la listes des tâches associées à un sprint */

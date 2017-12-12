@@ -21,6 +21,8 @@ import { ProjectParticipateComponent } from "./components/project/project-partic
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
 import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
+import { SprintCreateComponent } from './components/backlog/sprint-create/sprint-create.component';
+import { SprintListComponent } from './components/backlog/sprint-list/sprint-list.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { UpdateIssueComponent } from './components/backlog/update-issue/update-i
     ProjectParticipateComponent,
     BacklogComponent,
     CreateIssueComponent,
-    UpdateIssueComponent
+    UpdateIssueComponent,
+    SprintCreateComponent,
+    SprintListComponent
   ],
   imports: [
     BrowserModule,

@@ -4,20 +4,20 @@ import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import { AuthService } from "../../services/auth.service";
-import {Issue} from '../../models/issue';
-import {ProjectService} from "../../services/project.service";
+import {Sprint} from '../../../models/sprint';
+import {ProjectService} from "../../../services/project.service";
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-backlog',
-  templateUrl: './backlog.component.html',
-  styleUrls: ['./backlog.component.css']
+  selector: 'app-sprint-list',
+  templateUrl: './sprint-list.component.html',
+  styleUrls: ['./sprint-list.component.css']
 })
+export class SprintListComponent implements OnInit {
 
-export class BacklogComponent implements OnInit {
   projectName:string;
   ProductOwner: string;
-  Backlog:Issue[]=null
+  Sprints:Sprint[]=null
   constructor(private http: HttpClient,
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
@@ -33,20 +33,11 @@ export class BacklogComponent implements OnInit {
     );
     this.
     http.
-    get<Issue[]>('http://localhost:3000/api/projects/'+this.projectId+'/issues')
-    .subscribe( data => { this.Backlog=data;
+    get<Sprint[]>('http://localhost:3000/api/projects/'+this.projectId+'/sprints')
+    .subscribe( data => { this.Sprints=data;
+      console.log(data);
      });
   }
-  NavigateAddIssue(){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/CreateIssue']);
-  }
-  NavigateUpdateIssue(){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/UpdateIssue']);
-  }
-  NavigateSprints(){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/SprintList']);
-  }
-  
 }
 
 interface ProductOwnerResponse
@@ -54,4 +45,7 @@ interface ProductOwnerResponse
 projectName:string;
 productOwner:string;
 }
+
+
+
 
