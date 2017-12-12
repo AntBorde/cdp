@@ -34,13 +34,18 @@ describe('inscription', function() {
     var email = element(by.id('inputEmail'));
     var password = element(by.id('inputPassword'));
 
-    email.sendKeys('toto@gmail.com');
     browser.pause();
+
+    email.sendKeys('toto@gmail.com');
     password.sendKeys('blablabla');
 
     loginButton = element(by.id('login'));
     loginButton.click();
+
     browser.waitForAngular();
+
+    profilButton = element(by.id('profil'));
+    profilButton.click();
     expect(browser.driver.getCurrentUrl()).toMatch('/profile');
   });
 
