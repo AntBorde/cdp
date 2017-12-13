@@ -359,59 +359,29 @@ router.post('/:id/sprints/:idsprint' , function(req, res, next) {
     
 });
 
-/** PUT: Modifie le statut de la tâche*/
-router.put('/:name/sprints/:id/:tid/' , function(req, res, next) {
-    models.project.findById(req.params.name).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints({ where: { sprint_id:req.params.id}}).
-            then(sprint =>{
-                if(sprint.length==0)
-                    res.send("sprint not exist");
-                else
-                {
-                    models.tasks.update(
-                        {state:req.body.state},
-                        {where:{task_id:req.params.tid,sprint_id:req.params.id,name:req.params.name}})
-                        .then(() => {
-                            res.send("task modified");
-                        }).catch(err=> {res.send(err)})
-
-                }
-            }).catch(err=> {res.send(err)})
+/** PUT: Modifier la tâche*/
+router.put('/:id/sprints/:sid/:tid/' , function(req, res, next) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err && err.name === 'TokenExpiredError'){
+          res.status(401).send("Votre session a expiré.");
+        } else if (err) {
+          res.status(403).send("Identifiants invalides.");
+        } else if (!validator.isLength(req.body.description, { min: 10 })) {
+          res.status(400).send('description invalide.');
+        } else {
+            models.task.update(
+                {description:req.body.description,state:req.body.state,cost:req.body.cost,userUserId:req.body.dev},
+                {where:{task_id:req.params.tid,projectProjectId:req.params.id,}})
+                .then(() => {
+                    res.status(201).jsonp({
+                    message: "Modification effectuée",
+                  });
+                }).catch(err=> {res.send(err)})
         }
-    }).catch(err=> {res.send(err)})
+    })
 });
 
-/** DELETE: Supprime la tâche*/
-// console.log(models.sprints.prototype);
-router.delete('/:name/sprints/:id/:tid/' , function(req, res, next) {
-    models.project.findById(req.params.name).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints({ where: { sprint_id:req.params.id}}).
-            then(sprint =>{
-                if(sprint.length==0)
-                    res.send("sprint not exist");
-                else
-                {
-                    models.tasks.destroy(
-                        {where:{task_id:req.params.tid}})
-                        .then(() => {
-                            res.send("task deleted");
-                        }).catch(err=> {res.send(err)})
 
-                }
-            }).catch(err=> {res.send(err)})
-        }
-    }).catch(err=> {res.send(err)})
-});
 
 /**GET: renvoie la liste des builds */
 router.get('/:id/builds' , function(req, res, next) {

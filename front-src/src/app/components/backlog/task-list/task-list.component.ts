@@ -40,6 +40,10 @@ export class TaskListComponent implements OnInit {
   NavigateAddTask(){
     this.router.navigate(['project/'+this.projectId+'/Backlog/Sprint/'+this.sprintId+'/CreateTask']);
   }
+  NavigateUpdateTask(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/Sprint/'+this.sprintId+'/UpdateTask']);
+  }
+  
 }
 
 interface ProductOwnerResponse

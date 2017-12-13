@@ -26,6 +26,7 @@ import { SprintListComponent } from './components/backlog/sprint-list/sprint-lis
 import { SprintUpdateComponent } from './components/backlog/sprint-update/sprint-update.component';
 import { TaskListComponent } from './components/backlog/task-list/task-list.component';
 import { TaskCreateComponent } from './components/backlog/task-create/task-create.component';
+import { UpdateTaskComponent } from './components/backlog/update-task/update-task.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { TaskCreateComponent } from './components/backlog/task-create/task-creat
     SprintListComponent,
     SprintUpdateComponent,
     TaskListComponent,
-    TaskCreateComponent
+    TaskCreateComponent,
+    UpdateTaskComponent
   ],
   imports: [
     BrowserModule,
