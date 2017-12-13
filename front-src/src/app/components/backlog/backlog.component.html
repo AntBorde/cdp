@@ -8,7 +8,7 @@
           <i class="fa fa-plus-circle" aria-hidden="true" id="newIssue"></i>Nouvelle issue</button>
        <button type="button" class="btn btn-success" (click)='NavigateUpdateIssue()'>
         <i class="fa fa-pencil" aria-hidden="true" id="modifIssue"></i>Modifier une issue</button>
-        <button type="button" class="btn btn-info"(click)='NavigateSprints()'><i class="fa fa-list" aria-hidden="true"></i>Liste des Sprints</button>
+        <button type="button" class="btn btn-info" id="sprint" (click)='NavigateSprints()'><i class="fa fa-list" aria-hidden="true"></i>Liste des Sprints</button>
     </div>
   </div>
   <ng-template #content let-c="close" let-d="dismiss">
