@@ -3,9 +3,9 @@
       <h5 class="card-title">Projet : {{ this.projectName }} </h5>
       <h5 class="card-title">ProductOwner : {{ this.ProductOwner }} </h5>
       <h5 class="card-title">Sprint : {{ this.sprintId }} </h5>
-      <button type="button"  (click)="NavigateAddTask()" class="btn btn-success" >
+      <button type="button"  (click)="NavigateAddTask()" id="newTask" class="btn btn-success" >
         <i class="fa fa-plus-circle" aria-hidden="true"></i>Nouvelle tâche</button>
-     <button type="button" (click)="NavigateUpdateTask()" class="btn btn-success" >
+     <button type="button" (click)="NavigateUpdateTask()" id="modifTask" class="btn btn-success" >
       <i class="fa fa-pencil" aria-hidden="true"></i>Modifier une tâche</button>
     </div>
   </div>

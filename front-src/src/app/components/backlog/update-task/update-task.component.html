@@ -7,10 +7,10 @@ role="alert">
      <form [formGroup]="UpdateTaskForm" (ngSubmit)="UpdateTaskFrom()">
         <div class="form-group form-control-sm">
             <label for="task_id">Tâche ID</label>
-            <select class="form-control form-control-sm" (change)="onChange($event)" formControlName="task_id" id="task_id"> 
+            <select class="form-control form-control-sm" (change)="onChange($event)" formControlName="task_id" id="task_id">
               <option selected *ngFor="let task of Tasks" [ngValue]="task.task_id">{{task.task_id}}</option>
             </select>
-          </div>  
+          </div>
               <div class="form-group">
                   <label for="description">Description</label>
                   <textarea [ngClass]="{'is-invalid': (UpdateTaskForm.controls['description'].invalid && UpdateTaskForm.controls['description'].touched)}"
@@ -37,6 +37,6 @@ role="alert">
                       <option>TODO</option>
                     </select>
                   </div>
-              <button [disabled]="UpdateTaskForm.invalid" type="submit" class="btn btn-primary">Modifier</button>
+              <button [disabled]="UpdateTaskForm.invalid" type="submit" class="btn btn-primary" id="modif">Modifier</button>
       </form>
  </div>

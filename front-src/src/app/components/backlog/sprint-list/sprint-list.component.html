@@ -3,9 +3,9 @@
       <h5 class="card-title">Projet : {{ this.projectName }} </h5>
       <h5 class="card-title">ProductOwner : {{ this.ProductOwner }} </h5>
         <button type="button"(click)="NavigateAddSprint()" class="btn btn-success" >
-          <i class="fa fa-plus-circle" aria-hidden="true"></i>Nouveau sprint</button>
+          <i class="fa fa-plus-circle" aria-hidden="true" id="newSprint"></i>Nouveau sprint</button>
        <button type="button" (click)="NavigateUpdateSprint()"class="btn btn-success" >
-        <i class="fa fa-pencil" aria-hidden="true"></i>Modifier un sprint</button>
+        <i class="fa fa-pencil" aria-hidden="true" id="modifSprint"></i>Modifier un sprint</button>
     </div>
   </div>
 <div id="container">
@@ -26,7 +26,7 @@
                   <td>{{sprint.dateBegin.substring(0,10)}}</td>
                   <td>{{sprint.dateEnd.substring(0,10)}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline-primary" (click)="getAccessTasks(sprint.sprint_id)" ><i class="fa fa-align-justify" aria-hidden="true"></i>Tâches sprint {{sprint.sprint_id}}</button>
+                    <button type="button" id="task_{{sprint.sprint_id}}" class="btn btn-outline-primary" (click)="getAccessTasks(sprint.sprint_id)" ><i class="fa fa-align-justify" aria-hidden="true"></i>Tâches sprint {{sprint.sprint_id}}</button>
                   </td>
               </tr>
           </tbody>
