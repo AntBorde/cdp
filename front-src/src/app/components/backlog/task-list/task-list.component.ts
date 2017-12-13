@@ -4,24 +4,25 @@ import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import { AuthService } from "../../../services/auth.service";
-import {Sprint} from '../../../models/sprint';
+import {Task} from '../../../models/task';
 import {ProjectService} from "../../../services/project.service";
 import {ActivatedRoute} from '@angular/router';
-
 @Component({
-  selector: 'app-sprint-list',
-  templateUrl: './sprint-list.component.html',
-  styleUrls: ['./sprint-list.component.css']
+  selector: 'app-task-list',
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css']
 })
-export class SprintListComponent implements OnInit {
 
+export class TaskListComponent implements OnInit {
   projectName:string;
   ProductOwner: string;
-  Sprints:Sprint[]=null
+  Tasks:Task[]=null
+  
   constructor(private http: HttpClient,
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
    projectId=this.activatedRoute.snapshot.paramMap.get('idProject');
+   sprintId=this.activatedRoute.snapshot.paramMap.get('idSprint');
   ngOnInit() {
     this.http
     .get<ProductOwnerResponse>('http://localhost:3000/api/projects/'+this.projectId+'/productOwner')
@@ -33,18 +34,11 @@ export class SprintListComponent implements OnInit {
     );
     this.
     http.
-    get<Sprint[]>('http://localhost:3000/api/projects/'+this.projectId+'/sprints')
-    .subscribe( data => { this.Sprints=data;
-     });
+    get<Task[]>('http://localhost:3000/api/projects/'+this.projectId+'/sprints/'+this.sprintId)
+    .subscribe( data => { this.Tasks=data;});
   }
-  NavigateAddSprint(){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/CreateSprint']);
-  }
-  NavigateUpdateSprint(){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/UpdateSprint']);
-  }
-  getAccessTasks(sprintId){
-    this.router.navigate(['project/'+this.projectId+'/Backlog/Sprint/'+sprintId+'/Tasks']);
+  NavigateAddTask(){
+    this.router.navigate(['project/'+this.projectId+'/Backlog/Sprint/'+this.sprintId+'/CreateTask']);
   }
 }
 
@@ -53,7 +47,3 @@ interface ProductOwnerResponse
 projectName:string;
 productOwner:string;
 }
-
-
-
-

@@ -1,0 +1,33 @@
+<div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+role="alert">
+{{ message }}
+</div>
+<div id="container">
+    <h1>Créer une nouvelle Tâche</h1>
+     <form [formGroup]="AddTaskForm" (ngSubmit)="AddTaskFrom()">
+              <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea [ngClass]="{'is-invalid': (AddTaskForm.controls['description'].invalid && AddTaskForm.controls['description'].touched)}"
+                         formControlName="description" type="text" class="form-control" id="description" placeholder="description" rows="2" maxlength="50"></textarea>
+                         <div class="invalid-feedback">
+                          <ng-container *ngIf="AddTaskForm.controls['description'].hasError('required')">Veuillez renseigner la description</ng-container>
+                          <ng-container *ngIf="AddTaskForm.controls['description'].hasError('minlength')">Description trop courte (minimum 10 caractères).</ng-container>
+                        </div>
+               </div>
+               <div class="form-group">
+                  <label for="cost">coût</label>
+                  <input formControlName="cost"  type="number" class="form-control" id="cost" value="1"  min="1">
+                </div>
+                <div class="form-group">
+                  <label for="state">Status</label>
+                  <input type="text" disabled class="form-control form-control-sm" id="state" placeholder="TODO">
+                </div>
+                <div class="form-group form-control-sm">
+                  <label for="dev">Dev</label>
+                  <select class="form-control form-control-sm" id="dev" formControlName="dev">
+                    <option selected *ngFor="let member of ProjectTeam " [ngValue]="member.user_id">{{member.lastname}} {{member.firstname}}</option>
+                  </select>
+                </div>
+              <button [disabled]="AddTaskForm.invalid" type="submit" class="btn btn-primary" id="create">Créer Tâche</button>
+      </form>
+ </div>

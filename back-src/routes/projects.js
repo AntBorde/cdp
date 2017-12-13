@@ -98,13 +98,13 @@ router.post('/:id/users/' , function(req, res, next) {
         res.status(400).send('Vous êtes le product owner du projet '+project.name);
         else
         {
-            project.hasUser(req.body.user_id).then(userMember=>{
+            project.hasContributor(req.body.user_id).then(userMember=>{
                 if(userMember)
                 {
                  res.status(400).send('Vous participez déja au projet '+project.name);
                 }
                 else{
-                  project.addUser(req.body.user_id).then(newMember=>{
+                  project.addContributor(req.body.user_id).then(newMember=>{
                      let message = "vous participez au projet "+project.name;
                          res.status(201).jsonp({
                          message: message,
@@ -133,10 +133,11 @@ router.get('/:id/users/:iduser' , function(req, res, next) {
         else {
         models.project.findById(req.params.id).
         then(project=>{
+            console.log(models.project.prototype);
         project.getProductOwner().then(product=>{
             if(product.dataValues.user_id!=req.params.iduser)
             {
-                project.hasUser(req.params.iduser).then(userMember=>{
+                project.hasContributor(req.params.iduser).then(userMember=>{
                     if(!userMember)
                     {
                         res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
@@ -206,27 +207,6 @@ router.post('/:id/issues/' , function(req, res, next) {
     }
   });
 });
-
-/* GET Issue by id */
-router.get('/:id/issues/:issue' , function(req, res, next) {
-    models.project.findById(req.params.id).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getIssues({ where: { issue_id:req.params.issue}}).
-            then(Issue =>{
-                if(Issue.length==0)
-                    res.send("issue not found");
-                else
-                    res.send(Issue);
-            }).catch(err=> {res.send(err)})
-        }
-    }).catch(err=> {res.send(err)})
-});
-
-
 
 /* PUT Issue */
 router.put('/:id/issues/:issue' , function(req, res, next) {
@@ -322,52 +302,61 @@ router.put('/:id/sprints/:idsprint' , function(req, res, next) {
     })
 })
 /** GET tâches :renvoie la listes des tâches associées à un sprint */
-router.get('/:name/sprints/:id' , function(req, res, next) {
-
-    models.project.findById(req.params.name).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints({ where: { sprint_id:req.params.id}}).
-            then(sprint =>{
-                if(sprint.length==0)
-                    res.send("sprint not exist");
-                else
-                {
-                    sprint[0].getTasks().then(tasks =>{
-                        res.send(tasks);
-                    })
-                }
-            }).catch(err=> {res.send(err)})
-        }
-    }).catch(err=> {res.send(err)})
+router.get('/:id/sprints/:idSprint' , function(req, res, next) {
+  models.task.findAll({
+    where:{sprintSprintId:req.params.idSprint,projectProjectId:req.params.id},
+    include: [{
+       model: models.user,
+       attributes: ['firstname', 'lastname']
+    }]
+  }).
+  then(tasks=>{
+    res.status(200).send(tasks);})
 });
 
-/**POST: Ajout d'une tâche */
-router.post('/:name/sprints/:id' , function(req, res, next) {
-
-    models.project.findById(req.params.name).
-    then(project=>{
-        if(project==null)
-            res.send("project not exist");
-        else
-        {
-            project.getSprints({ where: { sprint_id:req.params.id}}).
-            then(sprint =>{
-                if(sprint.length==0)
-                    res.send("sprint not exist");
-                else
-                {
-                    models.tasks.create({describle:req.body.describle,user_id:req.body.user_id,state:req.body.state,cost:req.body.cost,name:req.params.name,sprint_id:req.params.id}).
-                    then(ress=>{
-                        res.send("task created");
-                    }).catch(error=>{res.send(error)})
-                }
-            }).catch(err=> {res.send(err)})
-        }
+/**liste des utilisateur participants à un projet */
+router.get('/:id/team', function(req, res, next) {
+    models.project.findAll({
+        attributes: ['project_id'],
+        include: [{
+            model: models.user,
+            as: 'productOwner',
+            attributes: ['firstname', 'lastname','user_id']
+            },
+            {
+            model: models.user,
+            as: 'contributor',
+            attributes: ['firstname', 'lastname','user_id']
+           }],
+           where:{project_id:req.params.id}
+    }).
+    then(users=>{
+        res.status(200).send(users);
     }).catch(err=> {res.send(err)})
+  });
+/**POST: Ajout d'une tâche au sprint*/
+router.post('/:id/sprints/:idsprint' , function(req, res, next) {
+
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err && err.name === 'TokenExpiredError'){
+          res.status(401).send("Votre session a expiré.");
+        } else if (err) {
+          res.status(403).send("Identifiants invalides.");
+        } else if (!validator.isLength(req.body.description, { min: 10 })) {
+          res.status(400).send('description invalide.');
+        } else {
+          models.task.create({
+          description: req.body.description,
+          cost: req.body.cost,
+          state: 'TODO',
+          projectProjectId: req.params.id,
+          sprintSprintId:req.params.idsprint,
+          userUserId:req.body.userUserId
+        })
+        .then(res.status(201).jsonp({ message: "Tâche crée" }))
+        .catch(err => res.send(err));
+    }})
+    
 });
 
 /** PUT: Modifie le statut de la tâche*/
@@ -458,4 +447,5 @@ router.get('/:id/builds/' , function(req, res, next) {
         }
     }).catch(err=> {res.send(err)})
 });
+
 module.exports = router;
