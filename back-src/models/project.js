@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     );
 
     project.associate = function(models) {
-        project.belongsToMany(models.user, {through: 'UserProjects'});
+        project.belongsToMany(models.user, {as: 'contributor',through: 'UserProjects'});
         project.belongsTo(models.user, {as: 'productOwner'});
         project.hasMany(models.issue, {onDelete: 'CASCADE'});
         project.hasMany(models.build, {onDelete: 'CASCADE'});

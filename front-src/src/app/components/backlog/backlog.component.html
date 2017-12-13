@@ -1,7 +1,9 @@
 <div class="card" align="center">
   <div class="card-block">
-      <p class="card-text">Projet : {{ this.projectName }} </p>
-      <p class="card-text">ProductOwner : {{ this.ProductOwner }} </p>
+      <h5 class="card-title">Projet : {{ this.projectName }} </h5>
+      <h5 class="card-title">ProductOwner : {{ this.ProductOwner }} </h5>
+      <h5 class="card-title"><button type="button" (click)="open(content)"class="btn btn-warning">
+          <i class="fa fa-users" aria-hidden="true"></i>Équipe</button> </h5>
         <button type="button" class="btn btn-success" (click)='NavigateAddIssue()'>
           <i class="fa fa-plus-circle" aria-hidden="true" id="newIssue"></i>Nouvelle issue</button>
        <button type="button" class="btn btn-success" (click)='NavigateUpdateIssue()'>
@@ -9,6 +11,22 @@
         <button type="button" class="btn btn-info"(click)='NavigateSprints()'><i class="fa fa-list" aria-hidden="true"></i>Liste des Sprints</button>
     </div>
   </div>
+  <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Équipe</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <li *ngFor="let member of ProjectTeam">
+            <i class="fa fa-user-circle" aria-hidden="true"></i> {{member.lastname}} {{member.firstname}}
+      </li>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click');">Fermer</button>
+      </div>
+    </ng-template>
 <div id="container">
   <table class="table">
       <thead>
