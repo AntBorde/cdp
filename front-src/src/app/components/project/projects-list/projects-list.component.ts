@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from "../../../services/auth.service";
+import { MessageService } from "../../../services/message.service";
 
 @Component({
   selector: 'app-projects-list',
@@ -16,7 +17,8 @@ export class ProjectsListComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private messageService: MessageService) { }
 
   ngOnInit() {
     this.message = '';
@@ -28,7 +30,7 @@ export class ProjectsListComponent implements OnInit {
       .subscribe(
         data => {
           if (data.length == 0){
-            this.showError("Il n'existe aucun projet.")
+            this.showError("Aucun projet n'est disponible.")
           }
           else{
             this.projects = data;
@@ -38,14 +40,23 @@ export class ProjectsListComponent implements OnInit {
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             this.showError(err.error.message);
-          } else {
-            this.showError(err.error);
+          }
+          else {
+            if (err.status === 401){
+              this.messageService.setErrorMessage(err.error);
+              this.authService.logout();
+              this.router.navigate(['/signin'])
+                .catch(reason => console.log('Erreur de redirection: ', reason));
+            }
+            else{
+              this.showError( err.error);
+            }
           }
         }
       );
   }
 
-  getAccess(projectID)
+  contributeTo(projectID)
   {
     const body = {
       projectId: projectID,
@@ -53,11 +64,13 @@ export class ProjectsListComponent implements OnInit {
     };
 
     this.http
-      .post<ProjectResponse>('http://localhost:3000/api/projects/register/', body, {
+      .post<ProjectResponse>('http://localhost:3000/api/projects/contribute/', body, {
         headers: new HttpHeaders().set('Authorization', this.authService.getToken())})
       .subscribe(
         data => {
-          this.router.navigate(['project/'+projectID+'/Backlog']);
+          this.messageService.setSuccessMessage(data.message);
+          this.router.navigate(['myprojects'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));;
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -68,6 +81,7 @@ export class ProjectsListComponent implements OnInit {
         }
       );
   }
+
   private showError(message: string): void {
     this.message = message;
     this.isError = true;

@@ -13,22 +13,53 @@ router.get('/' , function(req, res) {
             }
             else {
                 //res.status(403).send(err.message);
-                res.status(403).send("Identifiants invalides.");
+                res.status(401).send("Identifiants invalides.");
             }
         }
+        else{
+            models.project.findAll({
+                attributes: ['project_id', 'name', 'description', 'git'],
+                include: [{
+                    model: models.user,
+                    as: 'productOwner',
+                    attributes: ['firstname', 'lastname'],
+                    where: {
+                        user_id: {[Op.ne]: parseInt(decoded.user.id)}
+                    }
+                }]
+            })
+                .then(projects => {
 
-        models.project.findAll({
-            attributes: ['project_id', 'name', 'description', 'git'],
-            include: [{
-                model: models.user,
-                as: 'productOwner',
-                attributes: ['firstname', 'lastname']
-            }]
-        })
-            .then(projects => {
+                    res.status(200).jsonp(projects);
+                }).catch(err => {res.send(err)})
+        }
+    })
+});
 
-                res.status(200).jsonp(projects);
-            }).catch(err => {res.send(err)})
+/*GET: list of projects the user is contributing to*/
+router.get('/user/:id' , function(req, res) {
+    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                res.status(401).send("Votre session a expiré.");
+            }
+            else {
+                res.status(401).send("Identifiants invalides.");
+            }
+        }
+        else{
+            models.project.findAll({
+                attributes: ['project_id', 'name', 'description', 'git'],
+                include: [{
+                    model: models.user,
+                    as: 'productOwner',
+                    attributes: ['firstname', 'lastname']
+                }]
+            })
+                .then(projects => {
+                    res.status(200).jsonp(projects);
+                }).catch(err => {res.send(err)})
+        }
     })
 });
 
@@ -41,47 +72,44 @@ router.post('/', function(req, res) {
             }
             else {
                 //res.status(403).send(err.message);
-                res.status(403).send("Identifiants invalides.");
+                res.status(401).send("Identifiants invalides.");
             }
         }
-
-        if (!validator.isLength(req.body.name, {max: 50})){
-            res.status(400).send('Le nom du projet est trop long.');
+        else{
+            if (!validator.isLength(req.body.name, {max: 50})){
+                res.status(400).send('Le nom du projet est trop long.');
+            }
+            if (!validator.isLength(req.body.description, {max: 250})){
+                res.status(400).send('La description est trop longue.');
+            }
+            if (!validator.isLength(req.body.git, {max: 250})){
+                res.status(400).send('L\'adresse  git est trop longue.');
+            }
+            models.user.findById(decoded.userId)
+                .then(user => {
+                    if(user === null) {
+                        res.status(401).send("Identifiants invalides.");
+                    }
+                    else {
+                        return models.project.create({
+                            name: req.body.name,
+                            description: req.body.description,
+                            git: req.body.git,
+                            productOwnerUserId: user.user_id
+                        })
+                            .then(newProject => {
+                                let message = "Le projet " + newProject.name + " a été crée";
+                                res.status(201).jsonp({
+                                    message: message,
+                                });
+                            })
+                    }}).catch(err => {res.send(err)})
         }
-
-        if (!validator.isLength(req.body.description, {max: 250})){
-            res.status(400).send('La description est trop longue.');
-        }
-
-        if (!validator.isLength(req.body.git, {max: 250})){
-            res.status(400).send('L\'adresse  git est trop longue.');
-        }
-        models.user.findById(decoded.userId)
-            .then(user => {
-                if(user === null) {
-                    res.status(400).send("Identifiants invalides.");
-                }
-                else {
-                    models.project.create({
-                        name: req.body.name,
-                        description: req.body.description,
-                        git: req.body.git,
-                        productOwnerUserId: user.user_id
-                    })
-                        .then(newProject => {
-                            let message = "Le projet " + newProject.name + " a été crée";
-                            res.status(201).jsonp({
-                                message: message,
-                            });
-                        }).catch(err => {
-                        res.send(err)
-                    })
-                }}).catch(err => {res.send(err)})
     });
 });
 
 /* POST add user to the project users list */
-router.post('/register/' , function(req, res, next) {
+router.post('/contribute/' , function(req, res, next) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
         if (err) {
             if (err.name === 'TokenExpiredError') {
@@ -89,33 +117,35 @@ router.post('/register/' , function(req, res, next) {
             }
             else {
                 //res.status(403).send(err.message);
-                res.status(403).send("Identifiants invalides.");
+                res.status(401).send("Identifiants invalides.");
             }
         }
+        else{
 
-        if (parseInt(decoded.userId) !== parseInt(req.body.userId)) {
-            res.status(400).send("Opération non autorisée.");
+            if (parseInt(decoded.userId) !== parseInt(req.body.userId)) {
+                res.status(400).send("Opération non autorisée.");
+            }
+            else {
+                models.user.findById(req.body.userId)
+                    .then(user => {
+                        if (user === null) {
+                            res.status(401).send("Identifiants invalides.");
+                        }
+                        else {
+                            return models.project.findById(req.body.projectId)
+                                .then(project => {
+                                    return project.addUser(user.user_id)
+                                        .then(result => {
+                                            let message = "Vous êtes maintenant contributeur du projet" + project.name;
+                                            res.status(201).jsonp({
+                                                message: message,
+                                            });
+                                        })
+                                })
+                        }}).catch(err => {res.send(err)})
+            }
         }
-
-        else {
-            models.user.findById(req.body.userId)
-                .then(user => {
-                    if (user === null) {
-                        res.status(400).send("Identifiants invalides.");
-                    }
-                    else {
-                        models.project.findById(req.body.projectId)
-                            .then(project => {
-                                project.addUser(user.user_id)
-                                    .then(result => {
-                                        let message = "Vous participez au projet sélectionné";
-                                        res.status(201).jsonp({
-                                            message: message,
-                                        });
-                                    }).catch(err => {res.send(err)});
-                            }).catch(err => {res.send(err)});
-                    }}).catch(err => {res.send(err)})
-        }})
+    })
 });
 
 /** Get ProductOwner*/

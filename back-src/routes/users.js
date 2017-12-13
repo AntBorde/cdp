@@ -13,23 +13,25 @@ router.get('/info' , function(req, res) {
                 res.status(401).send("Votre session a expiré.");
             }
             else {
-                res.status(403).send("Identifiants invalides.");
-            }
-	  return;
-        }
 
-        models.user.findById(decoded.userId)
-            .then(user => {
-                if(user == null)
-                    res.send("Identifiants invalides.");
-                else
-                    res.status(200).jsonp({
-                        userId: user.user_id,
-                        firstName: user.firstname,
-                        lastName: user.lastname,
-                        email: user.email
-                    });
-            }).catch(err => res.send(err));
+                res.status(401).send("Identifiants invalides.");
+            }
+            return;
+        }
+        else{
+            models.user.findById(decoded.userId)
+                .then(user => {
+                    if(user == null)
+                        res.status(401).send("Identifiants invalides.");
+                    else
+                        res.status(200).jsonp({
+                            userId: user.user_id,
+                            firstName: user.firstname,
+                            lastName: user.lastname,
+                            email: user.email,
+                        });
+                }).catch(err => {res.send(err)})
+        }
     });
 });
 
@@ -47,7 +49,7 @@ router.post('/signin', (req, res, next) => {
                 }
                 else {
                     const secret = process.env.AUTH_SECRET;
-                    const newToken = jwt.sign({userId: user.user_id}, secret, { expiresIn: 60 * 60 });
+                    const newToken = jwt.sign({userId: user.user_id}, secret, { expiresIn: 1 });
                     res.status(200).jsonp({
                         token: newToken,
                         userId: user.user_id,
@@ -92,14 +94,6 @@ router.post('/signup', function(req, res) {
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     password: hashPassword
-<<<<<<< HEAD
-                }).
-                then(newUser => {
-                  res.status(201).jsonp({
-                    message: "L'utilisateur " + newUser.firstname + " a été crée."
-                  });
-                });
-=======
                 })
                     .then( newUser => {
                         let message = "L'utilisateur " + newUser.firstname + " a été crée.";
@@ -107,7 +101,6 @@ router.post('/signup', function(req, res) {
                             message: message,
                         });
                     }).catch(err => {res.send(err)})
->>>>>>> 613a6e8... Liste de projets avec product owner, inscription des utilisateurs aux
             }
         }).catch(err => res.send(err))
 });
@@ -121,77 +114,53 @@ router.put('/:id' , function(req, res) {
             }
             else {
                 //res.status(403).send(err.message);
-                res.status(403).send("Identifiants invalides.");
+                res.status(401).send("Identifiants invalides.");
             }
         }
-
-        if (parseInt(decoded.userId) != parseInt(req.params.id)) {
-            res.status(400).send("Opération non autorisée.");
-        }
-
         else {
-            models.user.findById(req.params.id)
-                .then(user => {
-                    if(user == null){
-                        res.status(400).send("L'utilisateur n'existe pas.");
-                    }
-                    else
-                    {
-                        if (!validator.isEmail(req.body.email)){
-                            res.status(400).send('Email invalide.');
-                        }
-
-<<<<<<< HEAD
-                    if (!validator.isLength(req.body.password, { min:8 })){
-                        res.status(400).send('Le mot de passe est trop court.');
-                    }
-                    const salt = bcrypt.genSaltSync(10);
-                    const hashPassword = bcrypt.hashSync(req.body.password, salt);
-                    models.user.findOne({where: {email: req.body.email}}).
-                    then(userEmail => {
-                        if(userEmail.email === req.body.email && userEmail.user_id != req.params.id)
-                        {
-                            res.status(400).send('Un utilisateur existe déjà avec cet email.');
+            if (parseInt(decoded.userId) !== parseInt(req.params.id)) {
+                res.status(400).send("Opération non autorisée.");
+            }
+            else {
+                models.user.findById(req.params.id)
+                    .then(user => {
+                        if(user == null){
+                            res.status(401).send("Identifiants invalides.");
                         }
                         else
                         {
-                            models.user.update(
-                                { email: req.body.email, password: hashPassword},
-                                { where: { user_id: req.params.id}}).
-                            then( updatedUser =>{
-                                res.status(200).jsonp({
-                                    userId: updatedUser.user_id,
-                                    email: req.body.email,
-                                });
-=======
-                        if (!validator.isLength(req.body.password, { min: 8})){
-                            res.status(400).send('Le mot de passe est trop court.');
+                            if (!validator.isEmail(req.body.email)){
+                                res.status(400).send('Email invalide.');
+                            }
+
+                            if (!validator.isLength(req.body.password, { min: 8})){
+                                res.status(400).send('Le mot de passe est trop court.');
+                            }
+                            const salt = bcrypt.genSaltSync(10);
+                            const hashPassword = bcrypt.hashSync(req.body.password, salt);
+                            return models.user.findOne({where: {email: req.body.email}})
+                                .then(userEmail => {
+                                    if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
+                                    {
+                                        res.status(400).send('Un utilisateur existe déjà avec cet email.');
+                                    }
+                                    else
+                                    {
+                                        return models.user.update(
+                                            { email: req.body.email, password: hashPassword},
+                                            { where: { user_id: req.params.id}})
+                                            .then( updatedUser =>{
+                                                console.log(req.body.email);
+                                                res.status(200).jsonp({
+                                                    userId: updatedUser.user_id,
+                                                    email: updatedUser.email,
+                                                });
+                                            })
+                                    }
+                                })
                         }
-                        const salt = bcrypt.genSaltSync(10);
-                        const hashPassword = bcrypt.hashSync(req.body.password, salt);
-                        models.user.findOne({where: {email: req.body.email}})
-                            .then(userEmail => {
-                                if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
-                                {
-                                    res.status(400).send('Un utilisateur existe déjà avec cet email.');
-                                }
-                                else
-                                {
-                                    models.user.update(
-                                        { email: req.body.email, password: hashPassword},
-                                        { where: { user_id: req.params.id}})
-                                        .then( updatedUser =>{
-                                            console.log(req.body.email);
-                                            res.status(200).jsonp({
-                                                userId: updatedUser.user_id,
-                                                email: updatedUser.email,
-                                            });
-                                        }).catch(err=> {res.send(err)})
-                                }
->>>>>>> 613a6e8... Liste de projets avec product owner, inscription des utilisateurs aux
-                            }).catch(err=> {res.send(err)})
-                    }
-                }).catch(err=> {res.status(500).send(err)})
+                    }).catch(err => {res.send(err)})
+            }
         }
     });
 });
@@ -208,9 +177,9 @@ router.delete('/:id' , function(req, res) {
                 { where: {user_id :req.params.id}}).
             then(
                 res.send("user deleted")
-            ).catch(err=> {res.send(err)})
+            ).catch(err => {res.send(err)})
         }
-    }).catch(err=> {res.send(err)})
+    }).catch(err => {res.send(err)})
 });
 
 module.exports = router;

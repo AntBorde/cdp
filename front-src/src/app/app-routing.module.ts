@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guard/authentification.guard';
 
 import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
@@ -7,8 +8,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectCreateComponent } from './components/project/project-create/project-create.component';
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
-import { ProjectParticipateComponent } from './components/project/project-participate/project-participate.component';
-import { AuthGuard } from './guard/authentification.guard';
+import { ProjectListUserComponent } from "./components/project/project-list-user/project-list-user.component";
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
 import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
   { path: 'projects', component: ProjectsListComponent, canActivate:[AuthGuard]},
   { path: 'addproject', component: ProjectCreateComponent, canActivate:[AuthGuard]},
-  { path: 'project/participate', component: ProjectParticipateComponent, canActivate:[AuthGuard]},
+  { path: 'myprojects', component: ProjectListUserComponent, canActivate:[AuthGuard]}
   { path: 'project/:idProject/Backlog', component: BacklogComponent,canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog/CreateIssue', component: CreateIssueComponent,canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog/UpdateIssue', component: UpdateIssueComponent,canActivate:[AuthGuard]},

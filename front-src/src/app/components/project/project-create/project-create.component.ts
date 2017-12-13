@@ -4,12 +4,12 @@ import { CustomValidators } from 'ng2-validation';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { AuthService } from "../../../services/auth.service";
+import { MessageService } from "../../../services/message.service";
 
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./project-create.component.css']
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ProjectCreateComponent implements OnInit {
@@ -21,7 +21,8 @@ export class ProjectCreateComponent implements OnInit {
     @Inject(FormBuilder) fb: FormBuilder,
     private http: HttpClient,
     private router: Router ,
-    private authService: AuthService,) {
+    private authService: AuthService,
+    private messageService: MessageService) {
     this.createProjectForm = fb.group({
       name : [null, [Validators.required, Validators.maxLength(50)]],
       description : [null, Validators.required],
@@ -34,7 +35,6 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   private submitForm() {
-
     const body = {
       name: this.createProjectForm.value.name,
       description: this.createProjectForm.value.description,
@@ -55,8 +55,16 @@ export class ProjectCreateComponent implements OnInit {
             this.showError(err.error.message);
             this.createProjectForm.reset();
           } else {
-            this.showError( err.error);
-            this.createProjectForm.reset();
+            if (err.status === 401){
+              this.messageService.setErrorMessage(err.error);
+              this.authService.logout();
+              this.router.navigate(['/signin'])
+                .catch(reason => console.log('Erreur de redirection: ', reason));
+            }
+            else{
+              this.showError( err.error);
+              this.createProjectForm.reset();
+            }
           }
         }
       );

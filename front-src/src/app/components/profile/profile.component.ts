@@ -57,8 +57,16 @@ export class ProfileComponent implements OnInit {
             this.showError(err.error.message);
             this.updateInfoUserForm.reset();
           } else {
-            this.showError(err.error);
-            this.updateInfoUserForm.reset();
+            if (err.status === 401){
+              this.messageService.setErrorMessage(err.error);
+              this.authService.logout();
+              this.router.navigate(['/signin'])
+                .catch(reason => console.log('Erreur de redirection: ', reason));
+            }
+            else{
+              this.showError(err.error);
+              this.updateInfoUserForm.reset();
+            }
           }
         }
       );
