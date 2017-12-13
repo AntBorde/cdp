@@ -11,12 +11,12 @@ module.exports = function(sequelize, DataTypes) {
             },
         name:
             {
-                type: DataTypes.STRING(125),
+                type: DataTypes.STRING(50),
                 allowNull: false
             },
         description:
             {
-                type: DataTypes.TEXT,
+                type: DataTypes.STRING(250),
                 allowNull: false
             },
         git:
@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     );
 
     project.associate = function(models) {
-        project.belongsToMany(models.user, {as: 'contributor',through: 'UserProjects'});
+        project.belongsToMany(models.user, {as: 'contributor',through: 'UserProject'});
         project.belongsTo(models.user, {as: 'productOwner'});
         project.hasMany(models.issue, {onDelete: 'CASCADE'});
         project.hasMany(models.build, {onDelete: 'CASCADE'});

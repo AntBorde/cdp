@@ -17,6 +17,7 @@ import { SprintCreateComponent } from './components/backlog/sprint-create/sprint
 import { SprintUpdateComponent } from './components/backlog/sprint-update/sprint-update.component';
 import { TaskListComponent } from './components/backlog/task-list/task-list.component';
 import { TaskCreateComponent } from './components/backlog/task-create/task-create.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
@@ -31,9 +32,9 @@ const routes: Routes = [
   { path: 'project/:idProject/Backlog/UpdateIssue', component: UpdateIssueComponent,canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog/SprintList', component: SprintListComponent,canActivate:[AuthGuard]},
   { path: 'project/:idProject/Backlog/CreateSprint', component: SprintCreateComponent,canActivate:[AuthGuard]},
-   { path: 'project/:idProject/Backlog/UpdateSprint', component: SprintUpdateComponent,canActivate:[AuthGuard]},
-   { path: 'project/:idProject/Backlog/Sprint/:idSprint/Tasks', component: TaskListComponent,canActivate:[AuthGuard]},
-   { path: 'project/:idProject/Backlog/Sprint/:idSprint/CreateTask', component: TaskCreateComponent,canActivate:[AuthGuard]}
+  { path: 'project/:idProject/Backlog/UpdateSprint', component: SprintUpdateComponent,canActivate:[AuthGuard]},
+  { path: 'project/:idProject/Backlog/Sprint/:idSprint/Tasks', component: TaskListComponent,canActivate:[AuthGuard]},
+  { path: 'project/:idProject/Backlog/Sprint/:idSprint/CreateTask', component: TaskCreateComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

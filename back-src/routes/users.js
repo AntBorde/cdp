@@ -17,6 +17,7 @@ router.get('/info' , function(req, res) {
             }
 	  return;
         }
+
         models.user.findById(decoded.userId)
             .then(user => {
                 if(user == null)
@@ -35,7 +36,7 @@ router.get('/info' , function(req, res) {
 /*Sign in and get a token*/
 router.post('/signin', (req, res, next) => {
     models.user.findOne({where: { email: req.body.email}})
-        .then(user=>{
+        .then(user => {
             if(user === null) {
                 res.status(400).send("Identifiants invalides.");
             }
@@ -52,7 +53,7 @@ router.post('/signin', (req, res, next) => {
                         userId: user.user_id,
                         firstName: user.firstname,
                         lastName: user.lastname,
-                        email: user.email,
+                        email: user.email
                     });
                 }
             }
@@ -91,12 +92,22 @@ router.post('/signup', function(req, res) {
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     password: hashPassword
+<<<<<<< HEAD
                 }).
                 then(newUser => {
                   res.status(201).jsonp({
                     message: "L'utilisateur " + newUser.firstname + " a été crée."
                   });
                 });
+=======
+                })
+                    .then( newUser => {
+                        let message = "L'utilisateur " + newUser.firstname + " a été crée.";
+                        res.status(201).jsonp({
+                            message: message,
+                        });
+                    }).catch(err => {res.send(err)})
+>>>>>>> 613a6e8... Liste de projets avec product owner, inscription des utilisateurs aux
             }
         }).catch(err => res.send(err))
 });
@@ -119,17 +130,18 @@ router.put('/:id' , function(req, res) {
         }
 
         else {
-            models.user.findById(req.params.id).
-            then(user => {
-                if(user == null){
-                    res.status(400).send("L'utilisateur n'existe pas.");
-                }
-                else
-                {
-                    if (!validator.isEmail(req.body.email)){
-                        res.status(400).send('Email invalide.');
+            models.user.findById(req.params.id)
+                .then(user => {
+                    if(user == null){
+                        res.status(400).send("L'utilisateur n'existe pas.");
                     }
+                    else
+                    {
+                        if (!validator.isEmail(req.body.email)){
+                            res.status(400).send('Email invalide.');
+                        }
 
+<<<<<<< HEAD
                     if (!validator.isLength(req.body.password, { min:8 })){
                         res.status(400).send('Le mot de passe est trop court.');
                     }
@@ -151,11 +163,35 @@ router.put('/:id' , function(req, res) {
                                     userId: updatedUser.user_id,
                                     email: req.body.email,
                                 });
-                            }).catch(err=> {res.send(err)})
+=======
+                        if (!validator.isLength(req.body.password, { min: 8})){
+                            res.status(400).send('Le mot de passe est trop court.');
                         }
-                    }).catch(err=> {res.send(err)})
-                }
-            }).catch(err=> {res.status(500).send(err)})
+                        const salt = bcrypt.genSaltSync(10);
+                        const hashPassword = bcrypt.hashSync(req.body.password, salt);
+                        models.user.findOne({where: {email: req.body.email}})
+                            .then(userEmail => {
+                                if(userEmail.email === req.body.email && userEmail.user_id !== req.params.id)
+                                {
+                                    res.status(400).send('Un utilisateur existe déjà avec cet email.');
+                                }
+                                else
+                                {
+                                    models.user.update(
+                                        { email: req.body.email, password: hashPassword},
+                                        { where: { user_id: req.params.id}})
+                                        .then( updatedUser =>{
+                                            console.log(req.body.email);
+                                            res.status(200).jsonp({
+                                                userId: updatedUser.user_id,
+                                                email: updatedUser.email,
+                                            });
+                                        }).catch(err=> {res.send(err)})
+                                }
+>>>>>>> 613a6e8... Liste de projets avec product owner, inscription des utilisateurs aux
+                            }).catch(err=> {res.send(err)})
+                    }
+                }).catch(err=> {res.status(500).send(err)})
         }
     });
 });

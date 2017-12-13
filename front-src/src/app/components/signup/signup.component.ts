@@ -52,7 +52,8 @@ export class SignupComponent implements OnInit {
       .subscribe(
         data => {
           this.messageService.setSuccessMessage(data.message);
-          setTimeout(() => this.router.navigate(['/home']));
+          this.router.navigate(['/home'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -75,7 +76,6 @@ export class SignupComponent implements OnInit {
     this.isError = false;
   }
 }
-
 
 interface SignupResponse {
   message: string;

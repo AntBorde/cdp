@@ -1,59 +1,92 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse,HttpHeaders } from '@angular/common/http';
-import {Router} from '@angular/router';
-import {Project} from '../../../models/project';
+import { Router } from '@angular/router';
 import { AuthService } from "../../../services/auth.service";
-import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-projects-list',
-  templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.css']
+  templateUrl: './projects-list.component.html'
 })
 export class ProjectsListComponent implements OnInit {
-projects:Project[]=null;
-message = '';
-isError = false;
-  constructor(private router: Router,private http: HttpClient,private auth: AuthService,private ProjectService: ProjectService) { }
+  projects: Project[];
+  message: string = '';
+  isError: boolean = false;
+  projectsExist: boolean = false;
+
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this
-    .ProjectService
-    .getProjects()
-    .subscribe(projects => this.projects = projects);
+    this.message = '';
+    this.projectsExist = false;
+
+    this.http
+      .get<Project[]>('http://localhost:3000/api/projects/', {
+        headers: new HttpHeaders().set('Authorization', this.authService.getToken())})
+      .subscribe(
+        data => {
+          if (data.length == 0){
+            this.showError("Il n'existe aucun projet.")
+          }
+          else{
+            this.projects = data;
+            this.projectsExist = true;
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.showError(err.error.message);
+          } else {
+            this.showError(err.error);
+          }
+        }
+      );
   }
+
   getAccess(projectID)
   {
- 
-  
+    const body = {
+      projectId: projectID,
+      userId: this.authService.getUserId()
+    };
+
     this.http
-    .get<AccesResponse>('http://localhost:3000/api/projects/'+projectID+'/users/'+this.auth.getUserId(),{
-    headers: new HttpHeaders().set('Authorization', this.auth.getToken())})
-    .subscribe(
-      data => {
-        this.router.navigate(['project/'+projectID+'/Backlog']);
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-         this.showError(err.error.message);
-        } else {
-          this.showError(err.error);
+      .post<ProjectResponse>('http://localhost:3000/api/projects/register/', body, {
+        headers: new HttpHeaders().set('Authorization', this.authService.getToken())})
+      .subscribe(
+        data => {
+          this.router.navigate(['project/'+projectID+'/Backlog']);
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.showError(err.error.message);
+          } else {
+            this.showError(err.error);
+          }
         }
-      }
-    );
+      );
   }
-   private showError(message: string): void {
+  private showError(message: string): void {
     this.message = message;
     this.isError = true;
   }
 }
-interface ProjectResponse {
-  project_id:number;
+
+interface Project {
+  project_id: number;
   name: string;
-  description:string,
+  description: string,
   git : string,
-  productOwner:String;
+  productOwner: ProductOwner
 }
-interface AccesResponse {
-    message: string;
+
+interface ProductOwner {
+  firstname: string,
+  lastname: string
+}
+
+interface ProjectResponse {
+  message: string
 }

@@ -1,37 +1,38 @@
 <title>DDF - Nouveau projet</title>
 <div class="container mt-5" id="container">
-  <h1>Créer un nouveau projet</h1>
-  <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
-  role="alert">
-{{ message }}
-</div>
-  <form [formGroup]="CreateProjectForm" (ngSubmit)="submitForm()">
-    <div class="form-group">
-      <label for="inputName">Nom</label>
-      <input [ngClass]="{'is-invalid': (CreateProjectForm.controls['name'].invalid && CreateProjectForm.controls['name'].touched)}"
-        formControlName="name" type="text" class="form-control" id="inputName" placeholder="Nom du projet" maxlength="50">
-      <div class="invalid-feedback">
-        Veuillez renseigner le nom du projet.
-      </div>
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1>Créer un nouveau projet</h1>
+      <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert" role="alert">{{ message }}</div>
+      <form [formGroup]="createProjectForm" (ngSubmit)="submitForm()">
+        <div class="form-group">
+          <label for="inputName">Nom</label>
+          <input [ngClass]="{'is-invalid': (createProjectForm.controls['name'].invalid && createProjectForm.controls['name'].touched)}"
+                 formControlName="name" type="text" class="form-control" id="inputName" placeholder="Nom du projet" maxlength="50">
+          <div class="invalid-feedback">
+            <ng-container *ngIf="createProjectForm.controls['name'].hasError('required')">Veuillez renseigner le nom du projet.</ng-container>
+            <ng-container *ngIf="createProjectForm.controls['name'].hasError('maxlength')">Le nom du projet est trop long.</ng-container>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputDescription">Description</label>
+          <textarea [ngClass]="{'is-invalid': (createProjectForm.controls['description'].invalid && createProjectForm.controls['description'].touched)}"
+                    formControlName="description" class="form-control" id="inputDescription" placeholder="Description" maxlength="250"></textarea>
+          <div class="invalid-feedback">
+            Veuillez renseigner la description du projet.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputGit">Git</label>
+          <input [ngClass]="{'is-invalid': (createProjectForm.controls['git'].invalid && createProjectForm.controls['git'].touched)}"
+                 formControlName="git" type="text" class="form-control" id="inputGit" placeholder="Git" maxlength="250">
+          <div class="invalid-feedback">
+            <ng-container *ngIf="createProjectForm.controls['git'].hasError('required')">Veuillez renseigner l'adresse git du projet.</ng-container>
+            <ng-container *ngIf="createProjectForm.controls['git'].hasError('url')">Le git du projet doit être une url.</ng-container>
+          </div>
+        </div>
+        <button [disabled]="createProjectForm.invalid" type="submit" class="btn btn-primary">Créer un projet</button>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="inputDescription">Description</label>
-      <input [ngClass]="{'is-invalid': (CreateProjectForm.controls['description'].invalid && CreateProjectForm.controls['description'].touched)}"
-        formControlName="description" type="text" class="form-control" id="inputDescription" placeholder="Description">
-      <div class="invalid-feedback">
-        Veuillez renseigner la description du projet.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="inputGit">Git</label>
-      <input [ngClass]="{'is-invalid': (CreateProjectForm.controls['git'].invalid && CreateProjectForm.controls['git'].touched)}"
-        formControlName="git" type="text" class="form-control" id="inputgit" placeholder="Git">
-      <div class="invalid-feedback">
-        Veuillez renseigner le git du projet.
-      </div>
-    </div>
-    <button [disabled]="CreateProjectForm.invalid" type="submit" class="btn btn-primary" id="createProjectBtn">Créer un projet</button>
-  </form>
+  </div>
 </div>

@@ -8,29 +8,29 @@ const validator = require('validator');
 router.get('/' , function(req, res) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
         if (err) {
-            if (err.name === 'TokenExpiredError'){
+            if (err.name === 'TokenExpiredError') {
                 res.status(401).send("Votre session a expiré.");
             }
+            else {
+                //res.status(403).send(err.message);
+                res.status(403).send("Identifiants invalides.");
+            }
         }
-        else {
-            models.project.findAll({
-                attributes: ['project_id', 'name', 'description', 'git'],
-                include: [{
-                    model: models.user,
-                    as: 'productOwner',
-                    attributes: ['firstname', 'lastname']
-                }]
-                })
-                .then(projects => {
-                    if(projects.length==0)
-                    res.status(404).send("Aucun projet n'est créé pour le moment ..");
-                    else{
-                    res.status(200).jsonp(projects);
-                    }
-                }).catch(err=> {res.send(err)})
-        }
+
+        models.project.findAll({
+            attributes: ['project_id', 'name', 'description', 'git'],
+            include: [{
+                model: models.user,
+                as: 'productOwner',
+                attributes: ['firstname', 'lastname']
+            }]
+        })
+            .then(projects => {
+
+                res.status(200).jsonp(projects);
+            }).catch(err => {res.send(err)})
     })
-})
+});
 
 /*POST project with new product owner*/
 router.post('/', function(req, res) {
@@ -44,121 +44,78 @@ router.post('/', function(req, res) {
                 res.status(403).send("Identifiants invalides.");
             }
         }
-        else {
-    models.project.findOne({where: {name: req.body.name}}).
-    then(project=>{
-        if(project !== null){
-          return res.status(400).send('Un projet existe déjà avec ce nom.');
-        } else {
 
-            if (!validator.isLength(req.body.name, { max: 40 })){
-                res.status(400).send('le nom du projet est invalide.');
-            }
-
-            if (!validator.isLength(req.body.description, { max: 100})){
-                res.status(400).send('La description est trop longue.');
-            }
-
-            if (!validator.isLength(req.body.git, { max:30 })){
-                res.status(400).send('Le git est trop long.');
-            }
-            return models.project.create({
-                name:req.body.name,
-                description:req.body.description,
-                git:req.body.git,
-                productOwnerUserId:req.body.user_id
-            }).then(newProductOwner => {
-              res.status(201).jsonp({
-                message: "Le projet " +req.body.name + " a été bien crée"
-              });
-            });
+        if (!validator.isLength(req.body.name, {max: 50})){
+            res.status(400).send('Le nom du projet est trop long.');
         }
-    }).catch(err => res.send(err));
-	}
+
+        if (!validator.isLength(req.body.description, {max: 250})){
+            res.status(400).send('La description est trop longue.');
+        }
+
+        if (!validator.isLength(req.body.git, {max: 250})){
+            res.status(400).send('L\'adresse  git est trop longue.');
+        }
+        models.user.findById(decoded.userId)
+            .then(user => {
+                if(user === null) {
+                    res.status(400).send("Identifiants invalides.");
+                }
+                else {
+                    models.project.create({
+                        name: req.body.name,
+                        description: req.body.description,
+                        git: req.body.git,
+                        productOwnerUserId: user.user_id
+                    })
+                        .then(newProject => {
+                            let message = "Le projet " + newProject.name + " a été crée";
+                            res.status(201).jsonp({
+                                message: message,
+                            });
+                        }).catch(err => {
+                        res.send(err)
+                    })
+                }}).catch(err => {res.send(err)})
     });
 });
 
-/* POST add user to UserProjects */
-router.post('/:id/users/' , function(req, res, next) {
+/* POST add user to the project users list */
+router.post('/register/' , function(req, res, next) {
     jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
         if (err) {
-            if (err.name === 'TokenExpiredError'){
+            if (err.name === 'TokenExpiredError') {
                 res.status(401).send("Votre session a expiré.");
             }
             else {
+                //res.status(403).send(err.message);
                 res.status(403).send("Identifiants invalides.");
             }
         }
-        else {
 
-    models.project.findById(req.params.id).
-    then(project=>{
-        project.getProductOwner().then(product=>{
-        if(product.dataValues.user_id==req.body.user_id)
-        res.status(400).send('Vous êtes le product owner du projet '+project.name);
-        else
-        {
-            project.hasContributor(req.body.user_id).then(userMember=>{
-                if(userMember)
-                {
-                 res.status(400).send('Vous participez déja au projet '+project.name);
-                }
-                else{
-                  project.addContributor(req.body.user_id).then(newMember=>{
-                     let message = "vous participez au projet "+project.name;
-                         res.status(201).jsonp({
-                         message: message,
-                       });
-                     }).catch(err=> {res.send(err)})
-                }
-                 }).catch(err=> {res.send(err)})
+        if (parseInt(decoded.userId) !== parseInt(req.body.userId)) {
+            res.status(400).send("Opération non autorisée.");
         }
-        }).catch(err=> {res.send(err)})
-    }).catch(err=> {res.send(err)})
-}
-})
-});
 
-/*Get member to project_team*/
-router.get('/:id/users/:iduser' , function(req, res, next) {
-    jwt.verify(req.headers['authorization'], process.env.AUTH_SECRET, function(err, decoded) {
-        if (err) {
-            if (err.name === 'TokenExpiredError'){
-                res.status(401).send("Votre session a expiré.");
-            }
-            else {
-                res.status(403).send("Identifiants invalides.");
-            }
-        }
         else {
-        models.project.findById(req.params.id).
-        then(project=>{
-            console.log(models.project.prototype);
-        project.getProductOwner().then(product=>{
-            if(product.dataValues.user_id!=req.params.iduser)
-            {
-                project.hasContributor(req.params.iduser).then(userMember=>{
-                    if(!userMember)
-                    {
-                        res.status(404).send("veuillez participer à ce projet pour pouvoir accéder au backlog");
+            models.user.findById(req.body.userId)
+                .then(user => {
+                    if (user === null) {
+                        res.status(400).send("Identifiants invalides.");
                     }
-                    else{
-                        res.status(200).jsonp({
-                            message:"Ok"
-                        });
-                    }
-                }).catch(err=> {res.send(err)})
-        }
-        else
-        {
-            res.status(200).jsonp({
-                message:"Ok"
-            });
-        }
-        }).catch(err=> {res.send(err)})
-    }).catch(err=> {res.send(err)})
-}
-});
+                    else {
+                        models.project.findById(req.body.projectId)
+                            .then(project => {
+                                project.addUser(user.user_id)
+                                    .then(result => {
+                                        let message = "Vous participez au projet sélectionné";
+                                        res.status(201).jsonp({
+                                            message: message,
+                                        });
+                                    }).catch(err => {res.send(err)});
+                            }).catch(err => {res.send(err)});
+                    }}).catch(err => {res.send(err)})
+        }})
 });
 
 /** Get ProductOwner*/

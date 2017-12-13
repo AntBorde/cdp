@@ -19,6 +19,7 @@ import { ProjectCreateComponent } from './components/project/project-create/proj
 import { ProjectsListComponent } from './components/project/projects-list/projects-list.component';
 import { ProjectParticipateComponent } from "./components/project/project-participate/project-participate.component";
 import { BacklogComponent } from './components/backlog/backlog.component';
+import { ProjectListUserComponent } from './components/project/project-list-user/project-list-user.component';
 import { CreateIssueComponent } from './components/backlog/create-issue/create-issue.component';
 import { UpdateIssueComponent } from './components/backlog/update-issue/update-issue.component';
 import { SprintCreateComponent } from './components/backlog/sprint-create/sprint-create.component';
@@ -26,7 +27,6 @@ import { SprintListComponent } from './components/backlog/sprint-list/sprint-lis
 import { SprintUpdateComponent } from './components/backlog/sprint-update/sprint-update.component';
 import { TaskListComponent } from './components/backlog/task-list/task-list.component';
 import { TaskCreateComponent } from './components/backlog/task-create/task-create.component';
-
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { TaskCreateComponent } from './components/backlog/task-create/task-creat
     ProjectsListComponent,
     ProjectParticipateComponent,
     BacklogComponent,
+    ProjectListUserComponent,
     CreateIssueComponent,
     UpdateIssueComponent,
     SprintCreateComponent,
@@ -47,6 +48,7 @@ import { TaskCreateComponent } from './components/backlog/task-create/task-creat
     SprintUpdateComponent,
     TaskListComponent,
     TaskCreateComponent
+
   ],
   imports: [
     BrowserModule,

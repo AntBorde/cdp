@@ -1,35 +1,32 @@
-<div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
-role="alert">
-{{ message }}
-</div>
-<ng-container *ngIf="projects == null; else blockElse">
-    <div class="alert alert-danger" role="alert">
-        <strong>Aucun projet n'est créé pour le moment ..</strong>
+<title>DDF - Liste des projets</title>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert" role="alert">{{message}}</div>
+      <div id="container">
+        <table *ngIf="projectsExist" class="table">
+          <thead>
+          <tr>
+            <th>Nom du projet</th>
+            <th>Description</th>
+            <th>Git</th>
+            <th>Product Owner</th>
+            <th>Inscription</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let project of projects">
+            <td>{{project.name}}</td>
+            <td>{{project.description}}</td>
+            <td>{{project.git}}</td>
+            <td>{{project.productOwner.firstname}} {{project.productOwner.lastname}}</td>
+            <td >
+              <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)"><i class="fa fa-user-plus"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-  </ng-container>
-  <ng-template #blockElse>
-    <div id="container">
-        <table class="table">
-            <thead>
-              <tr>
-                <th>Nom du projet</th>
-                <th>Description</th>
-                <th>Git</th>
-                <th>Product Owner</th>
-                <th>Backlog</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let project of projects">
-                    <td>{{project.name}}</td>
-                    <td>{{project.description}}</td>
-                    <td>{{project.git}}</td>
-                    <td>{{project.productOwner.lastname+' '+project.productOwner.firstname}}</td>
-                    <td >
-                     <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)" id={{project.name}}><i class="fa fa-align-justify" aria-hidden="true"></i>Backlog {{project.name}}</button>
-                    </td>
-                </tr>
-            </tbody>
-          </table>
+    </div>
   </div>
-  </ng-template>
+</div>

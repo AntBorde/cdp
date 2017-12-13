@@ -49,13 +49,16 @@ export class ProfileComponent implements OnInit {
         data => {
           this.authService.storeUser(data.userId, this.authService.getFirstName(), this.authService.getLastName(), data.email);
           this.messageService.setSuccessMessage('Vos informations ont été mises à jour.');
-          setTimeout(() => this.router.navigate(['/home']), 1000);
+          this.router.navigate(['/home'])
+            .catch(reason => console.log('Erreur de redirection: ', reason));
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             this.showError(err.error.message);
+            this.updateInfoUserForm.reset();
           } else {
             this.showError(err.error);
+            this.updateInfoUserForm.reset();
           }
         }
       );
