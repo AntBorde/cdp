@@ -1,13 +1,13 @@
-//test u15 u8 sm6 issue
+//test dev0 u4 sm4 issue
 
 
-describe('Sprint', function() {
+describe('task', function() {
 
   beforeEach(function(){
     browser.get('http://localhost:4200/home');
   });
 
-  it('création Sprint', function() {
+  it('création task', function() {
     browser.waitForAngular();
     var projectButton = element(by.id('projectDropdown'));
     projectButton.click();
@@ -21,30 +21,31 @@ describe('Sprint', function() {
 
     var sprint = element(by.id('sprint'));
     sprint.click();
-    browser.waitForAngular();
-    var newSprint = element(by.id('newSprint'));
-    newSprint.click();
-    browser.waitForAngular();
-
-    var desc = element(by.id('description'));
-    desc.sendKeys('new sprint');
-    var dateBegin = element(by.id('dateBegin'));
-    var dateEnd = element(by.id('dateEnd'));
-    dateBegin.sendKeys('11122017');
-    dateEnd.sendKeys('12122017');
-    var create = element(by.id('createSprint'));
-    create.click();
     browser.waitForAngular();
 
     var task = element(by.id('task_1'));
     task.click()
     browser.waitForAngular();
 
-    expect(browser.driver.getCurrentUrl()).toMatch('/project/1/Backlog/Sprint/1/Tasks');
+    var newtask = element(by.id('newTask'));
+    newtask.click();
+    browser.waitForAngular();
 
+    var desc = element(by.id('description'));
+    var cost = element(by.id('cost'));
+    var dev = element(by.id('dev'));
+    desc.sendKeys('dfspmlgk dsfogk dfpgkdl');
+    cost.sendKeys('1');
+    dev.sendKeys('t');
+    var create = element(by.id('create'));
+    create.click();
+    browser.waitForAngular();
+    browser.waitForAngular();
+
+    expect(browser.driver.getCurrentUrl()).toMatch('/project/1/Backlog/Sprint/1/Tasks');
   });
 
-  it('modification Sprint', function() {
+  it('modification task', function() {
     browser.waitForAngular();
     var projectButton = element(by.id('projectDropdown'));
     projectButton.click();
@@ -59,20 +60,25 @@ describe('Sprint', function() {
     var sprint = element(by.id('sprint'));
     sprint.click();
     browser.waitForAngular();
-    var modifSprint = element(by.id('modifSprint'));
-    modifSprint.click();
+
+    var task = element(by.id('task_1'));
+    task.click()
     browser.waitForAngular();
 
-    var sprint_id = element(by.id('sprint_id'));
-    var dateEnd = element(by.id('dateEnd'));
-    sprint_id.sendKeys('1');
-    dateEnd.sendKeys('12122018');
+    var modiftask = element(by.id('modifTask'));
+    modiftask.click();
+    browser.waitForAngular();
+
+    var task_id = element(by.id('task_id'));
+    var cost = element(by.id('cost'));
+    task_id.sendKeys('1');
+    cost.sendKeys('2');
     var modif = element(by.id('modif'));
     modif.click();
     browser.waitForAngular();
     browser.waitForAngular();
 
-    expect(browser.driver.getCurrentUrl()).toMatch('/project/1/Backlog/SprintList');
+    expect(browser.driver.getCurrentUrl()).toMatch('/project/1/Backlog/Sprint/1/Tasks');
 
   });
 });
