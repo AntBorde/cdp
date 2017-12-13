@@ -49,7 +49,7 @@ router.post('/signin', (req, res, next) => {
                 }
                 else {
                     const secret = process.env.AUTH_SECRET;
-                    const newToken = jwt.sign({userId: user.user_id}, secret, { expiresIn: 1 });
+                    const newToken = jwt.sign({userId: user.user_id}, secret, { expiresIn: 60 * 60 });
                     res.status(200).jsonp({
                         token: newToken,
                         userId: user.user_id,

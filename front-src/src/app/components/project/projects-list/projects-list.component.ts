@@ -29,6 +29,7 @@ export class ProjectsListComponent implements OnInit {
         headers: new HttpHeaders().set('Authorization', this.authService.getToken())})
       .subscribe(
         data => {
+          console.log(data);
           if (data.length == 0){
             this.showError("Aucun projet n'est disponible.")
           }

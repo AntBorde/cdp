@@ -30,9 +30,10 @@ export class ProjectListUserComponent implements OnInit {
       .subscribe(
         data => {
           if (data.length == 0){
-            this.showError("Il n'existe aucun projet.");
+            this.showError("Vous ne participez à aucun projet.");
           }
           else{
+            console.log(data);
             this.projects = data;
             this.projectsExist = true;
           }
@@ -68,7 +69,7 @@ interface Project {
   description: string,
   git : string,
   productOwner: User,
-  users: User[]
+  contributor: User[]
 }
 
 interface User {

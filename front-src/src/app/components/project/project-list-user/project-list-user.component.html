@@ -19,12 +19,12 @@
           <td>{{project.name}}</td>
           <td>{{project.description}}</td>
           <td>{{project.git}}</td>
-          <td>
-            <ng-container></ng-container>
-          </td>
           <td>{{project.productOwner.firstname}} {{project.productOwner.lastname}}</td>
+          <td>
+            <ng-container *ngFor="let user of project.contributor">{{user.firstname}} {{user.lastname}}</ng-container>
+          </td>
           <td >
-            <button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)"><i class="fa fa-user-plus"></i></button>
+            <!--<button type="button" class="btn btn-outline-primary" (click)="getAccess(project.project_id)"><i class="fa fa-user-plus"></i></button>-->
           </td>
         </tr>
         </tbody>

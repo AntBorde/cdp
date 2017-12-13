@@ -3,6 +3,8 @@ const router = express.Router();
 const models  = require('../models');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
+const db = require('../models').sequelize;
+const Op = db.Op;
 
 /*GET: list of projects with their product Owner*/
 router.get('/' , function(req, res) {
@@ -22,14 +24,10 @@ router.get('/' , function(req, res) {
                 include: [{
                     model: models.user,
                     as: 'productOwner',
-                    attributes: ['firstname', 'lastname'],
-                    where: {
-                        user_id: {[Op.ne]: parseInt(decoded.user.id)}
-                    }
-                }]
+                    attributes: ['firstname', 'lastname']}]
             })
                 .then(projects => {
-
+                    console.log(projects);
                     res.status(200).jsonp(projects);
                 }).catch(err => {res.send(err)})
         }
@@ -48,16 +46,26 @@ router.get('/user/:id' , function(req, res) {
             }
         }
         else{
-            models.project.findAll({
-                attributes: ['project_id', 'name', 'description', 'git'],
-                include: [{
-                    model: models.user,
-                    as: 'productOwner',
-                    attributes: ['firstname', 'lastname']
-                }]
-            })
-                .then(projects => {
-                    res.status(200).jsonp(projects);
+            models.user.findById(decoded.userId)
+                .then(user => {
+                    return user.getProjects({
+                        attributes: ['project_id', 'name', 'description', 'git'],
+                        include: [
+                            {
+                                model: models.user,
+                                as: 'productOwner',
+                                attributes: ['firstname', 'lastname']
+                            },
+                            {
+                                model: models.user,
+                                as: 'contributor',
+                                attributes: ['firstname', 'lastname']
+                            }
+                        ]
+                    })
+                        .then(projects => {
+                            res.status(200).jsonp(projects);
+                        })
                 }).catch(err => {res.send(err)})
         }
     })
@@ -134,7 +142,7 @@ router.post('/contribute/' , function(req, res, next) {
                         else {
                             return models.project.findById(req.body.projectId)
                                 .then(project => {
-                                    return project.addUser(user.user_id)
+                                    return project.addContributor(user.user_id)
                                         .then(result => {
                                             let message = "Vous êtes maintenant contributeur du projet" + project.name;
                                             res.status(201).jsonp({
